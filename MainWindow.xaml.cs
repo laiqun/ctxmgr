@@ -1,6 +1,10 @@
-﻿using Microsoft.VisualBasic;
+﻿using ctxmgr.Model;
+using Microsoft.VisualBasic;
+using SQLite;
+using System;
 using System.ComponentModel;
 using System.Configuration;
+using System.Data.Common;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -27,6 +31,8 @@ namespace ctxmgr
     /// </summary>
     public partial class MainWindow : Window
     {
+        DatabaseService service = new ctxmgr.Model.DatabaseService();
+        SQLite.SQLiteAsyncConnection db = null;
         private GlobalHotkeyManager _hotkeyManager;
         private Properties.Config ConfigInstance = null;
         public MainWindow()
@@ -107,7 +113,11 @@ namespace ctxmgr
                 #endregion
             };
             Application.Current.Exit += (s, e) => _hotkeyManager.Dispose();
-            LoadTabsFromFiles();
+            var dbInitTask = service.OpenOrCreateDatabase(DataFile);
+            dbInitTask.Wait();
+            db = dbInitTask.Result;
+            service.CreateTables(db).Wait();
+            LoadTabsFromDatabase(db);
         }
 
         private void _hotkeyManager_HotkeyAppendPressed(object? sender, ClipEventArgs e)
@@ -236,10 +246,9 @@ namespace ctxmgr
                 foreach (var kv in itemsToSave)
                 {
                     var savedTab = kv.Value;
-                    
-                    await SaveTabToFileAsync(savedTab.Uuid, savedTab.Id,
-                        savedTab.Title, savedTab.Content)
-                        .ConfigureAwait(false); // 避免切换回UI上下文，提升性能
+
+                    SaveTabToFileAsync(db, savedTab.Uuid, savedTab.Id,
+                        savedTab.Title, savedTab.Content);
                 }
             }
             if (_saveTimer == null)
@@ -397,9 +406,9 @@ namespace ctxmgr
                 Content = newTextBox
 
             };
-            _ = SaveTabToFileAsync(newItem?.Tag?.ToString(),
+            SaveTabToFileAsync(db,newItem?.Tag?.ToString(),
                 MyTabControl.Items?.Count.ToString(), newItem?.Header?.ToString(),
-                "").ConfigureAwait(false);
+                "");
             TextBoxHelper.SetPlaceholder((TextBox)newItem!.Content, ctxmgr.Properties.Resources.TextBoxHint);
             MyTabControl!.Items!.Add(newItem);
             MyTabControl.SelectedItem = newItem;
@@ -424,7 +433,7 @@ namespace ctxmgr
                     {
                         ChangedTabItems.Remove(uuid);
                     }
-                    _ = DeleteTabFileAsync(tabItem?.Tag?.ToString()).ConfigureAwait(false);
+                    DeleteTabFileAsync(tabItem?.Tag?.ToString());
                     MyTabControl.Items.Remove(MyTabControl.SelectedItem);
                     if (oldSelectedIndex >= MyTabControl.Items.Count)
                     {
@@ -655,73 +664,70 @@ namespace ctxmgr
         }
         #region tab persistence
         private string DataFolder => System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data");
+        private string DataFile => System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data.db");
         private string GetTabFilePath(string uuid) => System.IO.Path.Combine(DataFolder, $"{uuid}.txt");
 
-        private async Task SaveTabToFileAsync(
+        private async void SaveTabToFileAsync(
+            SQLite.SQLiteAsyncConnection db,
             string? uuid,
             string? id,
             string? title,
             string? content)
         {
+            int parsedId = 0;
+            int.TryParse(id, out parsedId);
 
-            if (!Directory.Exists(DataFolder))
+            var existingPage = db.Table<Model.Page>().FirstOrDefaultAsync(x => x.Uuid == uuid);
+            existingPage.Wait();
+            var existingPageResult = existingPage.Result;
+            if (existingPageResult != null)
             {
-                Directory.CreateDirectory(DataFolder);
-            }
-            string filePath = GetTabFilePath(uuid);
-            string text = $"{id}\n{title}\n{content}";
-            await File.WriteAllTextAsync(filePath, text);
-        }
-        private async Task DeleteTabFileAsync(string? uuid)
-        {
-            if (string.IsNullOrEmpty(uuid))
+                existingPageResult.Title = title ??"";
+                existingPageResult.Index = parsedId;
+                existingPageResult.Content = content ?? "";
+                db.UpdateAsync(existingPageResult);
                 return;
-            string filePath = GetTabFilePath(uuid);
-            if (File.Exists(filePath))
-            {
-                await Task.Run(() => File.Delete(filePath));
             }
+
+            Model.Page newPage = new Model.Page
+            {
+                Uuid = uuid ?? Guid.NewGuid().ToString(),
+                Index = parsedId,
+                Title = title ?? "",
+                Content = content ?? ""
+            };
+            db.InsertAsync(newPage);
+        }
+        private void DeleteTabFileAsync(string? uuid)
+        {
+            db.Table<Model.Page>().DeleteAsync(x => x.Uuid == uuid);
         }
         private bool isLoadingTabs = false;
-        private void LoadTabsFromFiles()
+        private void LoadTabsFromDatabase(SQLite.SQLiteAsyncConnection db)
         {
             isLoadingTabs = true;
-            LoadTabsFromFilesImpl();
+            LoadTabsFromDatabaseImpl(db);
             isLoadingTabs = false;
         }
-        private void LoadTabsFromFilesImpl()
+        private void LoadTabsFromDatabaseImpl(SQLite.SQLiteAsyncConnection db)
         {
-            if (!Directory.Exists(DataFolder))
-            {
-                Directory.CreateDirectory(DataFolder);
-                string uuid = Guid.NewGuid().ToString();
-                DefaultTabItem.Tag = uuid;
-                return;
-            }
-            var files = Directory.GetFiles(DataFolder, "*.txt");
-            if (files.Length == 0)
+            var pagesTask = db.Table<Model.Page>().ToListAsync();
+            pagesTask.Wait();
+            var pages = pagesTask.Result;
+            if (pages.Count == 0)
             {
                 string uuid = Guid.NewGuid().ToString();
                 DefaultTabItem.Tag = uuid;
                 return;
             }
             var tabInfos = new List<(long SortKey, TabItem Tab)>();
-            foreach (var file in files)
+            foreach (var page in pages)
             {
-                var lines = File.ReadAllLines(file);
-                if (lines.Length < 2)
-                    continue;
-                string uuid = System.IO.Path.GetFileNameWithoutExtension(file);
-                string id = lines[0];
-                string title = lines[1];
-                string content = string.Join("\n", lines.Skip(2));
-                long sortKey = -1;
-                long.TryParse(id, out sortKey);
-                if (sortKey == 1)
+                if (page.Index == 1)
                 {
-                    DefaultTabItem.Header = title;
-                    DefaultTabItem.Tag = uuid;
-                    DefaultTextBox.Text = content;
+                    DefaultTabItem.Header = page.Title;
+                    DefaultTabItem.Tag = page.Uuid;
+                    DefaultTextBox.Text = page.Content;
                     TextBoxHelper.SetPlaceholder((TextBox)DefaultTextBox, "");
                     continue;
                 }
@@ -729,17 +735,18 @@ namespace ctxmgr
                 {
                     AcceptsReturn = true,
                     TextWrapping = ConfigInstance.TextWrap ? TextWrapping.Wrap : TextWrapping.NoWrap,
-                    Text = content
+                    Text = page.Content
                 };
                 TextBoxHelper.SetPlaceholder((TextBox)newTextBox, "");
                 newTextBox.TextChanged += TextBox_TextChanged;
+
                 var tabItem = new TabItem
                 {
-                    Header = title,
-                    Tag = uuid,
+                    Header = page.Title,
+                    Tag = page.Uuid,
                     Content = newTextBox
                 };
-                tabInfos.Add((sortKey, tabItem));
+                tabInfos.Add((page.Index, tabItem));
             }
             foreach (var info in tabInfos.OrderBy(x => x.SortKey))
             {
@@ -763,9 +770,9 @@ namespace ctxmgr
             tabItem!.Header = result;
 
             SyncTabsToMenu();
-            _ = SaveTabToFileAsync(tabItem?.Tag?.ToString(),
+            SaveTabToFileAsync(db,tabItem?.Tag?.ToString(),
                 index.ToString(), tabItem?.Header?.ToString(),
-                "").ConfigureAwait(false);
+                "");
         }
     }
 }
