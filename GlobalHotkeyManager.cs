@@ -45,11 +45,15 @@ namespace ctxmgr
 
             if (!RegisterHotKey(_windowHandle, HOTKEY_ID, (uint)ModifierKeys.Alt, (uint)KeyInterop.VirtualKeyFromKey(Key.C)))
             {
-                throw new InvalidOperationException("无法注册全局快捷键Alt+C");
+                window.Hide();
+                if (MessageBox.Show(ctxmgr.Properties.Resources.AltZRegistrationFailed, ctxmgr.Properties.Resources.OK) == MessageBoxResult.OK)
+                    Application.Current.Shutdown();
             }
             if (!RegisterHotKey(_windowHandle, HOTKEY_ID_APPEND, (uint)ModifierKeys.Control, (uint)KeyInterop.VirtualKeyFromKey(Key.Q)))
             {
-                throw new InvalidOperationException("无法注册全局快捷键Ctrl+Q");
+                window.Hide();
+                if (MessageBox.Show(ctxmgr.Properties.Resources.CtrlQRegistrationFailed, ctxmgr.Properties.Resources.OK) == MessageBoxResult.OK)
+                    Application.Current.Shutdown();
             }
         }
 

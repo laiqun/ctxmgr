@@ -261,4 +261,10 @@
   <data name="Cancel" xml:space="preserve">
     <value>取消</value>
   </data>
+  <data name="AltZRegistrationFailed" xml:space="preserve">
+    <value>无法注册全局快捷键 Alt+C</value>
+  </data>
+  <data name="CtrlQRegistrationFailed" xml:space="preserve">
+    <value>无法注册全局快捷键 Ctrl+Q</value>
+  </data>
 </root>

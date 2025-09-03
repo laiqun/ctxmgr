@@ -70,6 +70,15 @@ namespace ctxmgr.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to register the global hotkey Alt+Z.
+        /// </summary>
+        public static string AltZRegistrationFailed {
+            get {
+                return ResourceManager.GetString("AltZRegistrationFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string Cancel {
@@ -93,6 +102,15 @@ namespace ctxmgr.Properties {
         public static string Copy {
             get {
                 return ResourceManager.GetString("Copy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to register the global hotkey Ctrl+Q.
+        /// </summary>
+        public static string CtrlQRegistrationFailed {
+            get {
+                return ResourceManager.GetString("CtrlQRegistrationFailed", resourceCulture);
             }
         }
         
