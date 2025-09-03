@@ -367,7 +367,7 @@ namespace ctxmgr.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Run On StartUp.
+        ///   Looks up a localized string similar to Run On _StartUp.
         /// </summary>
         public static string RunOnStartUp {
             get {

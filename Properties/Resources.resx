@@ -211,7 +211,7 @@
     <value>_Replace</value>
   </data>
   <data name="RunOnStartUp" xml:space="preserve">
-    <value>Run On StartUp</value>
+    <value>Run On _StartUp</value>
   </data>
   <data name="SaveToFile" xml:space="preserve">
     <value>_Save to File</value>

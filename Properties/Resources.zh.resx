@@ -211,7 +211,7 @@
     <value>替换(_R)</value>
   </data>
   <data name="RunOnStartUp" xml:space="preserve">
-    <value>开机自启动</value>
+    <value>开机自启动(_S)</value>
   </data>
   <data name="SaveToFile" xml:space="preserve">
     <value>保存到文件(_S)</value>
