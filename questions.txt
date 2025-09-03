@@ -1,0 +1,11 @@
+# 1. resx没有生成C#文件?  
+https://stackoverflow.com/questions/78194215/why-is-publicresxfilecodegenerator-not-generating-anything
+
+* 经过实验，这个名字是重命名才会触发重新生成，所以重命名是一种解决方式，但要重命名两次。 第一次改错名字生成依次，第二个改成正确的生成一次。
+* 修改resx文件的属性也可以出发重新生成
+1. Open the .resx File: Navigate to and open the Resource.resx file within your project.
+2. change the Access Modifier to "No Code Generation."
+3. set the Access Modifier back to "Public."
+
+# 2. 给TextBox添加水印
+https://learn.microsoft.com/en-us/dotnet/desktop/wpf/controls/how-to-add-a-watermark-to-a-textbox
