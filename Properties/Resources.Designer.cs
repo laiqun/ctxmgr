@@ -358,6 +358,24 @@ namespace ctxmgr.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Open File.
+        /// </summary>
+        public static string OpenFile {
+            get {
+                return ResourceManager.GetString("OpenFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Text File (*.txt)|*.txt|All File (*.*)|*.*.
+        /// </summary>
+        public static string OpenFileFilter {
+            get {
+                return ResourceManager.GetString("OpenFileFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _Page.
         /// </summary>
         public static string Page {
@@ -408,6 +426,15 @@ namespace ctxmgr.Properties {
         public static string SaveToFile {
             get {
                 return ResourceManager.GetString("SaveToFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Text File (*.txt)|*.txt|All File (*.*)|*.*.
+        /// </summary>
+        public static string SaveToFileFilter {
+            get {
+                return ResourceManager.GetString("SaveToFileFilter", resourceCulture);
             }
         }
         

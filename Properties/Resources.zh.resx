@@ -270,4 +270,13 @@
   <data name="Redo" xml:space="preserve">
     <value>重做(_D)</value>
   </data>
+  <data name="SaveToFileFilter" xml:space="preserve">
+    <value>文本文件 (*.txt)|*.txt|所有文件 (*.*)|*.*</value>
+  </data>
+  <data name="OpenFile" xml:space="preserve">
+    <value>打开文件</value>
+  </data>
+  <data name="OpenFileFilter" xml:space="preserve">
+    <value>文本文件 (*.txt)|*.txt|所有文件 (*.*)|*.*</value>
+  </data>
 </root>

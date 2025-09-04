@@ -270,4 +270,13 @@
   <data name="Redo" xml:space="preserve">
     <value>Re_do</value>
   </data>
+  <data name="SaveToFileFilter" xml:space="preserve">
+    <value>Text File (*.txt)|*.txt|All File (*.*)|*.*</value>
+  </data>
+  <data name="OpenFile" xml:space="preserve">
+    <value>Open File</value>
+  </data>
+  <data name="OpenFileFilter" xml:space="preserve">
+    <value>Text File (*.txt)|*.txt|All File (*.*)|*.*</value>
+  </data>
 </root>

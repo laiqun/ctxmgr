@@ -1,5 +1,7 @@
 ﻿using ctxmgr.Model;
+using IWshRuntimeLibrary;
 using Microsoft.VisualBasic;
+using Microsoft.Win32;
 using SQLite;
 using System;
 using System.ComponentModel;
@@ -170,7 +172,7 @@ namespace ctxmgr
             {
                 return $"[x]@Folder {trimmedPath}\n";
             }
-            else if (File.Exists(trimmedPath))
+            else if (System.IO.File.Exists(trimmedPath))
             {
                 return $"[x]@File {trimmedPath}\n";
             }
@@ -179,7 +181,7 @@ namespace ctxmgr
             {
                 return $"[x]@Folder {path}\n";
             }
-            else if (File.Exists(path))
+            else if (System.IO.File.Exists(path))
             {
                 return $"[x]@File {path}\n";
             }
@@ -252,7 +254,7 @@ namespace ctxmgr
                 {
                     var savedTab = kv.Value;
 
-                    SaveTabToFileAsync(db, savedTab.Uuid, savedTab.Id,
+                    SaveTabToDatabaseAsync(db, savedTab.Uuid, savedTab.Id,
                         savedTab.Title, savedTab.Content);
                 }
             }
@@ -413,7 +415,7 @@ namespace ctxmgr
                 Content = newTextBox
 
             };
-            SaveTabToFileAsync(db,newItem?.Tag?.ToString(),
+            SaveTabToDatabaseAsync(db,newItem?.Tag?.ToString(),
                 MyTabControl.Items?.Count.ToString(), newItem?.Header?.ToString(),
                 "");
             TextBoxHelper.SetPlaceholder((TextBox)newItem!.Content, ctxmgr.Properties.Resources.TextBoxHint);
@@ -672,7 +674,7 @@ namespace ctxmgr
             long index) {
             db.ExecuteAsync("UPDATE Page SET `Index` = ? WHERE `Uuid` = ?",index, uuid).Wait();
         }
-        private async void SaveTabToFileAsync(
+        private async void SaveTabToDatabaseAsync(
             SQLite.SQLiteAsyncConnection db,
             string? uuid,
             string? id,
@@ -775,7 +777,7 @@ namespace ctxmgr
             tabItem!.Header = result;
 
             SyncTabsToMenu();
-            SaveTabToFileAsync(db,tabItem?.Tag?.ToString(),
+            SaveTabToDatabaseAsync(db,tabItem?.Tag?.ToString(),
                 index.ToString(), tabItem?.Header?.ToString(),
                 "");
         }
@@ -877,6 +879,7 @@ namespace ctxmgr
                 return tb;
             return null;
         }
+
         private void UndoMenuItem_Click(object sender, RoutedEventArgs e)
         {
             GetCurrentTextBox()?.Undo();
@@ -899,7 +902,7 @@ namespace ctxmgr
 
         private void FindMenuItem_Click(object sender, RoutedEventArgs e)
         {
-
+            
         }
 
         private void FindNextMenuItem_Click(object sender, RoutedEventArgs e)
@@ -920,6 +923,82 @@ namespace ctxmgr
         private void RedoMenuItem_Click(object sender, RoutedEventArgs e)
         {
             GetCurrentTextBox()?.Redo();
+        }
+
+        private void SaveToFileMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var tab = MyTabControl.SelectedItem as TabItem;
+            if (tab == null)
+                return;
+            var tb = GetCurrentTextBox();
+            if (tb == null)
+                return;
+            var uuid = tab.Tag?.ToString();
+            var id = MyTabControl.Items.IndexOf(tab).ToString();
+            var title = tab.Header?.ToString();
+            var content = tb.Text;
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Title = ctxmgr.Properties.Resources.SaveToFile,
+                Filter = ctxmgr.Properties.Resources.SaveToFileFilter,
+                DefaultExt = ".txt",
+                AddExtension = true
+            };
+            if (saveFileDialog.ShowDialog() != true)
+                return;
+            string filePath = saveFileDialog.FileName;
+
+            SaveTabToFileAsync(uuid, id, title, content, filePath);
+        }
+
+        private  async void LoadFromFileMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Title = ctxmgr.Properties.Resources.OpenFile,
+                Filter = ctxmgr.Properties.Resources.OpenFileFilter,
+                Multiselect = false 
+            };
+            if (openFileDialog.ShowDialog() != true)
+                return;
+            
+            string filePath = openFileDialog.FileName;
+            var readTask = System.IO.File.ReadAllLinesAsync(filePath);
+            readTask.Wait();
+            var lines = readTask.Result;
+            if (lines.Length < 2)
+                return;
+
+            string id = lines[0];
+            string title = lines[1];
+            string content = string.Join("\n", lines.Skip(2));
+
+            var newTextBox = new TextBox
+            {
+                AcceptsReturn = true,
+                TextWrapping = ConfigInstance.TextWrap ? TextWrapping.Wrap : TextWrapping.NoWrap,
+                Text = content
+            };
+            TextBoxHelper.SetPlaceholder((TextBox)newTextBox, "");
+            newTextBox.TextChanged += TextBox_TextChanged;
+            string uuid = Guid.NewGuid().ToString();
+            var tabItem = new TabItem
+            {
+                Header = title,
+                Tag = uuid,
+                Content = newTextBox
+            };
+            MyTabControl.Items.Add(tabItem);
+        }
+        private async Task SaveTabToFileAsync(
+            string? uuid,
+            string? id,
+            string? title,
+            string? content,
+            string filePath)
+        {
+            string text = $"{id}\n{title}\n{content}";
+            await System.IO.File.WriteAllTextAsync(filePath, text);
         }
     }
 }

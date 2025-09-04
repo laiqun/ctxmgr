@@ -244,8 +244,8 @@
         </Grid.RowDefinitions>
         <Menu Grid.Row="0" KeyboardNavigation.TabNavigation="None">
             <MenuItem Header="{x:Static props:Resources.File}">
-                <MenuItem Header="{x:Static props:Resources.LoadFromFile}"></MenuItem>
-                <MenuItem Header="{x:Static props:Resources.SaveToFile}"></MenuItem>
+                <MenuItem Header="{x:Static props:Resources.LoadFromFile}" x:Name="LoadFromFileMenuItem" Click="LoadFromFileMenuItem_Click"></MenuItem>
+                <MenuItem Header="{x:Static props:Resources.SaveToFile}" x:Name="SaveToFileMenuItem" Click="SaveToFileMenuItem_Click"></MenuItem>
                 <Separator></Separator>
                 <MenuItem Header="{x:Static props:Resources.HideWindow}" x:Name="HideWindow" Click="HideWindow_Click"></MenuItem>
                 <Separator></Separator>
