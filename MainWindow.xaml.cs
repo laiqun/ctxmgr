@@ -23,6 +23,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace ctxmgr
 {
@@ -112,7 +113,7 @@ namespace ctxmgr
                 }
                 #endregion
             };
-            Application.Current.Exit += (s, e) => _hotkeyManager.Dispose();
+            System.Windows.Application.Current.Exit += (s, e) => _hotkeyManager.Dispose();
             var dbInitTask = service.OpenOrCreateDatabase(DataFile);
             dbInitTask.Wait();
             db = dbInitTask.Result;
@@ -258,7 +259,9 @@ namespace ctxmgr
             }
             _saveTimer!.Stop();
             _saveTimer!.Start();
-            SuggestionsPopup.IsOpen = !SuggestionsPopup.IsOpen;
+            UpdatePopupPosition(sender, e);
+            //SuggestionsPopup.IsOpen = !SuggestionsPopup.IsOpen;
+            
         }
 
 
@@ -328,7 +331,7 @@ namespace ctxmgr
             ConfigInstance.Save();
             _saveTimer?.Stop();
             _saveTimer = null;
-            Application.Current.Shutdown();
+            System.Windows.Application.Current.Shutdown();
         }
 
         private void LightMode_Click(object sender, RoutedEventArgs e)
@@ -347,8 +350,8 @@ namespace ctxmgr
                 : new Uri("LightTheme.xaml", UriKind.Relative);
 
             var newTheme = new ResourceDictionary { Source = uri };
-            Application.Current.Resources.MergedDictionaries.Clear();
-            Application.Current.Resources.MergedDictionaries.Add(newTheme);
+            System.Windows.Application.Current.Resources.MergedDictionaries.Clear();
+            System.Windows.Application.Current.Resources.MergedDictionaries.Add(newTheme);
         }
         //loading path AppData\Local\ctxmgr\ctxmgr_Url_qkyp43qq1dqf12ub3mpsvwt1inkryzoa\1.0.0.0
         //%APPDATA%\[公司名]\[程序名]_Url_[随机字符串]\[版本号]\user.config
@@ -498,29 +501,23 @@ namespace ctxmgr
             }
             #endregion
         }
-        public CustomPopupPlacement[] RepositionPopup(Size popupSize, Size targetSize, Point offset)
-        {
-            double windowWidth = targetSize.Width;
-            double windowHeight = targetSize.Height;
-            double xOffset = (windowWidth - popupSize.Width) / 2;
-            double yOffset = windowHeight;
-            return new CustomPopupPlacement[] {
-                new CustomPopupPlacement(new Point(xOffset,yOffset),PopupPrimaryAxis.Vertical)
-            };
-        }
+
 
         private void MainWindowInstance_LocationChanged(object sender, EventArgs e)
         {
             if (SuggestionsPopup.IsOpen)
             {
-                double offset = SuggestionsPopup.HorizontalOffset;
-                //这是 WPF 的一个常见“强制刷新”技巧。Popup 控件在窗口移动时不会自动重新定位
-                //只有当它的某些属性（如 HorizontalOffset 或 VerticalOffset）发生变化时，WPF 才会重新计算和更新 Popup 的位置。
-                SuggestionsPopup.HorizontalOffset = offset + 1;
-                SuggestionsPopup.HorizontalOffset = offset;
+                UpdatePopupPosition(sender,e);
             }
         }
-
+        private void UpdatePopupPosition(object sender, EventArgs e)
+        {
+            if (SuggestionsPopup.IsOpen)
+            {
+                SuggestionsPopup.HorizontalOffset = MainWindowInstance.Left;
+                SuggestionsPopup.VerticalOffset = MainWindowInstance.Top + MainWindowInstance.ActualHeight;
+            }
+        }
         private void InsertSeparatorMenuItem_Click(object sender, RoutedEventArgs e)
         {
             // Get the currently active TextBox
@@ -666,7 +663,11 @@ namespace ctxmgr
         private string DataFolder => System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data");
         private string DataFile => System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data.db");
         private string GetTabFilePath(string uuid) => System.IO.Path.Combine(DataFolder, $"{uuid}.txt");
-
+        private async void UpdateTabsIndexAsync(SQLite.SQLiteAsyncConnection db,
+            string? uuid,
+            long index) {
+            db.ExecuteAsync("UPDATE Page SET `Index` = ? WHERE `Uuid` = ?",index, uuid).Wait();
+        }
         private async void SaveTabToFileAsync(
             SQLite.SQLiteAsyncConnection db,
             string? uuid,
@@ -773,6 +774,98 @@ namespace ctxmgr
             SaveTabToFileAsync(db,tabItem?.Tag?.ToString(),
                 index.ToString(), tabItem?.Header?.ToString(),
                 "");
+        }
+
+        private void MainWindowInstance_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            UpdatePopupPosition(sender,e);
+        }
+
+        private void MoveLeftMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (MyTabControl.Items.Count <= 2 || MyTabControl.SelectedIndex <= 1)
+                return;
+            var index = MyTabControl.SelectedIndex;
+            var previousIndex = index - 1;
+
+            var current = MyTabControl.Items[index] as TabItem;
+            if (current == null)
+                return;
+            var previous = MyTabControl.Items[previousIndex] as TabItem;
+            if (previous == null)
+                return;
+            
+
+            MyTabControl.Items.RemoveAt(index);
+            MyTabControl.Items.Insert(previousIndex, current);
+
+            MyTabControl.SelectedItem = current; // 可选：移动后保持选中
+            UpdateTabsIndexAsync(db, current.Tag.ToString(), MyTabControl.Items.IndexOf(current));
+            UpdateTabsIndexAsync(db, previous.Tag.ToString(), MyTabControl.Items.IndexOf(previous));
+        }
+
+        private void MoveRightMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (MyTabControl.Items.Count <= 2 || MyTabControl.SelectedIndex >= MyTabControl.Items.Count - 1)
+                return;
+            var index = MyTabControl.SelectedIndex;
+            var nextIndex = index + 1;
+
+            var current = MyTabControl.Items[index] as TabItem;
+            if (current == null)
+                return;
+            var next = MyTabControl.Items[nextIndex] as TabItem;
+            if (next == null)
+                return;
+            UpdateTabsIndexAsync(db, current.Tag.ToString(), nextIndex);
+            UpdateTabsIndexAsync(db, next.Tag.ToString(), index);
+
+            MyTabControl.Items.RemoveAt(index);
+            MyTabControl.Items.Insert(nextIndex, current);
+
+            MyTabControl.SelectedItem = current; // 可选：移动后保持选中
+            UpdateTabsIndexAsync(db, current.Tag.ToString(), MyTabControl.Items.IndexOf(current));
+            UpdateTabsIndexAsync(db, next.Tag.ToString(), MyTabControl.Items.IndexOf(next));
+        }
+
+        private void MoveLeftMostMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (MyTabControl.Items.Count <= 2 || MyTabControl.SelectedIndex <= 1)
+                return;
+            var index = MyTabControl.SelectedIndex;
+            var current = MyTabControl.Items[index] as TabItem;
+            
+            MyTabControl.Items.RemoveAt(index);
+            MyTabControl.Items.Insert(1, current);
+            MyTabControl.SelectedItem = current; // 可选：移动后保持选中
+            for (int i = 1; i <= index; i++)
+            {
+                var tab = MyTabControl.Items[i] as TabItem;
+                if (tab == null)
+                    continue;
+                UpdateTabsIndexAsync(db, tab.Tag.ToString(), i);
+            }
+        }
+
+        private void MoveRightMostMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (MyTabControl.Items.Count <= 2 || MyTabControl.SelectedIndex >= MyTabControl.Items.Count - 1)
+                return;
+            var index = MyTabControl.SelectedIndex;
+            var current = MyTabControl.Items[index] as TabItem;
+
+
+            MyTabControl.Items.RemoveAt(index);
+            MyTabControl.Items.Insert(MyTabControl.Items.Count, current);
+            MyTabControl.SelectedItem = current; // 可选：移动后保持选中
+            for (int i = index; i < MyTabControl.Items.Count; i++)
+            {
+                var tab = MyTabControl.Items[i] as TabItem;
+                if (tab == null)
+                    continue;
+                UpdateTabsIndexAsync(db, tab.Tag.ToString(), i);
+            }
         }
     }
 }

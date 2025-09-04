@@ -8,6 +8,7 @@
         xmlns:props="clr-namespace:ctxmgr.Properties"
         mc:Ignorable="d"
         LocationChanged="MainWindowInstance_LocationChanged"
+        SizeChanged="MainWindowInstance_SizeChanged"
         KeyDown="Window_KeyDown" Background="{DynamicResource BackgroundBrush}"  Foreground="{DynamicResource TextBrush}"
         Topmost="True" Closing="Window_Closing" BorderThickness="1" SizeToContent="Height"
         Title="FlashPad" Height="200" Width="800">
@@ -270,11 +271,11 @@
                 <MenuItem Header="{x:Static props:Resources.EditTabTitle}" x:Name="ChangeTitle" Click="ChangeTitle_Click"></MenuItem>
                 <Separator></Separator>
                 <MenuItem Header="{x:Static props:Resources.Move}">
-                    <MenuItem Header="{x:Static props:Resources.MoveToLeftMost}"></MenuItem>
-                    <MenuItem Header="{x:Static props:Resources.MoveToRightMost}"></MenuItem>
+                    <MenuItem Header="{x:Static props:Resources.MoveToLeftMost}" x:Name="MoveLeftMostMenuItem" Click="MoveLeftMostMenuItem_Click"></MenuItem>
+                    <MenuItem Header="{x:Static props:Resources.MoveToRightMost}" x:Name="MoveRightMostMenuItem" Click="MoveRightMostMenuItem_Click"></MenuItem>
                     <Separator></Separator>
-                    <MenuItem Header="{x:Static props:Resources.MoveLeft}"></MenuItem>
-                    <MenuItem Header="{x:Static props:Resources.MoveRight}"></MenuItem>
+                    <MenuItem Header="{x:Static props:Resources.MoveLeft}" x:Name="MoveLeftMenuItem" Click="MoveLeftMenuItem_Click"></MenuItem>
+                    <MenuItem Header="{x:Static props:Resources.MoveRight}" x:Name="MoveRightMenuItem" Click="MoveRightMenuItem_Click"></MenuItem>
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="{x:Static props:Resources.Format}">
@@ -325,8 +326,8 @@
 
         <Popup x:Name="SuggestionsPopup"
                Grid.Row="2"
-               Placement="Bottom"
-               CustomPopupPlacementCallback="RepositionPopup"
+               Visibility="Collapsed"
+               Placement="Absolute"
                StaysOpen="True"
                AllowsTransparency="True"
                IsOpen="False"
