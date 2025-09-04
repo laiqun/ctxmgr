@@ -51,11 +51,11 @@
 * tab名字发生变化时 需要异步   已完成
 * 程序关闭时，可以只保存当前tab  异步，但需要等待执行结束  未完成，必要性可能不大
 
-# 添加和取消开机启动 完成
+# 添加和取消开机启动 完成 开机启动时最小化窗口
 
 # 给Menuitem添加访问键 完成
 
-# 修复短时间快速多次模拟复制粘贴 COM crash的问题
+# 修复短时间快速多次模拟复制粘贴 COM crash的问题  完成，改成了监听全局剪切板事件
 ```
 System.Runtime.InteropServices.COMException
   HResult=0x800401D0

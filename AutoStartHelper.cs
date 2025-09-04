@@ -83,6 +83,7 @@ namespace ctxmgr
                 // 设置快捷方式属性
                 shortcut.TargetPath = targetPath;
                 shortcut.WorkingDirectory = Path.GetDirectoryName(targetPath);
+                shortcut.WindowStyle = (int)WshWindowStyle.WshMinimizedNoFocus;
                 shortcut.Description = description;
                 shortcut.IconLocation = targetPath; // 使用应用程序自身图标
                 shortcut.Save();

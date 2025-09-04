@@ -39,6 +39,7 @@ namespace ctxmgr
         public MainWindow()
         {
             InitializeComponent();
+            
             this.ToggleTopmost.IsChecked = this.Topmost;
             // 恢复窗口位置 
             ConfigInstance = Properties.Config.Load();
