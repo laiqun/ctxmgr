@@ -123,11 +123,14 @@ namespace ctxmgr
 
         private void _hotkeyManager_HotkeyAppendPressed(object? sender, ClipEventArgs e)
         {
-            string curText = DefaultTextBox.Text;
-            if (curText.Trim('\r').EndsWith(e.Message))
+            var tabItem = MyTabControl.SelectedItem as TabItem;
+            if(tabItem == null)
                 return;
-            DefaultTextBox.AppendText(e.Message);
-            DefaultTextBox.ScrollToEnd();
+            var textBox = tabItem.Content as TextBox;
+            if (textBox == null)
+                return;
+            textBox.AppendText(e.Message);
+            textBox.ScrollToEnd();
         }
 
         private void OnHotkeyPressed(object? sender, EventArgs e)

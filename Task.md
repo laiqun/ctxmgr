@@ -14,14 +14,14 @@
 []查找下一个 
 []替换
 []全选
-#页面
+# 页面
 [x]新建
 [x]删除
 [x]编辑标题
-[]向左移动
-[]向右移动
-[]移动到最左边
-[]移动到最右边
+[x]向左移动  还没有添加拖动 和快捷键
+[x]向右移动  还没有添加拖动 和快捷键
+[x]移动到最左边 还没有添加拖动 和快捷键
+[x]移动到最右边 还没有添加拖动 和快捷键
 # 格式
 []浅色模式 没有保存到配置文件
 []深色模式 没有保存到配置文件
@@ -51,5 +51,30 @@
 * tab名字发生变化时 需要异步   已完成
 * 程序关闭时，可以只保存当前tab  异步，但需要等待执行结束  未完成，必要性可能不大
 
-# 添加和取消开机启动
-# 给Menuitem添加访问键
+# 添加和取消开机启动 完成
+
+# 给Menuitem添加访问键 完成
+
+# 修复短时间快速多次模拟复制粘贴 COM crash的问题
+```
+System.Runtime.InteropServices.COMException
+  HResult=0x800401D0
+  Message=OpenClipboard 失败 (0x800401D0 (CLIPBRD_E_CANT_OPEN))
+  Source=System.Private.CoreLib
+  StackTrace:
+   at System.Runtime.InteropServices.Marshal.ThrowExceptionForHR(Int32 errorCode)
+   at System.Windows.Clipboard.CriticalSetDataObject(Object data, Boolean copy)
+   at ctxmgr.GlobalHotkeyManager.HwndHook(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled) in C:\Users\Administrator\source\repos\ctxmgr\GlobalHotkeyManager.cs:line 78
+   at System.Windows.Interop.HwndSource.PublicHooksFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   at MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   at System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   at System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler)
+   at System.Windows.Threading.Dispatcher.LegacyInvokeImpl(DispatcherPriority priority, TimeSpan timeout, Delegate method, Object args, Int32 numArgs)
+   at MS.Win32.HwndSubclass.SubclassWndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam)
+   at MS.Win32.UnsafeNativeMethods.DispatchMessage(MSG& msg)
+   at System.Windows.Threading.Dispatcher.PushFrameImpl(DispatcherFrame frame)
+   at System.Windows.Application.RunDispatcher(Object ignore)
+   at System.Windows.Application.RunInternal(Window window)
+   at ctxmgr.App.Main()
+
+```
