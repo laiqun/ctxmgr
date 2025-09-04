@@ -267,4 +267,7 @@
   <data name="CtrlQRegistrationFailed" xml:space="preserve">
     <value>无法注册全局快捷键 Ctrl+Q</value>
   </data>
+  <data name="Redo" xml:space="preserve">
+    <value>重做(_D)</value>
+  </data>
 </root>

@@ -871,5 +871,55 @@ namespace ctxmgr
                 UpdateTabsIndexAsync(db, tab.Tag.ToString(), i);
             }
         }
+        private TextBox GetCurrentTextBox()
+        {
+            if (MyTabControl.SelectedItem is TabItem tab && tab.Content is TextBox tb)
+                return tb;
+            return null;
+        }
+        private void UndoMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            GetCurrentTextBox()?.Undo();
+        }
+
+        private void CutMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            GetCurrentTextBox()?.Cut();
+        }
+
+        private void CopyMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            GetCurrentTextBox()?.Copy();
+        }
+
+        private void PasteMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            GetCurrentTextBox()?.Paste();
+        }
+
+        private void FindMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void FindNextMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ReplaceMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SelectAllMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            GetCurrentTextBox()?.SelectAll();
+        }
+
+        private void RedoMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            GetCurrentTextBox()?.Redo();
+        }
     }
 }

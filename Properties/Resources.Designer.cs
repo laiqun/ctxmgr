@@ -376,6 +376,15 @@ namespace ctxmgr.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Re_do.
+        /// </summary>
+        public static string Redo {
+            get {
+                return ResourceManager.GetString("Redo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _Replace.
         /// </summary>
         public static string Replace {

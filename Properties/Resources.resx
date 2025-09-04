@@ -267,4 +267,7 @@
   <data name="CtrlQRegistrationFailed" xml:space="preserve">
     <value>Unable to register the global hotkey Ctrl+Q</value>
   </data>
+  <data name="Redo" xml:space="preserve">
+    <value>Re_do</value>
+  </data>
 </root>

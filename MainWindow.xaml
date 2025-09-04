@@ -252,17 +252,18 @@
                 <MenuItem Header="{x:Static props:Resources.ExitApp}" x:Name="ExitApp" Click="ExitApp_Click"></MenuItem>
             </MenuItem>
             <MenuItem Header="{x:Static props:Resources.Edit}">
-                <MenuItem Header="{x:Static props:Resources.Undo}"></MenuItem>
+                <MenuItem Header="{x:Static props:Resources.Undo}" x:Name="UndoMenuItem" Click="UndoMenuItem_Click"></MenuItem>
+                <MenuItem Header="{x:Static props:Resources.Redo}" x:Name="RedoMenuItem" Click="RedoMenuItem_Click"></MenuItem>
                 <Separator></Separator>
-                <MenuItem Header="{x:Static props:Resources.Cut}"></MenuItem>
-                <MenuItem Header="{x:Static props:Resources.Copy}"></MenuItem>
-                <MenuItem Header="{x:Static props:Resources.Paste}"></MenuItem>
+                <MenuItem Header="{x:Static props:Resources.Cut}" x:Name="CutMenuItem" Click="CutMenuItem_Click"></MenuItem>
+                <MenuItem Header="{x:Static props:Resources.Copy}" x:Name="CopyMenuItem" Click="CopyMenuItem_Click"></MenuItem>
+                <MenuItem Header="{x:Static props:Resources.Paste}" x:Name="PasteMenuItem" Click="PasteMenuItem_Click"></MenuItem>
                 <Separator></Separator>
-                <MenuItem Header="{x:Static props:Resources.Find}"></MenuItem>
-                <MenuItem Header="{x:Static props:Resources.FindNext}"></MenuItem>
-                <MenuItem Header="{x:Static props:Resources.Replace}"></MenuItem>
+                <MenuItem Header="{x:Static props:Resources.Find}" x:Name="FindMenuItem" Click="FindMenuItem_Click"></MenuItem>
+                <MenuItem Header="{x:Static props:Resources.FindNext}" x:Name="FindNextMenuItem" Click="FindNextMenuItem_Click"></MenuItem>
+                <MenuItem Header="{x:Static props:Resources.Replace}" x:Name="ReplaceMenuItem" Click="ReplaceMenuItem_Click"></MenuItem>
                 <Separator></Separator>
-                <MenuItem Header="{x:Static props:Resources.SelectAll}"></MenuItem>
+                <MenuItem Header="{x:Static props:Resources.SelectAll}" x:Name="SelectAllMenuItem" Click="SelectAllMenuItem_Click"></MenuItem>
             </MenuItem>
             <MenuItem Header="{x:Static props:Resources.Page}">
                 <MenuItem Header="{x:Static props:Resources.NewTab}" x:Name="NewTab" Click="NewTab_Click"></MenuItem>
