@@ -1,14 +1,15 @@
-﻿<Window x:Class="ctxmgr.Settings"
+﻿<Window x:Class="ctxmgr.Page.Settings.SettingsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ctxmgr"
-        xmlns:props="clr-namespace:ctxmgr.Properties"
+        xmlns:local="clr-namespace:ctxmgr.Page.Settings"
         mc:Ignorable="d"
+        xmlns:props="clr-namespace:ctxmgr.Properties"
         ResizeMode="NoResize"
         WindowStyle="SingleBorderWindow"
-        Title="{x:Static props:Resources.SettingsWindowTitle}" Height="380" Width="420">
+        Title="{x:Static props:Resources.SettingsWindowTitle}" Height="380" Width="420"
+        >
     <Grid>
         <TabControl>
             <TabItem Header="{x:Static props:Resources.General}">
@@ -38,15 +39,15 @@
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0">
                             <Label Content="{x:Static props:Resources.ShortcutsShowOrHideBasicKey}" Margin="5"/>
-                            <Label Content="{x:Static props:Resources.ShortcutsShowOrHideCombineKey}" Margin="5"/> 
+                            <Label Content="{x:Static props:Resources.ShortcutsShowOrHideCombineKey}" Margin="5"/>
                         </StackPanel>
                         <StackPanel Grid.Column="1">
                             <TextBox  Margin="5"></TextBox>
                             <Border Margin="5">
                                 <StackPanel>
-                                <CheckBox Content="Ctrl" Margin="2"/>
-                                <CheckBox Content="Alt" Margin="2"/>
-                                <CheckBox Content="Shift" Margin="2"/>
+                                    <CheckBox Content="Ctrl" Margin="2"/>
+                                    <CheckBox Content="Alt" Margin="2"/>
+                                    <CheckBox Content="Shift" Margin="2"/>
                                     <CheckBox Content="Win" Margin="2"/>
                                 </StackPanel>
                             </Border>

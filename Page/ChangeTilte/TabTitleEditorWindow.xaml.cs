@@ -12,14 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace ctxmgr
+namespace ctxmgr.Page.ChangeTitle
 {
     /// <summary>
     /// Interaction logic for TabTitleEditor.xaml
     /// </summary>
-    public partial class TabTitleEditor : Window
+    public partial class TabTitleEditorWindow : Window
     {
-        public TabTitleEditor()
+        public TabTitleEditorWindow()
         {
             InitializeComponent();
         }
@@ -33,7 +33,7 @@ namespace ctxmgr
         public static string Show(string? title, string caption = "",
              Window owner = null)
         {
-            var msgBox = new TabTitleEditor();
+            var msgBox = new TabTitleEditorWindow();
             msgBox.Owner = owner;
             msgBox.TitleTextBlock.Text = caption;
             msgBox.MessageTextBox.Text = title;

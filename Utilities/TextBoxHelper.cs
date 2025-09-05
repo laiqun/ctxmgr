@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 
-namespace ctxmgr
+namespace ctxmgr.Utilities
 {
     public static class TextBoxHelper
     {
@@ -105,7 +105,7 @@ namespace ctxmgr
             {
                 TextBox textBoxControl = (TextBox)AdornedElement;
 
-                string placeholderValue = TextBoxHelper.GetPlaceholder(textBoxControl);
+                string placeholderValue = GetPlaceholder(textBoxControl);
 
                 if (string.IsNullOrEmpty(placeholderValue))
                     return;
@@ -123,8 +123,8 @@ namespace ctxmgr
                                             SystemColors.InactiveCaptionBrush,
                                             VisualTreeHelper.GetDpi(textBoxControl).PixelsPerDip);
 
-                text.MaxTextWidth = System.Math.Max(textBoxControl.ActualWidth - textBoxControl.Padding.Left - textBoxControl.Padding.Right, 10);
-                text.MaxTextHeight = System.Math.Max(textBoxControl.ActualHeight, 10);
+                text.MaxTextWidth = Math.Max(textBoxControl.ActualWidth - textBoxControl.Padding.Left - textBoxControl.Padding.Right, 10);
+                text.MaxTextHeight = Math.Max(textBoxControl.ActualHeight, 10);
 
                 // Render based on padding of the control, to try and match where the textbox places text
                 Point renderingOffset = new Point(textBoxControl.Padding.Left, textBoxControl.Padding.Top);
@@ -136,8 +136,8 @@ namespace ctxmgr
                     renderingOffset.X += partPosition.X;
                     renderingOffset.Y += partPosition.Y;
 
-                    text.MaxTextWidth = System.Math.Max(part.ActualWidth - renderingOffset.X, 10);
-                    text.MaxTextHeight = System.Math.Max(part.ActualHeight, 10);
+                    text.MaxTextWidth = Math.Max(part.ActualWidth - renderingOffset.X, 10);
+                    text.MaxTextHeight = Math.Max(part.ActualHeight, 10);
                 }
 
                 // Draw the text

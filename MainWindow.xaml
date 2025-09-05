@@ -4,7 +4,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ctxmgr" x:Name="MainWindowInstance"
+        xmlns:local="clr-namespace:ctxmgr" 
+        xmlns:utilities="clr-namespace:ctxmgr.Utilities" 
+        x:Name="MainWindowInstance"
         xmlns:props="clr-namespace:ctxmgr.Properties"
         mc:Ignorable="d"
         LocationChanged="MainWindowInstance_LocationChanged"
@@ -321,7 +323,7 @@
                 </TabItem.Header>
             </TabItem>
             <TabItem Header="Tab 1" x:Name="DefaultTabItem" IsSelected="True">
-                <TextBox   x:Name="DefaultTextBox" local:TextBoxHelper.Placeholder="{x:Static props:Resources.TextBoxHint}"  AcceptsReturn="True" TextWrapping="NoWrap"  TextChanged="TextBox_TextChanged" VerticalScrollBarVisibility="Auto"></TextBox>
+                <TextBox   x:Name="DefaultTextBox" utilities:TextBoxHelper.Placeholder="{x:Static props:Resources.TextBoxHint}"  AcceptsReturn="True" TextWrapping="NoWrap"  TextChanged="TextBox_TextChanged" VerticalScrollBarVisibility="Auto"></TextBox>
             </TabItem>
         </TabControl>
 

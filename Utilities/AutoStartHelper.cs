@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using IWshRuntimeLibrary;
 
 
-namespace ctxmgr
+namespace ctxmgr.Utilities
 {
     public class AutoStartHelper
     {

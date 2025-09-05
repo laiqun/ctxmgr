@@ -12,14 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace ctxmgr
+namespace ctxmgr.Page.MessageBox
 {
     /// <summary>
     /// Interaction logic for MessageBox.xaml
     /// </summary>
-    public partial class MessageBox : Window
+    public partial class MessageBoxWindow : Window
     {
-        public MessageBox()
+        public MessageBoxWindow()
         {
             InitializeComponent();
         }
@@ -27,7 +27,7 @@ namespace ctxmgr
         public static MessageBoxResult Show(string message, string caption = "",
             MessageBoxButton buttons = MessageBoxButton.OK, Window owner = null)
         {
-            var msgBox = new MessageBox();
+            var msgBox = new MessageBoxWindow();
             msgBox.Owner = owner;
             msgBox.TitleTextBlock.Text = caption;
             msgBox.MessageTextBlock.Text = message;
@@ -83,22 +83,22 @@ namespace ctxmgr
     {
         public static MessageBoxResult Show(string messageBoxText)
         {
-            return MessageBox.Show(messageBoxText);
+            return MessageBoxWindow.Show(messageBoxText);
         }
 
         public static MessageBoxResult Show(string messageBoxText, string caption)
         {
-            return MessageBox.Show(messageBoxText, caption);
+            return MessageBoxWindow.Show(messageBoxText, caption);
         }
 
         public static MessageBoxResult Show(string messageBoxText, string caption, MessageBoxButton button)
         {
-            return MessageBox.Show(messageBoxText, caption, button);
+            return MessageBoxWindow.Show(messageBoxText, caption, button);
         }
 
         public static MessageBoxResult Show(string messageBoxText, string caption, MessageBoxButton button, Window owner)
         {
-            return MessageBox.Show(messageBoxText, caption, button, owner);
+            return MessageBoxWindow.Show(messageBoxText, caption, button, owner);
         }
     }
 }

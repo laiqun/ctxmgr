@@ -10,7 +10,7 @@ using System.Windows.Interop;
 
 
 
-namespace ctxmgr
+namespace ctxmgr.Utilities
 {
     public class ClipEventArgs : EventArgs
     {
@@ -23,14 +23,14 @@ namespace ctxmgr
     public class GlobalHotkeyManager : IDisposable
     {
         [DllImport("user32.dll")]
-        private static extern bool RegisterHotKey(IntPtr hWnd, int id, uint fsModifiers, uint vk);
+        private static extern bool RegisterHotKey(nint hWnd, int id, uint fsModifiers, uint vk);
 
         [DllImport("user32.dll")]
-        private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
+        private static extern bool UnregisterHotKey(nint hWnd, int id);
 
         private const int HOTKEY_ID = 9000;
         private const int HOTKEY_ID_APPEND = 9001;
-        private IntPtr _windowHandle;
+        private nint _windowHandle;
         private HwndSource _source;
 
         public event EventHandler HotkeyPressed;
@@ -47,20 +47,20 @@ namespace ctxmgr
             if (!RegisterHotKey(_windowHandle, HOTKEY_ID, (uint)ModifierKeys.Alt, (uint)KeyInterop.VirtualKeyFromKey(Key.C)))
             {
                 window.Hide();
-                if (MessageBox.Show(ctxmgr.Properties.Resources.AltZRegistrationFailed, ctxmgr.Properties.Resources.OK) == MessageBoxResult.OK)
+                if (MessageBox.Show(Properties.Resources.AltZRegistrationFailed, Properties.Resources.OK) == MessageBoxResult.OK)
                     Application.Current.Shutdown();
             }
             if (!RegisterHotKey(_windowHandle, HOTKEY_ID_APPEND, (uint)ModifierKeys.Control, (uint)KeyInterop.VirtualKeyFromKey(Key.Q)))
             {
                 window.Hide();
-                if (MessageBox.Show(ctxmgr.Properties.Resources.CtrlQRegistrationFailed, ctxmgr.Properties.Resources.OK) == MessageBoxResult.OK)
+                if (MessageBox.Show(Properties.Resources.CtrlQRegistrationFailed, Properties.Resources.OK) == MessageBoxResult.OK)
                     Application.Current.Shutdown();
             }
         }
         private string oldClipboardText = string.Empty;
         private bool isExpectingClipboardUpdate = false;
 
-        private IntPtr HwndHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        private nint HwndHook(nint hwnd, int msg, nint wParam, nint lParam, ref bool handled)
         {
             if (msg == NativeClipboardMethods.WM_CLIPBOARDUPDATE && isExpectingClipboardUpdate)
             {
@@ -92,11 +92,11 @@ namespace ctxmgr
                 }), System.Windows.Threading.DispatcherPriority.Background);
 
                 handled = true;
-                return IntPtr.Zero;
+                return nint.Zero;
             }
             const int WM_HOTKEY = 0x0312;
             if (msg != WM_HOTKEY)
-                return IntPtr.Zero;
+                return nint.Zero;
 
             if(wParam.ToInt32() == HOTKEY_ID)
             {
@@ -108,7 +108,7 @@ namespace ctxmgr
                 AppendFunc();                   
             }
             
-            return IntPtr.Zero;
+            return nint.Zero;
         }
         private string SafeGetClipboardText(int retryCount = 5, int delay = 50)
         {
@@ -158,7 +158,7 @@ namespace ctxmgr
 
         public void Dispose()
         {
-            if (_windowHandle != IntPtr.Zero)
+            if (_windowHandle != nint.Zero)
             {
                 UnregisterHotKey(_windowHandle, HOTKEY_ID);
                 NativeClipboardMethods.RemoveClipboardFormatListener(_windowHandle);
@@ -170,13 +170,13 @@ namespace ctxmgr
     internal static class NativeClipboardMethods
     {
         public const int WM_CLIPBOARDUPDATE = 0x031D;
-        private static readonly IntPtr HWND_MESSAGE = new IntPtr(-3);
+        private static readonly nint HWND_MESSAGE = new nint(-3);
 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern bool AddClipboardFormatListener(IntPtr hwnd);
+        public static extern bool AddClipboardFormatListener(nint hwnd);
 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern bool RemoveClipboardFormatListener(IntPtr hwnd);
+        public static extern bool RemoveClipboardFormatListener(nint hwnd);
     }
 
 }

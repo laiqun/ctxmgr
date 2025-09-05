@@ -12,14 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace ctxmgr
+namespace ctxmgr.Page.Settings
 {
     /// <summary>
-    /// Interaction logic for Settings.xaml
+    /// Interaction logic for SettingsWindow.xaml
     /// </summary>
-    public partial class Settings : Window
+    public partial class SettingsWindow : Window
     {
-        public Settings()
+        public SettingsWindow()
         {
             InitializeComponent();
         }

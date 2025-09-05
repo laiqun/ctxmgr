@@ -1,4 +1,7 @@
 ﻿using ctxmgr.Model;
+using ctxmgr.Page.ChangeTitle;
+using ctxmgr.Page.MessageBox;
+using ctxmgr.Utilities;
 using IWshRuntimeLibrary;
 using Microsoft.VisualBasic;
 using Microsoft.Win32;
@@ -316,7 +319,7 @@ namespace ctxmgr
 
         #endregion
 
-        private About aboutDialog = new About();
+        private Page.About.AboutWindow aboutDialog = new Page.About.AboutWindow();
         private void About_Click(object sender, RoutedEventArgs e)
         {
             aboutDialog.Owner = this;
@@ -352,8 +355,8 @@ namespace ctxmgr
         public void SwitchTheme(bool isDarkMode)
         {
             var uri = isDarkMode
-                ? new Uri("DarkTheme.xaml", UriKind.Relative)
-                : new Uri("LightTheme.xaml", UriKind.Relative);
+                ? new Uri("Themes/DarkTheme.xaml", UriKind.Relative)
+                : new Uri("Themes/LightTheme.xaml", UriKind.Relative);
 
             var newTheme = new ResourceDictionary { Source = uri };
             System.Windows.Application.Current.Resources.MergedDictionaries.Clear();
@@ -428,7 +431,7 @@ namespace ctxmgr
         {
             if (MyTabControl.Items.Count <= 2)
                 return;
-            if (MessageBox.Show("你确定要继续吗？", "确认", MessageBoxButton.YesNo, this) == MessageBoxResult.Yes)
+            if (MessageBoxWindow.Show("你确定要继续吗？", "确认", MessageBoxButton.YesNo, this) == MessageBoxResult.Yes)
             {
                 var oldSelectedIndex = MyTabControl.SelectedIndex;
                 if (MyTabControl.SelectedItem != null)
@@ -770,7 +773,7 @@ namespace ctxmgr
             var tabItem = MyTabControl.SelectedItem as TabItem;
             if (tabItem == null)
                 return;
-            var result = TabTitleEditor.Show(tabItem?.Header?.ToString(), ctxmgr.Properties.Resources.TabTitleEditor, this);
+            var result = TabTitleEditorWindow.Show(tabItem?.Header?.ToString(), ctxmgr.Properties.Resources.TabTitleEditor, this);
             if (result == string.Empty)
                 return;
 
