@@ -32,11 +32,13 @@
                        Margin="0,0,0,10"/>
             <!-- 官网链接 -->
             <TextBlock HorizontalAlignment="Center">
+                HomePage:
                 <Hyperlink NavigateUri="https://ctxmgr.com"
                            RequestNavigate="Hyperlink_OnRequestNavigate" >
                     <Run Text="{x:Static props:Resources.VisitOfficialWebsite}"/>
                 </Hyperlink>
             </TextBlock>
+            <TextBlock Text="Email:55154717@qq.com"  HorizontalAlignment="Center"/>
             <!-- 关闭按钮 -->
             <Button Content="{x:Static props:Resources.OK}" IsDefault="True"
                     HorizontalAlignment="Center" Width="80" Margin="0,15,0,0"

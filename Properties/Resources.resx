@@ -241,7 +241,7 @@
     <value>_Undo</value>
   </data>
   <data name="VisitOfficialWebsite" xml:space="preserve">
-    <value>Visit the official website</value>
+    <value>https://ctxmgr.com</value>
   </data>
   <data name="TextWrap" xml:space="preserve">
     <value>_Word Wrap</value>
@@ -278,5 +278,71 @@
   </data>
   <data name="OpenFileFilter" xml:space="preserve">
     <value>Text File (*.txt)|*.txt|All File (*.*)|*.*</value>
+  </data>
+  <data name="SettingsWindowTitle" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="GeneralOptions" xml:space="preserve">
+    <value>General Options</value>
+  </data>
+  <data name="GeneralAutoStart" xml:space="preserve">
+    <value>Start automatically when system boots</value>
+  </data>
+  <data name="GeneralCloseToTray" xml:space="preserve">
+    <value>Minimize when closing the main window</value>
+  </data>
+  <data name="DblClickTitleAction" xml:space="preserve">
+    <value>On double-clicking page title</value>
+  </data>
+  <data name="DblClickTitleActionNone" xml:space="preserve">
+    <value>Do nothing</value>
+  </data>
+  <data name="DblClickTitleActionDelete" xml:space="preserve">
+    <value>Delete page</value>
+  </data>
+  <data name="DblClickTitleActionRename" xml:space="preserve">
+    <value>Rename title</value>
+  </data>
+  <data name="Shortcuts" xml:space="preserve">
+    <value>Shortcuts</value>
+  </data>
+  <data name="ShortcutsShowOrHide" xml:space="preserve">
+    <value>Show/Hide main window shortcut</value>
+  </data>
+  <data name="ShortcutsShowOrHideBasicKey" xml:space="preserve">
+    <value>Basic key</value>
+  </data>
+  <data name="ShortcutsShowOrHideCombineKey" xml:space="preserve">
+    <value>Combination key</value>
+  </data>
+  <data name="TextSnippets" xml:space="preserve">
+    <value>Insert text snippet</value>
+  </data>
+  <data name="InsertSeparatorFormat" xml:space="preserve">
+    <value>Insert Separator Line format</value>
+  </data>
+  <data name="InsertDateTimeFormat" xml:space="preserve">
+    <value>Insert DateTime Format</value>
+  </data>
+  <data name="InsertDateTimeSeparatorFormat" xml:space="preserve">
+    <value>Insert DateTime Separator Format</value>
+  </data>
+  <data name="TextSnippetsCustom" xml:space="preserve">
+    <value>​Custom Snippets​</value>
+  </data>
+  <data name="TextSnippetsAdd" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="TextSnippetsDel" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="TextSnippetsEdit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="ResetToDefault" xml:space="preserve">
+    <value>Reset All to default</value>
   </data>
 </root>

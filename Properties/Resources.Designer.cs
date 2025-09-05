@@ -133,6 +133,42 @@ namespace ctxmgr.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to On double-clicking page title.
+        /// </summary>
+        public static string DblClickTitleAction {
+            get {
+                return ResourceManager.GetString("DblClickTitleAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete page.
+        /// </summary>
+        public static string DblClickTitleActionDelete {
+            get {
+                return ResourceManager.GetString("DblClickTitleActionDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do nothing.
+        /// </summary>
+        public static string DblClickTitleActionNone {
+            get {
+                return ResourceManager.GetString("DblClickTitleActionNone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rename title.
+        /// </summary>
+        public static string DblClickTitleActionRename {
+            get {
+                return ResourceManager.GetString("DblClickTitleActionRename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _Delete Page.
         /// </summary>
         public static string DelTab {
@@ -205,6 +241,42 @@ namespace ctxmgr.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to General.
+        /// </summary>
+        public static string General {
+            get {
+                return ResourceManager.GetString("General", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start automatically when system boots.
+        /// </summary>
+        public static string GeneralAutoStart {
+            get {
+                return ResourceManager.GetString("GeneralAutoStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Minimize when closing the main window.
+        /// </summary>
+        public static string GeneralCloseToTray {
+            get {
+                return ResourceManager.GetString("GeneralCloseToTray", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General Options.
+        /// </summary>
+        public static string GeneralOptions {
+            get {
+                return ResourceManager.GetString("GeneralOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _Help.
         /// </summary>
         public static string Help {
@@ -241,6 +313,15 @@ namespace ctxmgr.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Insert DateTime Format.
+        /// </summary>
+        public static string InsertDateTimeFormat {
+            get {
+                return ResourceManager.GetString("InsertDateTimeFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Insert Date/Time Separator(_B).
         /// </summary>
         public static string InsertDateTimeSeparator {
@@ -250,11 +331,29 @@ namespace ctxmgr.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Insert DateTime Separator Format.
+        /// </summary>
+        public static string InsertDateTimeSeparatorFormat {
+            get {
+                return ResourceManager.GetString("InsertDateTimeSeparatorFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Insert Separator _Line.
         /// </summary>
         public static string InsertSeparator {
             get {
                 return ResourceManager.GetString("InsertSeparator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Insert Separator Line format.
+        /// </summary>
+        public static string InsertSeparatorFormat {
+            get {
+                return ResourceManager.GetString("InsertSeparatorFormat", resourceCulture);
             }
         }
         
@@ -412,6 +511,15 @@ namespace ctxmgr.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reset All to default.
+        /// </summary>
+        public static string ResetToDefault {
+            get {
+                return ResourceManager.GetString("ResetToDefault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Run On _StartUp.
         /// </summary>
         public static string RunOnStartUp {
@@ -457,11 +565,56 @@ namespace ctxmgr.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        public static string SettingsWindowTitle {
+            get {
+                return ResourceManager.GetString("SettingsWindowTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _Shortcut List.
         /// </summary>
         public static string ShortcutList {
             get {
                 return ResourceManager.GetString("ShortcutList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shortcuts.
+        /// </summary>
+        public static string Shortcuts {
+            get {
+                return ResourceManager.GetString("Shortcuts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show/Hide main window shortcut.
+        /// </summary>
+        public static string ShortcutsShowOrHide {
+            get {
+                return ResourceManager.GetString("ShortcutsShowOrHide", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Basic key.
+        /// </summary>
+        public static string ShortcutsShowOrHideBasicKey {
+            get {
+                return ResourceManager.GetString("ShortcutsShowOrHideBasicKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Combination key.
+        /// </summary>
+        public static string ShortcutsShowOrHideCombineKey {
+            get {
+                return ResourceManager.GetString("ShortcutsShowOrHideCombineKey", resourceCulture);
             }
         }
         
@@ -489,6 +642,51 @@ namespace ctxmgr.Properties {
         public static string TextBoxHint {
             get {
                 return ResourceManager.GetString("TextBoxHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Insert text snippet.
+        /// </summary>
+        public static string TextSnippets {
+            get {
+                return ResourceManager.GetString("TextSnippets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        public static string TextSnippetsAdd {
+            get {
+                return ResourceManager.GetString("TextSnippetsAdd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ​Custom Snippets​.
+        /// </summary>
+        public static string TextSnippetsCustom {
+            get {
+                return ResourceManager.GetString("TextSnippetsCustom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string TextSnippetsDel {
+            get {
+                return ResourceManager.GetString("TextSnippetsDel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        public static string TextSnippetsEdit {
+            get {
+                return ResourceManager.GetString("TextSnippetsEdit", resourceCulture);
             }
         }
         
@@ -529,7 +727,7 @@ namespace ctxmgr.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Visit the official website.
+        ///   Looks up a localized string similar to https://ctxmgr.com.
         /// </summary>
         public static string VisitOfficialWebsite {
             get {

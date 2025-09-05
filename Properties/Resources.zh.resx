@@ -169,7 +169,7 @@
     <value>插入时间日期分割线(_B)</value>
   </data>
   <data name="InsertSeparator" xml:space="preserve">
-    <value>插入分割行(_L)</value>
+    <value>插入分割线(_L)</value>
   </data>
   <data name="InsertTextSetting" xml:space="preserve">
     <value>插入文本设置(_C)</value>
@@ -241,7 +241,7 @@
     <value>撤销(_U)</value>
   </data>
   <data name="VisitOfficialWebsite" xml:space="preserve">
-    <value>访问官网</value>
+    <value>https://ctxmgr.com</value>
   </data>
   <data name="TextWrap" xml:space="preserve">
     <value>自动换行(_W)</value>
@@ -278,5 +278,71 @@
   </data>
   <data name="OpenFileFilter" xml:space="preserve">
     <value>文本文件 (*.txt)|*.txt|所有文件 (*.*)|*.*</value>
+  </data>
+  <data name="SettingsWindowTitle" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>常规</value>
+  </data>
+  <data name="GeneralOptions" xml:space="preserve">
+    <value>常规选项</value>
+  </data>
+  <data name="GeneralAutoStart" xml:space="preserve">
+    <value>&#x8;系统启动时自动运行</value>
+  </data>
+  <data name="GeneralCloseToTray" xml:space="preserve">
+    <value>点击主窗口的关闭按钮时最小化</value>
+  </data>
+  <data name="DblClickTitleAction" xml:space="preserve">
+    <value>双击页面标题时</value>
+  </data>
+  <data name="DblClickTitleActionNone" xml:space="preserve">
+    <value>无动作</value>
+  </data>
+  <data name="DblClickTitleActionDelete" xml:space="preserve">
+    <value>删除页面</value>
+  </data>
+  <data name="DblClickTitleActionRename" xml:space="preserve">
+    <value>修改标题</value>
+  </data>
+  <data name="Shortcuts" xml:space="preserve">
+    <value>快捷键</value>
+  </data>
+  <data name="ShortcutsShowOrHide" xml:space="preserve">
+    <value>显示/隐藏主窗口 快捷键</value>
+  </data>
+  <data name="ShortcutsShowOrHideBasicKey" xml:space="preserve">
+    <value>基本键</value>
+  </data>
+  <data name="ShortcutsShowOrHideCombineKey" xml:space="preserve">
+    <value>组合键</value>
+  </data>
+  <data name="TextSnippets" xml:space="preserve">
+    <value>插入文本片段</value>
+  </data>
+  <data name="InsertSeparatorFormat" xml:space="preserve">
+    <value>插入分隔线格式</value>
+  </data>
+  <data name="InsertDateTimeFormat" xml:space="preserve">
+    <value>插入时间日期格式</value>
+  </data>
+  <data name="InsertDateTimeSeparatorFormat" xml:space="preserve">
+    <value>插入时间日期分割线格式</value>
+  </data>
+  <data name="TextSnippetsCustom" xml:space="preserve">
+    <value>自定义文本片段</value>
+  </data>
+  <data name="TextSnippetsAdd" xml:space="preserve">
+    <value>添加</value>
+  </data>
+  <data name="TextSnippetsDel" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="TextSnippetsEdit" xml:space="preserve">
+    <value>编辑</value>
+  </data>
+  <data name="ResetToDefault" xml:space="preserve">
+    <value>恢复默认</value>
   </data>
 </root>
