@@ -38,7 +38,7 @@
                                          GroupName="DoubleClickActionGroup"></RadioButton>
                         </StackPanel>
                     </GroupBox>
-                    <!-- <Button Content="{x:Static props:Resources.ResetToDefault}" Padding="5" Margin="15 40"></Button>-->
+                    <Button Content="{x:Static props:Resources.ResetToDefault}" x:Name="RestButton" Click="RestButton_Click" Padding="5" Margin="15 40"></Button>
                 </StackPanel>
             </TabItem>
             <TabItem Header="{x:Static props:Resources.Shortcuts}">
@@ -70,11 +70,11 @@
             <TabItem Header="{x:Static props:Resources.TextSnippets}">
                 <StackPanel>
                     <Label Content="{x:Static props:Resources.InsertSeparatorFormat}"></Label>
-                    <TextBox Text="crlf()+chars('-',80)+crlf()"></TextBox>
+                    <TextBox Text="{Binding InsertLineText,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
                     <Label Content="{x:Static props:Resources.InsertDateTimeFormat}"></Label>
-                    <TextBox Text="yyyy/mm/dd:hh:mm:ss:ms"></TextBox>
+                    <TextBox Text="{Binding InsertDateText,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
                     <Label Content="{x:Static props:Resources.InsertDateTimeSeparatorFormat}"></Label>
-                    <TextBox Text="crlf()+chars('-',29)+yyyy/mm/dd:hh:mm:ss:ms+chars('-',29)+crlf()"></TextBox>
+                    <TextBox Text="{Binding InsertLineDateText,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
                     <GroupBox Header="{x:Static props:Resources.TextSnippetsCustom}">
                         <Grid>
                             <Grid.ColumnDefinitions>

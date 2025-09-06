@@ -35,5 +35,12 @@ namespace ctxmgr.Page.Settings
             settingWindow.DataContext = vm;
             settingWindow.ShowDialog();
         }
-    }
+
+        private void RestButton_Click(object sender, RoutedEventArgs e)
+        {
+            var vm = DataContext as SettingsViewModel;
+            if (vm == null) return;
+            vm.ResetToDefault();
+        }
+}
 }
