@@ -97,6 +97,15 @@ namespace ctxmgr.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete this?.
+        /// </summary>
+        public static string ConfirmDeleteMsg {
+            get {
+                return ResourceManager.GetString("ConfirmDeleteMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _Copy.
         /// </summary>
         public static string Copy {
@@ -165,6 +174,15 @@ namespace ctxmgr.Properties {
         public static string DblClickTitleActionRename {
             get {
                 return ResourceManager.GetString("DblClickTitleActionRename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm Deletion.
+        /// </summary>
+        public static string DeleteWindowTitle {
+            get {
+                return ResourceManager.GetString("DeleteWindowTitle", resourceCulture);
             }
         }
         

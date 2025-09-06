@@ -345,4 +345,10 @@
   <data name="ResetToDefault" xml:space="preserve">
     <value>恢复默认</value>
   </data>
+  <data name="DeleteWindowTitle" xml:space="preserve">
+    <value>确认删除</value>
+  </data>
+  <data name="ConfirmDeleteMsg" xml:space="preserve">
+    <value>您确定要删除吗？</value>
+  </data>
 </root>

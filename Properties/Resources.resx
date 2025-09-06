@@ -345,4 +345,10 @@
   <data name="ResetToDefault" xml:space="preserve">
     <value>Reset All to default</value>
   </data>
+  <data name="DeleteWindowTitle" xml:space="preserve">
+    <value>Confirm Deletion</value>
+  </data>
+  <data name="ConfirmDeleteMsg" xml:space="preserve">
+    <value>Are you sure you want to delete this?</value>
+  </data>
 </root>

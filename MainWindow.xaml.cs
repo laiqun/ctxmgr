@@ -419,7 +419,7 @@ namespace ctxmgr
         {
             if (MyTabControl.Items.Count <= 2)
                 return;
-            if (MessageBoxWindow.Show("你确定要继续吗？", "确认", MessageBoxButton.YesNo, this) == MessageBoxResult.Yes)
+            if (MessageBoxWindow.Show(Properties.Resources.ConfirmDeleteMsg, Properties.Resources.DeleteWindowTitle, MessageBoxButton.YesNo, this) == MessageBoxResult.Yes)
             {
                 var oldSelectedIndex = MyTabControl.SelectedIndex;
                 if (MyTabControl.SelectedItem != null)
