@@ -351,4 +351,7 @@
   <data name="ConfirmDeleteMsg" xml:space="preserve">
     <value>Are you sure you want to delete this?</value>
   </data>
+  <data name="NewSnippetPlaceholder" xml:space="preserve">
+    <value>​Enter new snippet​</value>
+  </data>
 </root>

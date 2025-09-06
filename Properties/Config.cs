@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using ctxmgr.Page.Settings;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Text.Json;
 
 namespace ctxmgr.Properties
@@ -28,7 +30,8 @@ namespace ctxmgr.Properties
         public string InsertDateText { get; set; } = Properties.ConstVariables.INSERT_DATE_TEXT;
         public string InsertLineDateText { get; set; } = Properties.ConstVariables.INSERT_LINE_DATE_TEXT;
         public DoubleClickTitleActionEnum DoubleClickTitleAction { set; get; } = DoubleClickTitleActionEnum.None;
-
+        public ObservableCollection<CustomerTextSnippet> CustomerTextSnippets { get; set; } = new ObservableCollection<CustomerTextSnippet>() {
+        };
         public static Config Load()
         {
             if (File.Exists(SettingsPath))

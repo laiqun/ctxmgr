@@ -448,6 +448,15 @@ namespace ctxmgr.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ​Enter new snippet​.
+        /// </summary>
+        public static string NewSnippetPlaceholder {
+            get {
+                return ResourceManager.GetString("NewSnippetPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _New Page.
         /// </summary>
         public static string NewTab {

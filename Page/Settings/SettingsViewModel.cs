@@ -1,9 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using ctxmgr.Properties;
 using ctxmgr.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -50,10 +52,43 @@ namespace ctxmgr.Page.Settings
         {
             Properties.Config.ConfigInstance.InsertLineDateText = value;
         }
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(AddNewTextSnippetCommand))]
+        private string newTextSnippetTxtBox;
 
-        public ObservableCollection<CustomerTextSnippet> CustomerTextSnippets { get; set; } =  new ObservableCollection<CustomerTextSnippet>() { 
-            new CustomerTextSnippet("test1 "),new CustomerTextSnippet("test2 "),
-        };
+        private bool CanExecuteAddNewTextSnippet()
+        {
+            if (string.IsNullOrWhiteSpace(NewTextSnippetTxtBox)) return false;
+            if (CustomerTextSnippets.Any(x => x.Text == NewTextSnippetTxtBox))
+            {
+                return false;
+            }
+            return true;
+        }
+        [RelayCommand(CanExecute =nameof(CanExecuteAddNewTextSnippet))]
+        private void AddNewTextSnippet()
+        {
+            var newTxtSnippet = new CustomerTextSnippet(NewTextSnippetTxtBox);
+            CustomerTextSnippets.Add(newTxtSnippet);
+            NewTextSnippetTxtBox = string.Empty;
+            
+            Properties.Config.ConfigInstance.Save();
+        }
+
+
+
+        [RelayCommand]
+        private void DeleteTextSnippet(CustomerTextSnippet snippet)
+        {
+            if (CustomerTextSnippets.Contains(snippet))
+            {
+                CustomerTextSnippets.Remove(snippet);
+                Properties.Config.ConfigInstance.Save();
+            }
+            
+        }
+
+        public ObservableCollection<CustomerTextSnippet> CustomerTextSnippets => Properties.Config.ConfigInstance.CustomerTextSnippets;
 
 
         public void ResetToDefault()
@@ -73,13 +108,42 @@ namespace ctxmgr.Page.Settings
             Properties.Config.ConfigInstance.InsertLineDateText = insertLineDateText;
             Properties.Config.ConfigInstance.DoubleClickTitleAction = doubleClickTitleAction;
         }
+        private bool isLoading = true;
         public SettingsViewModel()
         {
+            isLoading = true;
             isAutoStart = Properties.Config.ConfigInstance.RunOnStartUp;
             insertLineText = Properties.Config.ConfigInstance.InsertLineText;
             insertDateText = Properties.Config.ConfigInstance.InsertDateText;
             insertLineDateText = Properties.Config.ConfigInstance.InsertLineDateText;
             doubleClickTitleAction = Properties.Config.ConfigInstance.DoubleClickTitleAction;
+            foreach(var item in CustomerTextSnippets)
+            {
+                item.PropertyChanged -= Item_PropertyChanged;
+                item.PropertyChanged += Item_PropertyChanged;
+            }
+            CustomerTextSnippets.CollectionChanged += CustomerTextSnippets_CollectionChanged;
+            isLoading = false;
+        }
+
+        private void CustomerTextSnippets_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.NewItems != null)
+            {
+                foreach (CustomerTextSnippet item in e.NewItems)
+                    item.PropertyChanged += Item_PropertyChanged;
+            }
+
+            if (e.OldItems != null)
+            {
+                foreach (CustomerTextSnippet item in e.OldItems)
+                    item.PropertyChanged -= Item_PropertyChanged;
+            }
+        }
+        private void Item_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (isLoading) return;
+            Properties.Config.ConfigInstance.Save();
         }
     }
     public partial class CustomerTextSnippet : ObservableObject
@@ -89,6 +153,7 @@ namespace ctxmgr.Page.Settings
 
         public CustomerTextSnippet(string text) {
             Text = text;
+            
         }
     }
 }

@@ -7,6 +7,7 @@
         xmlns:converter="clr-namespace:ctxmgr.Utilities.Converter"
         mc:Ignorable="d"
         xmlns:props="clr-namespace:ctxmgr.Properties"
+        xmlns:utilities="clr-namespace:ctxmgr.Utilities" 
         WindowStartupLocation="CenterOwner"
         WindowStyle="SingleBorderWindow"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
@@ -82,8 +83,8 @@
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBox Grid.Column="0" Margin="4,0,0,0" MaxWidth="520" MaxHeight="80" AcceptsReturn="True"></TextBox>
-                                <Button Grid.Column="1" Content="{x:Static props:Resources.TextSnippetsAdd}" Margin="2"  />
+                                <TextBox Grid.Column="0" Margin="4,0,0,0" utilities:TextBoxHelper.Placeholder="{x:Static props:Resources.NewSnippetPlaceholder}"  Text="{Binding NewTextSnippetTxtBox,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxWidth="520" MaxHeight="80" AcceptsReturn="True"></TextBox>
+                                <Button Grid.Column="1" Command="{Binding AddNewTextSnippetCommand}" Content="{x:Static props:Resources.TextSnippetsAdd}" Margin="2"  />
                             </Grid>
                             <ListBox Grid.Column="0" Height="180"  HorizontalContentAlignment="Stretch" Name="SnippetListBox" Margin="5" ItemsSource="{Binding CustomerTextSnippets}">
                                 <ListBox.ItemTemplate>
@@ -93,8 +94,12 @@
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="Auto"/>
                                             </Grid.ColumnDefinitions>
-                                            <TextBox Grid.Column="0" MaxWidth="340" MaxHeight="80" AcceptsReturn="True" Text="{Binding Text ,Mode=OneWay}" />
-                                            <Button Content="&#x2716;" Grid.Column="1"></Button>
+                                            <TextBox Grid.Column="0" MaxWidth="340" MaxHeight="80" AcceptsReturn="True" Text="{Binding Text ,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"  
+                                                     />
+                                            <Button Content="&#x2716;" Grid.Column="1"
+                                                    Command="{Binding DataContext.DeleteTextSnippetCommand,RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                                    CommandParameter="{Binding }"
+                                                    ></Button>
                                         </Grid>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
