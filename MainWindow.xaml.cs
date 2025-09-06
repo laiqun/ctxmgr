@@ -14,6 +14,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
+using System.Reflection.Metadata;
 using System.Runtime;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -40,24 +41,24 @@ namespace ctxmgr
         DatabaseService service = new ctxmgr.Model.DatabaseService();
         SQLite.SQLiteAsyncConnection db = null;
         private GlobalHotkeyManager _hotkeyManager;
-        private Properties.Config ConfigInstance = null;
+       
         public MainWindow()
         {
             InitializeComponent();
             
             this.ToggleTopmost.IsChecked = this.Topmost;
             // 恢复窗口位置 
-            ConfigInstance = Properties.Config.Load();
-            this.Topmost = ConfigInstance.StayOnTop;
-            this.ToggleTopmost.IsChecked = ConfigInstance.StayOnTop;
+            ctxmgr.Properties.Config.ConfigInstance = Properties.Config.Load();
+            this.Topmost = ctxmgr.Properties.Config.ConfigInstance.StayOnTop;
+            this.ToggleTopmost.IsChecked = ctxmgr.Properties.Config.ConfigInstance.StayOnTop;
 
             {
                 bool isAutoStartEnabled = AutoStartHelper.IsAutoStartEnabled();
                 this.ToggleRunOnStartUp.IsChecked = isAutoStartEnabled;
             }
             #region textwrap
-            TextWrapMenuItem.IsChecked = ConfigInstance.TextWrap;
-            DefaultTextBox.TextWrapping = ConfigInstance.TextWrap ? TextWrapping.Wrap : TextWrapping.NoWrap;
+            TextWrapMenuItem.IsChecked = ctxmgr.Properties.Config.ConfigInstance.TextWrap;
+            DefaultTextBox.TextWrapping = ctxmgr.Properties.Config.ConfigInstance.TextWrap ? TextWrapping.Wrap : TextWrapping.NoWrap;
             foreach (var item in MyTabControl.Items)
             {
                 if (item is TabItem tab && tab.Content is TextBox tb)
@@ -66,15 +67,15 @@ namespace ctxmgr
                 }
             }
             #endregion
-            if (ConfigInstance.WindowLeft >= 0 && ConfigInstance.WindowTop >= 0)
+            if (ctxmgr.Properties.Config.ConfigInstance.WindowLeft >= 0 && ctxmgr.Properties.Config.ConfigInstance.WindowTop >= 0)
             {
                 // 虚拟桌面范围（所有显示器合并后的区域）
-                double left = ConfigInstance.WindowLeft;
-                double top = ConfigInstance.WindowTop;
+                double left = ctxmgr.Properties.Config.ConfigInstance.WindowLeft;
+                double top = ctxmgr.Properties.Config.ConfigInstance.WindowTop;
                 double right = left + this.Width;
                 double bottom = top + this.Height;
-                double width = ConfigInstance.WindowWidth > 0 ? ConfigInstance.WindowWidth : this.Width;
-                double height = ConfigInstance.WindowHeight > 0 ? ConfigInstance.WindowHeight : this.Height;
+                double width = ctxmgr.Properties.Config.ConfigInstance.WindowWidth > 0 ? ctxmgr.Properties.Config.ConfigInstance.WindowWidth : this.Width;
+                double height = ctxmgr.Properties.Config.ConfigInstance.WindowHeight > 0 ? ctxmgr.Properties.Config.ConfigInstance.WindowHeight : this.Height;
 
 
                 double vLeft = SystemParameters.VirtualScreenLeft;
@@ -280,8 +281,8 @@ namespace ctxmgr
         {
             this.Topmost = !this.Topmost;
             this.ToggleTopmost.IsChecked = this.Topmost;
-            ConfigInstance.StayOnTop = this.Topmost;
-            ConfigInstance.Save();
+            ctxmgr.Properties.Config.ConfigInstance.StayOnTop = this.Topmost;
+            ctxmgr.Properties.Config.ConfigInstance.Save();
         }
         #endregion
 
@@ -333,11 +334,11 @@ namespace ctxmgr
 
         private void ExitApp_Click(object sender, RoutedEventArgs e)
         {
-            ConfigInstance.WindowLeft = this.Left;
-            ConfigInstance.WindowTop = this.Top;
-            ConfigInstance.WindowWidth = this.Width;
-            ConfigInstance.WindowHeight = this.Height;
-            ConfigInstance.Save();
+            ctxmgr.Properties.Config.ConfigInstance.WindowLeft = this.Left;
+            ctxmgr.Properties.Config.ConfigInstance.WindowTop = this.Top;
+            ctxmgr.Properties.Config.ConfigInstance.WindowWidth = this.Width;
+            ctxmgr.Properties.Config.ConfigInstance.WindowHeight = this.Height;
+            ctxmgr.Properties.Config.ConfigInstance.Save();
             _saveTimer?.Stop();
             _saveTimer = null;
             System.Windows.Application.Current.Shutdown();
@@ -367,11 +368,11 @@ namespace ctxmgr
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-            ConfigInstance.WindowLeft = this.Left;
-            ConfigInstance.WindowTop = this.Top;
-            ConfigInstance.WindowWidth = this.Width;
-            ConfigInstance.WindowHeight = this.Height;
-            ConfigInstance.Save();
+            ctxmgr.Properties.Config.ConfigInstance.WindowLeft = this.Left;
+            ctxmgr.Properties.Config.ConfigInstance.WindowTop = this.Top;
+            ctxmgr.Properties.Config.ConfigInstance.WindowWidth = this.Width;
+            ctxmgr.Properties.Config.ConfigInstance.WindowHeight = this.Height;
+            ctxmgr.Properties.Config.ConfigInstance.Save();
 
             e.Cancel = true;
             this.Hide();
@@ -404,26 +405,13 @@ namespace ctxmgr
 
         private void NewTab_Click(object sender, RoutedEventArgs e)
         {
-            string uuid = Guid.NewGuid().ToString();
-            var newTextBox = new TextBox
-            {
-                AcceptsReturn = true,
-                TextWrapping = ConfigInstance.TextWrap ? TextWrapping.Wrap : TextWrapping.NoWrap
-            };
-            newTextBox.TextChanged += TextBox_TextChanged;
-            var newItem = new TabItem
-            {
-                Header = $"Tab {MyTabControl.Items.Count}",
-                Tag = uuid,
-                Content = newTextBox
-
-            };
-            SaveTabToDatabaseAsync(db,newItem?.Tag?.ToString(),
-                MyTabControl.Items?.Count.ToString(), newItem?.Header?.ToString(),
+            var tabItem = CreateNewTabImpl($"Tab {MyTabControl.Items.Count}","");
+            SaveTabToDatabaseAsync(db,tabItem?.Tag?.ToString(),
+                MyTabControl.Items?.Count.ToString(), tabItem?.Header?.ToString(),
                 "");
-            TextBoxHelper.SetPlaceholder((TextBox)newItem!.Content, ctxmgr.Properties.Resources.TextBoxHint);
-            MyTabControl!.Items!.Add(newItem);
-            MyTabControl.SelectedItem = newItem;
+            TextBoxHelper.SetPlaceholder((TextBox)tabItem!.Content, ctxmgr.Properties.Resources.TextBoxHint);
+            MyTabControl!.Items!.Add(tabItem);
+            MyTabControl.SelectedItem = tabItem;
             SyncTabsToMenu();
         }
 
@@ -640,8 +628,8 @@ namespace ctxmgr
             this.ToggleRunOnStartUp.IsChecked = !this.ToggleRunOnStartUp.IsChecked;
 
             AutoStartHelper.SetAutoStart(this.ToggleRunOnStartUp.IsChecked == true);
-            ConfigInstance.RunOnStartUp = this.ToggleRunOnStartUp.IsChecked == true;
-            ConfigInstance.Save();
+            ctxmgr.Properties.Config.ConfigInstance.RunOnStartUp = this.ToggleRunOnStartUp.IsChecked == true;
+            ctxmgr.Properties.Config.ConfigInstance.Save();
         }
 
         private void TextWrapMenuItem_Click(object sender, RoutedEventArgs e)
@@ -656,8 +644,8 @@ namespace ctxmgr
             }
 
             // Save preference to config
-            ConfigInstance.TextWrap = TextWrapMenuItem.IsChecked;
-            ConfigInstance.Save();
+            ctxmgr.Properties.Config.ConfigInstance.TextWrap = TextWrapMenuItem.IsChecked;
+            ctxmgr.Properties.Config.ConfigInstance.Save();
 
             // Apply to all tabs if desired
             foreach (var item in MyTabControl.Items)
@@ -741,21 +729,7 @@ namespace ctxmgr
                     TextBoxHelper.SetPlaceholder((TextBox)DefaultTextBox, "");
                     continue;
                 }
-                var newTextBox = new TextBox
-                {
-                    AcceptsReturn = true,
-                    TextWrapping = ConfigInstance.TextWrap ? TextWrapping.Wrap : TextWrapping.NoWrap,
-                    Text = page.Content
-                };
-                TextBoxHelper.SetPlaceholder((TextBox)newTextBox, "");
-                newTextBox.TextChanged += TextBox_TextChanged;
-
-                var tabItem = new TabItem
-                {
-                    Header = page.Title,
-                    Tag = page.Uuid,
-                    Content = newTextBox
-                };
+                var tabItem = CreateNewTabImpl(page.Title,page.Content,page.Uuid);
                 tabInfos.Add((page.Index, tabItem));
             }
             foreach (var info in tabInfos.OrderBy(x => x.SortKey))
@@ -953,7 +927,27 @@ namespace ctxmgr
 
             SaveTabToFileAsync(uuid, id, title, content, filePath);
         }
-
+        private TabItem CreateNewTabImpl(string header,string content,string uuid = null)
+        {
+            var newTextBox = new TextBox
+            {
+                AcceptsReturn = true,
+                TextWrapping = ctxmgr.Properties.Config.ConfigInstance.TextWrap ? TextWrapping.Wrap : TextWrapping.NoWrap,
+                Text = content
+            };
+            TextBoxHelper.SetPlaceholder((TextBox)newTextBox, "");
+            newTextBox.TextChanged += TextBox_TextChanged;
+            if(uuid == null)
+                uuid = Guid.NewGuid().ToString();
+            var tabItem = new TabItem
+            {
+                Header = header,
+                Tag = uuid,
+                Content = newTextBox
+            };
+            tabItem.HeaderTemplate = this.FindResource("DoubleClickableHeader") as DataTemplate;
+            return tabItem;
+        }
         private  async void LoadFromFileMenuItem_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
@@ -976,21 +970,7 @@ namespace ctxmgr
             string title = lines[1];
             string content = string.Join("\n", lines.Skip(2));
 
-            var newTextBox = new TextBox
-            {
-                AcceptsReturn = true,
-                TextWrapping = ConfigInstance.TextWrap ? TextWrapping.Wrap : TextWrapping.NoWrap,
-                Text = content
-            };
-            TextBoxHelper.SetPlaceholder((TextBox)newTextBox, "");
-            newTextBox.TextChanged += TextBox_TextChanged;
-            string uuid = Guid.NewGuid().ToString();
-            var tabItem = new TabItem
-            {
-                Header = title,
-                Tag = uuid,
-                Content = newTextBox
-            };
+            var tabItem = CreateNewTabImpl(title,content);
             MyTabControl.Items.Add(tabItem);
         }
         private async Task SaveTabToFileAsync(
@@ -1002,6 +982,26 @@ namespace ctxmgr
         {
             string text = $"{id}\n{title}\n{content}";
             await System.IO.File.WriteAllTextAsync(filePath, text);
+        }
+
+        private void SettingsMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ctxmgr.Page.Settings.SettingsWindow.Show(this);
+        }
+
+
+        private void TabItemHeader_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (Properties.Config.ConfigInstance.DoubleClickTitleAction == Properties.DoubleClickTitleActionEnum.None)
+                return;
+            if (Properties.Config.ConfigInstance.DoubleClickTitleAction == Properties.DoubleClickTitleActionEnum.EditTitle)
+            {
+                ChangeTitle_Click(sender, e);
+            }
+            else if (Properties.Config.ConfigInstance.DoubleClickTitleAction == Properties.DoubleClickTitleActionEnum.DeletePage)
+            {
+                DelTab_Click(sender, e);
+            }
         }
     }
 }

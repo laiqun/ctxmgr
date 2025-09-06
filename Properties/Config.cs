@@ -3,8 +3,15 @@ using System.Text.Json;
 
 namespace ctxmgr.Properties
 {
+    public enum DoubleClickTitleActionEnum
+    {
+        None,
+        EditTitle,
+        DeletePage
+    }
     public class Config
     {
+        public static Config ConfigInstance = null!;
         private static readonly string SettingsPath = Path.Combine(
             AppDomain.CurrentDomain.BaseDirectory,
             "Config.json"
@@ -17,6 +24,8 @@ namespace ctxmgr.Properties
         public bool StayOnTop{ get; set; } = false;
         public bool RunOnStartUp { get; set; } = false;
         public bool TextWrap { get; set; } = false;
+        public DoubleClickTitleActionEnum DoubleClickTitleAction { set; get; } = DoubleClickTitleActionEnum.None;
+
         public static Config Load()
         {
             if (File.Exists(SettingsPath))

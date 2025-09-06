@@ -30,6 +30,7 @@ namespace ctxmgr.Page.ChangeTitle
 
         }
         private string _result = string.Empty;
+
         public static string Show(string? title, string caption = "",
              Window owner = null)
         {

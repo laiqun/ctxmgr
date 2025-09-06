@@ -47,7 +47,7 @@
             <SolidColorBrush x:Key="TabItem.Selected.Border" Color="#ACACAC"/>
             <SolidColorBrush x:Key="TabItem.Disabled.Background" Color="#F0F0F0"/>
             <SolidColorBrush x:Key="TabItem.Disabled.Border" Color="#D9D9D9"/>
-            <Style x:Key="TabItemStyle1" TargetType="{x:Type TabItem}">
+            <Style x:Key="ListTabItemStyle" TargetType="{x:Type TabItem}">
                 <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
                 <Setter Property="Foreground" Value="Black"/>
                 <Setter Property="Background" Value="{StaticResource TabItem.Static.Background}"/>
@@ -234,6 +234,15 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            <DataTemplate x:Key="DoubleClickableHeader">
+                <Border Background="Transparent"
+                        HorizontalAlignment ="Stretch"
+                        VerticalAlignment="Stretch"
+                                >
+                    <Label Content="{Binding}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="0" Margin="0"
+                           MouseDoubleClick="TabItemHeader_MouseDoubleClick"/>
+                </Border>
+            </DataTemplate>
             <!--<Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type Control}}"></Style>
             <Style TargetType="Menu" BasedOn="{StaticResource {x:Type Control}}"></Style>-->
         </ResourceDictionary>
@@ -296,9 +305,9 @@
             </MenuItem>
             <MenuItem Header="{x:Static props:Resources.Tools}">
                 <MenuItem Header="{x:Static props:Resources.ToggleTopmost}" x:Name="ToggleTopmost" Click="ToggleTopmost_Click"></MenuItem>
-                <MenuItem Header="{x:Static props:Resources.RunOnStartUp}" x:Name="ToggleRunOnStartUp" Click="ToggleRunOnStartUp_Click"></MenuItem>
+                <MenuItem Header="{x:Static props:Resources.RunOnStartUp}" Visibility="Collapsed" x:Name="ToggleRunOnStartUp" Click="ToggleRunOnStartUp_Click"></MenuItem>
                 <Separator></Separator>
-                <MenuItem Header="{x:Static props:Resources.Settings}"></MenuItem>
+                <MenuItem Header="{x:Static props:Resources.Settings}" x:Name="SettingsMenuItem" Click="SettingsMenuItem_Click"></MenuItem>
             </MenuItem>
             <MenuItem Header="{x:Static props:Resources.Help}">
                 <MenuItem Header="{x:Static props:Resources.SoftwareDescription}" x:Name="SoftwareDescriptionMenuItem" Click="SoftwareDescriptionMenuItem_Click" ></MenuItem>
@@ -308,7 +317,7 @@
             </MenuItem>
         </Menu>
         <TabControl Grid.Row="1" x:Name="MyTabControl" MinHeight="180" MouseDoubleClick="MyTabControl_MouseDoubleClick" SelectionChanged="MyTabControl_SelectionChanged" >
-            <TabItem Style="{DynamicResource TabItemStyle1}" x:Name="menuTabItem" Padding="0,0,0,0" Focusable="False" >
+            <TabItem Style="{DynamicResource ListTabItemStyle}" x:Name="menuTabItem" Padding="0,0,0,0" Focusable="False" >
                 <TabItem.Header >
                     <Menu VerticalAlignment="Stretch" Padding="0,0,0,0"  x:Name="ListMenu" BorderThickness="0"  Margin="0" Background="LightGray"
                           >
@@ -322,8 +331,8 @@
                     </Menu>
                 </TabItem.Header>
             </TabItem>
-            <TabItem Header="Tab 1" x:Name="DefaultTabItem" IsSelected="True">
-                <TextBox   x:Name="DefaultTextBox" utilities:TextBoxHelper.Placeholder="{x:Static props:Resources.TextBoxHint}"  AcceptsReturn="True" TextWrapping="NoWrap"  TextChanged="TextBox_TextChanged" VerticalScrollBarVisibility="Auto"></TextBox>
+            <TabItem HeaderTemplate="{DynamicResource DoubleClickableHeader}" Header="Tab 1" x:Name="DefaultTabItem" IsSelected="True" MouseDoubleClick="TabItemHeader_MouseDoubleClick">
+                <TextBox   x:Name="DefaultTextBox"  utilities:TextBoxHelper.Placeholder="{x:Static props:Resources.TextBoxHint}"  AcceptsReturn="True" TextWrapping="NoWrap"  TextChanged="TextBox_TextChanged" VerticalScrollBarVisibility="Auto"></TextBox>
             </TabItem>
         </TabControl>
 

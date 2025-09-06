@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ctxmgr.Page.MessageBox;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,17 @@ namespace ctxmgr.Page.Settings
         public SettingsWindow()
         {
             InitializeComponent();
+        }
+ 
+
+        public static void Show(
+             Window owner)
+        {
+            var vm = new SettingsViewModel();
+            var settingWindow = new SettingsWindow();
+            settingWindow.Owner = owner;
+            settingWindow.DataContext = vm;
+            settingWindow.ShowDialog();
         }
     }
 }

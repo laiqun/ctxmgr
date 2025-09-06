@@ -4,44 +4,56 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ctxmgr.Page.Settings"
+        xmlns:converter="clr-namespace:ctxmgr.Utilities.Converter"
         mc:Ignorable="d"
         xmlns:props="clr-namespace:ctxmgr.Properties"
         ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner"
         WindowStyle="SingleBorderWindow"
         Title="{x:Static props:Resources.SettingsWindowTitle}" Height="380" Width="420"
         >
+    <Window.Resources>
+        <converter:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
+    </Window.Resources>
     <Grid>
         <TabControl>
             <TabItem Header="{x:Static props:Resources.General}">
                 <StackPanel>
                     <GroupBox Header="{x:Static props:Resources.GeneralOptions}">
                         <StackPanel>
-                            <CheckBox Content="{x:Static props:Resources.GeneralAutoStart}" Margin="10"/>
-                            <CheckBox Content="{x:Static props:Resources.GeneralCloseToTray}" Margin="10"/>
+                            <CheckBox Content="{x:Static props:Resources.GeneralAutoStart}" Margin="10" IsChecked="{Binding  IsAutoStart,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                            <!-- <CheckBox Content="{x:Static props:Resources.GeneralCloseToTray}" Margin="10"/> -->
                         </StackPanel>
                     </GroupBox>
                     <GroupBox Header="{x:Static props:Resources.DblClickTitleAction}">
                         <StackPanel Orientation="Horizontal" Margin="4">
-                            <RadioButton Content="{x:Static props:Resources.DblClickTitleActionNone}" Margin="2"></RadioButton>
-                            <RadioButton Content="{x:Static props:Resources.DblClickTitleActionDelete}" Margin="2"></RadioButton>
-                            <RadioButton Content="{x:Static props:Resources.DblClickTitleActionRename}" Margin="2"></RadioButton>
+                            <RadioButton Content="{x:Static props:Resources.DblClickTitleActionNone}" Margin="2"
+                                         IsChecked="{Binding DoubleClickTitleAction, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static props:DoubleClickTitleActionEnum.None}}"
+                                         GroupName="DoubleClickActionGroup"></RadioButton>
+                            <RadioButton Content="{x:Static props:Resources.DblClickTitleActionRename}" Margin="2"
+                                         IsChecked="{Binding DoubleClickTitleAction, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static props:DoubleClickTitleActionEnum.EditTitle}}"
+                                         GroupName="DoubleClickActionGroup"></RadioButton>
+                            <RadioButton Content="{x:Static props:Resources.DblClickTitleActionDelete}" Margin="2"
+                                         IsChecked="{Binding DoubleClickTitleAction, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static props:DoubleClickTitleActionEnum.DeletePage}}"
+                                         GroupName="DoubleClickActionGroup"></RadioButton>
                         </StackPanel>
                     </GroupBox>
-                    <Button Content="{x:Static props:Resources.ResetToDefault}" Padding="5" Margin="15 40"></Button>
+                    <!-- <Button Content="{x:Static props:Resources.ResetToDefault}" Padding="5" Margin="15 40"></Button>-->
                 </StackPanel>
             </TabItem>
             <TabItem Header="{x:Static props:Resources.Shortcuts}">
                 <GroupBox Header="{x:Static props:Resources.ShortcutsShowOrHide}">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="15"/>
+                            <ColumnDefinition Width="85"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <StackPanel Grid.Column="0">
+                        <StackPanel Grid.Column="0" Grid.ColumnSpan="2">
                             <Label Content="{x:Static props:Resources.ShortcutsShowOrHideBasicKey}" Margin="5"/>
                             <Label Content="{x:Static props:Resources.ShortcutsShowOrHideCombineKey}" Margin="5"/>
                         </StackPanel>
-                        <StackPanel Grid.Column="1">
+                        <StackPanel Grid.Column="2">
                             <TextBox  Margin="5"></TextBox>
                             <Border Margin="5">
                                 <StackPanel>
@@ -72,13 +84,13 @@
                             <ListBox Grid.Column="0" Height="180" Name="SnippetListBox" Margin="5"/>
                             <Grid Grid.Column="1">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
-                                <Button Grid.Row="0" Content="{x:Static props:Resources.TextSnippetsAdd}" Margin="5"/>
+                                <Button Grid.Row="0" Content="{x:Static props:Resources.TextSnippetsAdd}" Margin="2"/>
                                 <Button Grid.Row="1" Content="{x:Static props:Resources.TextSnippetsEdit}" Margin="5"/>
-                                <Button Grid.Row="2" Content="{x:Static props:Resources.TextSnippetsDel}" Margin="5"/>
+                                <Button Grid.Row="2" Content="{x:Static props:Resources.TextSnippetsDel}" Margin="5,40,5,5"/>
                             </Grid>
                         </Grid>
                     </GroupBox>
