@@ -51,9 +51,9 @@ namespace ctxmgr.Page.Settings
 
         public void ResetToDefault()
         {
-            var insertLineText = "crlf() + chars('-', 80) + crlf()";
-            var insertDateText = "yyyy-mm-dd hh:mm:ss:ms";
-            var insertLineDateText = "crlf() + chars('-', 29) + ' ' + dateTime() + ' ' + chars('-', 30) + crlf()";
+            var insertLineText = Properties.ConstVariables.INSERT_LINE_TEXT;
+            var insertDateText = Properties.ConstVariables.INSERT_DATE_TEXT;
+            var insertLineDateText = Properties.ConstVariables.INSERT_LINE_DATE_TEXT;
             var doubleClickTitleAction = Properties.DoubleClickTitleActionEnum.None;
 
             InsertLineText = insertLineText;

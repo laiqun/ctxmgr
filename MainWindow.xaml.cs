@@ -525,7 +525,7 @@ namespace ctxmgr
             if (activeTextBox == null) return;
 
             // Create a separator line (80 dashes)
-            string separator = new string('-', 80);
+            string separator = TextSnippetsHelper.ProccessCharsFunc(Properties.Config.ConfigInstance.InsertLineText);
 
             // Insert the separator at the current caret position
             int caretIndex = activeTextBox.CaretIndex;
@@ -549,7 +549,7 @@ namespace ctxmgr
 
         private void InsertDateTimeMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            var currentDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            var currentDateTime = DateTime.Now.ToString(Properties.Config.ConfigInstance.InsertDateText);
             InsertTextAtCursor(currentDateTime);
         }
 
@@ -561,9 +561,9 @@ namespace ctxmgr
 
             TextBox activeTextBox = selectedTab.Content as TextBox;
             if (activeTextBox == null) return;
-            var separator = new string('-', 20);
-            var currentDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            var formattedText = $"{separator} {currentDateTime} {separator}";
+
+            var currentDateTime = TextSnippetsHelper.ProcessCharsAndDateTime(Properties.Config.ConfigInstance.InsertLineDateText, Properties.Config.ConfigInstance.InsertDateText);
+            var formattedText = currentDateTime;
             // Insert the separator at the current caret position
             int caretIndex = activeTextBox.CaretIndex;
 
@@ -657,9 +657,9 @@ namespace ctxmgr
             }
         }
         #region tab persistence
-        private string DataFolder => System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data");
+        
         private string DataFile => System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data.db");
-        private string GetTabFilePath(string uuid) => System.IO.Path.Combine(DataFolder, $"{uuid}.txt");
+        
         private async void UpdateTabsIndexAsync(SQLite.SQLiteAsyncConnection db,
             string? uuid,
             long index) {

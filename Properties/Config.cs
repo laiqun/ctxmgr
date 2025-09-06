@@ -24,9 +24,9 @@ namespace ctxmgr.Properties
         public bool StayOnTop{ get; set; } = false;
         public bool RunOnStartUp { get; set; } = false;
         public bool TextWrap { get; set; } = false;
-        public string InsertLineText { get; set; } = "crlf() + chars('-', 80) + crlf()";
-        public string InsertDateText { get; set; } = "yyyy-mm-dd hh:mm:ss:ms";
-        public string InsertLineDateText { get; set; } = "crlf() + chars('-', 29) + ' ' + dateTime() + ' ' + chars('-', 30) + crlf()";
+        public string InsertLineText { get; set; } = Properties.ConstVariables.INSERT_LINE_TEXT;
+        public string InsertDateText { get; set; } = Properties.ConstVariables.INSERT_DATE_TEXT;
+        public string InsertLineDateText { get; set; } = Properties.ConstVariables.INSERT_LINE_DATE_TEXT;
         public DoubleClickTitleActionEnum DoubleClickTitleAction { set; get; } = DoubleClickTitleActionEnum.None;
 
         public static Config Load()
