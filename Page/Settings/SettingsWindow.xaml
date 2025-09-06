@@ -7,9 +7,9 @@
         xmlns:converter="clr-namespace:ctxmgr.Utilities.Converter"
         mc:Ignorable="d"
         xmlns:props="clr-namespace:ctxmgr.Properties"
-        ResizeMode="NoResize"
         WindowStartupLocation="CenterOwner"
         WindowStyle="SingleBorderWindow"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
         Title="{x:Static props:Resources.SettingsWindowTitle}" Height="380" Width="420"
         >
     <Window.Resources>
@@ -76,23 +76,30 @@
                     <Label Content="{x:Static props:Resources.InsertDateTimeSeparatorFormat}"></Label>
                     <TextBox Text="{Binding InsertLineDateText,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
                     <GroupBox Header="{x:Static props:Resources.TextSnippetsCustom}">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="70"/>
-                            </Grid.ColumnDefinitions>
-                            <ListBox Grid.Column="0" Height="180" Name="SnippetListBox" Margin="5"/>
-                            <Grid Grid.Column="1">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-                                <Button Grid.Row="0" Content="{x:Static props:Resources.TextSnippetsAdd}" Margin="2"/>
-                                <Button Grid.Row="1" Content="{x:Static props:Resources.TextSnippetsEdit}" Margin="5"/>
-                                <Button Grid.Row="2" Content="{x:Static props:Resources.TextSnippetsDel}" Margin="5,40,5,5"/>
+                        <StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox Grid.Column="0" Margin="4,0,0,0" MaxWidth="520" MaxHeight="80" AcceptsReturn="True"></TextBox>
+                                <Button Grid.Column="1" Content="{x:Static props:Resources.TextSnippetsAdd}" Margin="2"  />
                             </Grid>
-                        </Grid>
+                            <ListBox Grid.Column="0" Height="180"  HorizontalContentAlignment="Stretch" Name="SnippetListBox" Margin="5" ItemsSource="{Binding CustomerTextSnippets}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid  MaxWidth="540">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBox Grid.Column="0" MaxWidth="340" MaxHeight="80" AcceptsReturn="True" Text="{Binding Text ,Mode=OneWay}" />
+                                            <Button Content="&#x2716;" Grid.Column="1"></Button>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </StackPanel>
                     </GroupBox>
                 </StackPanel>
             </TabItem>

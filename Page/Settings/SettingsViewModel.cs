@@ -1,11 +1,13 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using ctxmgr.Properties;
+using ctxmgr.Utilities;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CommunityToolkit.Mvvm.ComponentModel;
-using ctxmgr.Properties;
-using ctxmgr.Utilities;
+using System.Xml.Linq;
 
 namespace ctxmgr.Page.Settings
 {
@@ -49,6 +51,11 @@ namespace ctxmgr.Page.Settings
             Properties.Config.ConfigInstance.InsertLineDateText = value;
         }
 
+        public ObservableCollection<CustomerTextSnippet> CustomerTextSnippets { get; set; } =  new ObservableCollection<CustomerTextSnippet>() { 
+            new CustomerTextSnippet("test1 "),new CustomerTextSnippet("test2 "),
+        };
+
+
         public void ResetToDefault()
         {
             var insertLineText = Properties.ConstVariables.INSERT_LINE_TEXT;
@@ -73,6 +80,15 @@ namespace ctxmgr.Page.Settings
             insertDateText = Properties.Config.ConfigInstance.InsertDateText;
             insertLineDateText = Properties.Config.ConfigInstance.InsertLineDateText;
             doubleClickTitleAction = Properties.Config.ConfigInstance.DoubleClickTitleAction;
+        }
+    }
+    public partial class CustomerTextSnippet : ObservableObject
+    {
+        [ObservableProperty]
+        private string text;
+
+        public CustomerTextSnippet(string text) {
+            Text = text;
         }
     }
 }
