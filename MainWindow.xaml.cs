@@ -51,6 +51,14 @@ namespace ctxmgr
             // 恢复窗口位置 
             ctxmgr.Properties.Config.ConfigInstance = Properties.Config.Load();
             DynamicMenusContainer.Collection = ctxmgr.Properties.Config.ConfigInstance.CustomerTextSnippets;
+            if(ctxmgr.Properties.Config.ConfigInstance.Theme == Properties.ThemeMode.Dark)
+            {
+                SwitchTheme(true);
+            }
+            else
+            {
+                SwitchTheme(false);
+            }
             this.Topmost = ctxmgr.Properties.Config.ConfigInstance.StayOnTop;
             this.ToggleTopmost.IsChecked = ctxmgr.Properties.Config.ConfigInstance.StayOnTop;
 
@@ -349,18 +357,31 @@ namespace ctxmgr
         private void LightMode_Click(object sender, RoutedEventArgs e)
         {
             SwitchTheme(false);
+            ctxmgr.Properties.Config.ConfigInstance.Theme = Properties.ThemeMode.Light;
+            ctxmgr.Properties.Config.ConfigInstance.Save();
         }
 
         private void DarkMode_Click(object sender, RoutedEventArgs e)
         {
             SwitchTheme(true);
+            ctxmgr.Properties.Config.ConfigInstance.Theme = Properties.ThemeMode.Dark;
+            ctxmgr.Properties.Config.ConfigInstance.Save();
         }
         public void SwitchTheme(bool isDarkMode)
         {
             var uri = isDarkMode
                 ? new Uri("Themes/DarkTheme.xaml", UriKind.Relative)
                 : new Uri("Themes/LightTheme.xaml", UriKind.Relative);
-
+            if (isDarkMode)
+            {
+                LightMode.Visibility = Visibility.Visible;
+                DarkMode.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                LightMode.Visibility = Visibility.Collapsed;
+                DarkMode.Visibility = Visibility.Visible;
+            }
             var newTheme = new ResourceDictionary { Source = uri };
             System.Windows.Application.Current.Resources.MergedDictionaries.Clear();
             System.Windows.Application.Current.Resources.MergedDictionaries.Add(newTheme);

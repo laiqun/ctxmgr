@@ -2,4 +2,5 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <SolidColorBrush x:Key="BackgroundBrush" Color="#1E1E1E"/>
     <SolidColorBrush x:Key="TextBrush" Color="White"/>
+    <FontFamily x:Key="FontF" >Resources/#Google Sans Code Light</FontFamily>
 </ResourceDictionary>

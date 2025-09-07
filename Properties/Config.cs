@@ -11,6 +11,10 @@ namespace ctxmgr.Properties
         EditTitle,
         DeletePage
     }
+    public enum ThemeMode { 
+        Dark,
+        Light
+    }
     public class Config
     {
         public static Config ConfigInstance = null!;
@@ -25,6 +29,7 @@ namespace ctxmgr.Properties
         public int PageIndex { get; set; } = -1;
         public bool StayOnTop{ get; set; } = false;
         public bool RunOnStartUp { get; set; } = false;
+        public ThemeMode Theme { get; set; } = ThemeMode.Dark;
         public bool TextWrap { get; set; } = false;
         public string InsertLineText { get; set; } = Properties.ConstVariables.INSERT_LINE_TEXT;
         public string InsertDateText { get; set; } = Properties.ConstVariables.INSERT_DATE_TEXT;
