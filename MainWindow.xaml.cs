@@ -1004,5 +1004,10 @@ namespace ctxmgr
                 DelTab_Click(sender, e);
             }
         }
+
+        private void InsertTextSettingMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ctxmgr.Page.Settings.SettingsWindow.Show(this,true);
+        }
     }
 }

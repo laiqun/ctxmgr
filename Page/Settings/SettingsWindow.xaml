@@ -11,7 +11,7 @@
         WindowStartupLocation="CenterOwner"
         WindowStyle="SingleBorderWindow"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
-        Title="{x:Static props:Resources.SettingsWindowTitle}" Height="380" Width="420"
+        Title="{x:Static props:Resources.SettingsWindowTitle}" Height="450" Width="420"
         >
     <Window.Resources>
         <converter:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
@@ -68,7 +68,7 @@
                     </Grid>
                 </GroupBox>
             </TabItem>
-            <TabItem Header="{x:Static props:Resources.TextSnippets}">
+            <TabItem Header="{x:Static props:Resources.TextSnippets}" x:Name="TextSnippetsTabItem">
                 <StackPanel>
                     <Label Content="{x:Static props:Resources.InsertSeparatorFormat}"></Label>
                     <TextBox Text="{Binding InsertLineText,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>

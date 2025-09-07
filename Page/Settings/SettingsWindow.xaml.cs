@@ -27,12 +27,14 @@ namespace ctxmgr.Page.Settings
  
 
         public static void Show(
-             Window owner)
+             Window owner,bool isTextSnippets = false)
         {
             var vm = new SettingsViewModel();
             var settingWindow = new SettingsWindow();
             settingWindow.Owner = owner;
             settingWindow.DataContext = vm;
+            if(isTextSnippets)
+                settingWindow.TextSnippetsTabItem.IsSelected = true;
             settingWindow.ShowDialog();
         }
 
