@@ -1,6 +1,7 @@
 ﻿using ctxmgr.Model;
 using ctxmgr.Page.ChangeTitle;
 using ctxmgr.Page.MessageBox;
+using ctxmgr.Page.Settings;
 using ctxmgr.Utilities;
 using IWshRuntimeLibrary;
 using Microsoft.VisualBasic;
@@ -1008,6 +1009,18 @@ namespace ctxmgr
         private void InsertTextSettingMenuItem_Click(object sender, RoutedEventArgs e)
         {
             ctxmgr.Page.Settings.SettingsWindow.Show(this,true);
+        }
+        private void InsertCustomerTextSnippetMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            
+            var menuItem = sender as MenuItem;
+            if(menuItem == null)
+                return;
+            var data = menuItem.DataContext as CustomerTextSnippet;
+            if(data == null)
+                return;
+
+            InsertTextAtCursor(data.Text);
         }
     }
 }

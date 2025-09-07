@@ -324,6 +324,7 @@
                         <Setter Property="Header" Value="{Binding DisplayText}"/>
                         <Setter Property="HorizontalContentAlignment" Value="Left"/>
                         <Setter Property="VerticalContentAlignment" Value="Center"/>
+                        <EventSetter Event="Click" Handler="InsertCustomerTextSnippetMenuItem_Click" />
                     </Style>
                 </MenuItem.ItemContainerStyle>
             </MenuItem>
