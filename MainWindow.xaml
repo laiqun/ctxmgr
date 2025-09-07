@@ -13,8 +13,8 @@
         LocationChanged="MainWindowInstance_LocationChanged"
         SizeChanged="MainWindowInstance_SizeChanged"
         KeyDown="Window_KeyDown" Background="{DynamicResource BackgroundBrush}"  Foreground="{DynamicResource TextBrush}"
-        Topmost="True" Closing="Window_Closing" BorderThickness="1" SizeToContent="Height"
-        Title="FlashPad" Height="200" Width="800"
+        Topmost="True" Closing="Window_Closing" BorderThickness="1" 
+        Title="FlashPad" Height="600" Width="800"
         
         >
     <Window.Resources>
