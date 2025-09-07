@@ -11,6 +11,7 @@
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterOwner"
         Closing="Window_Closing"
+        FontFamily="Resources/#Google Sans Code Light"
         Title="{x:Static props:Resources.About}" Height="300" Width="400">
     <Border Padding="20">
         <StackPanel HorizontalAlignment="Center" Width="300">
