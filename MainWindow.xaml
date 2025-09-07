@@ -23,7 +23,7 @@
                 <Setter Property="Background" Value="{DynamicResource BackgroundBrush}"/>
                 <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
                 <Setter Property="BorderBrush" Value="{DynamicResource BackgroundBrush}"/>
-                <Setter Property="FontFamily" Value="{DynamicResource FontF}"/>
+                <Setter Property="FontFamily" Value="{StaticResource PrimaryFont}"/>
                 <Setter Property="BorderThickness" Value="0"/>
             </Style>
 

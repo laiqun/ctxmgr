@@ -12,13 +12,9 @@
                 <Setter Property="HorizontalContentAlignment" Value="Left"/>
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
             </Style>
-            <FontFamily x:Key="PrimaryFont" >./Resources/GoogleSansCode[wght].ttf#Google Sans Code</FontFamily>
-            <Style TargetType="{x:Type TextBox}">
-                <Setter Property="FontFamily" Value="PrimaryFont"/>
-                <Setter Property="FontSize" Value="14"/>
-            </Style>
+            <FontFamily x:Key="PrimaryFont" >pack://application:,,,/Resources/GoogleSansCode[wght].ttf#Google Sans Code</FontFamily>
             <Style TargetType="{x:Type Window}">
-                <Setter Property="FontFamily" Value="PrimaryFont"/>
+                <Setter Property="FontFamily" Value="{StaticResource PrimaryFont}"/>
             </Style>
         </ResourceDictionary>
     </Application.Resources>

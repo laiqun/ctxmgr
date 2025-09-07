@@ -369,6 +369,7 @@ namespace ctxmgr
         }
         public void SwitchTheme(bool isDarkMode)
         {
+            Debug.WriteLine(DefaultTextBox.FontFamily.Source);
             var uri = isDarkMode
                 ? new Uri("Themes/DarkTheme.xaml", UriKind.Relative)
                 : new Uri("Themes/LightTheme.xaml", UriKind.Relative);
