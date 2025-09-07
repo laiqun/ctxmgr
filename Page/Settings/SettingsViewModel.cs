@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Security.RightsManagement;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -149,11 +150,22 @@ namespace ctxmgr.Page.Settings
     public partial class CustomerTextSnippet : ObservableObject
     {
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(DisplayText))]
         private string text;
 
         public CustomerTextSnippet(string text) {
             Text = text;
-            
+        }
+        public string DisplayText
+        {
+            get
+            {
+                if (Text.Length > 10)
+                {
+                    return Text.Substring(0, 10) + "...";
+                }
+                return Text;
+            }
         }
     }
 }

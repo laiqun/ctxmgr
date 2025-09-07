@@ -48,4 +48,5 @@ namespace ctxmgr.Properties
             File.WriteAllText(SettingsPath, json);
         }
     }
+
 }

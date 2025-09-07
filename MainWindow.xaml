@@ -8,6 +8,7 @@
         xmlns:utilities="clr-namespace:ctxmgr.Utilities" 
         x:Name="MainWindowInstance"
         xmlns:props="clr-namespace:ctxmgr.Properties"
+        xmlns:settings="clr-namespace:ctxmgr.Page.Settings"
         mc:Ignorable="d"
         LocationChanged="MainWindowInstance_LocationChanged"
         SizeChanged="MainWindowInstance_SizeChanged"
@@ -297,11 +298,23 @@
                 <MenuItem Header="{x:Static props:Resources.TextWrap}" IsCheckable="True" x:Name="TextWrapMenuItem" Click="TextWrapMenuItem_Click"></MenuItem>
             </MenuItem>
             <MenuItem Header="{x:Static props:Resources.Insert}">
-                <MenuItem Header="{x:Static props:Resources.InsertSeparator}" x:Name="InsertSeparatorMenuItem" Click="InsertSeparatorMenuItem_Click"></MenuItem>
-                <MenuItem Header="{x:Static props:Resources.InsertDateTime}" x:Name="InsertDateTimeMenuItem" Click="InsertDateTimeMenuItem_Click"></MenuItem>
-                <MenuItem Header="{x:Static props:Resources.InsertDateTimeSeparator}" x:Name="InsertDateTimeSeparator" Click="InsertDateTimeSeparator_Click"></MenuItem>
-                <Separator></Separator>
-                <MenuItem Header="{x:Static props:Resources.InsertTextSetting}"></MenuItem>
+                <MenuItem.ItemsSource>
+                    <CompositeCollection>
+                        <MenuItem Header="{x:Static props:Resources.InsertSeparator}" x:Name="InsertSeparatorMenuItem" Click="InsertSeparatorMenuItem_Click"></MenuItem>
+                        <MenuItem Header="{x:Static props:Resources.InsertDateTime}" x:Name="InsertDateTimeMenuItem" Click="InsertDateTimeMenuItem_Click"></MenuItem>
+                        <MenuItem Header="{x:Static props:Resources.InsertDateTimeSeparator}" x:Name="InsertDateTimeSeparator" Click="InsertDateTimeSeparator_Click"></MenuItem>
+                        <Separator></Separator>
+                        <CollectionContainer x:Name="DynamicMenusContainer" />
+                        <!-- Collection="{Binding CustomerTextSnippets}" -->
+                        <Separator></Separator>
+                        <MenuItem Header="{x:Static props:Resources.InsertTextSetting}"></MenuItem>
+                    </CompositeCollection>
+                </MenuItem.ItemsSource>
+                <MenuItem.ItemTemplate>
+                    <DataTemplate DataType="{x:Type settings:CustomerTextSnippet}">
+                        <TextBlock Text="{Binding DisplayText}"/>
+                    </DataTemplate>
+                </MenuItem.ItemTemplate>
             </MenuItem>
             <MenuItem Header="{x:Static props:Resources.Tools}">
                 <MenuItem Header="{x:Static props:Resources.ToggleTopmost}" x:Name="ToggleTopmost" Click="ToggleTopmost_Click"></MenuItem>
