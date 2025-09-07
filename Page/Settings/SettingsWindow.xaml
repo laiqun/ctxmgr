@@ -12,7 +12,6 @@
         WindowStyle="SingleBorderWindow"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         Title="{x:Static props:Resources.SettingsWindowTitle}" Height="450" Width="420"
-        FontFamily="Resources/#Google Sans Code Light"
         >
     <Window.Resources>
         <converter:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />

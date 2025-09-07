@@ -13,7 +13,6 @@
         Background="Transparent"
         Topmost="True"
         Title="{x:Static props:Resources.Confirm}" Height="140" Width="272"
-        FontFamily="Resources/#Google Sans Code Light"
         >
     <Border Background="#FFF0F0F0" 
             CornerRadius="4" 

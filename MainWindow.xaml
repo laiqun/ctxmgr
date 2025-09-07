@@ -360,7 +360,7 @@
                 </TabItem.Header>
             </TabItem>
             <TabItem HeaderTemplate="{DynamicResource DoubleClickableHeader}" Header="Tab 1" x:Name="DefaultTabItem" IsSelected="True" MouseDoubleClick="TabItemHeader_MouseDoubleClick">
-                <TextBox   x:Name="DefaultTextBox"  utilities:TextBoxHelper.Placeholder="{x:Static props:Resources.TextBoxHint}"  AcceptsReturn="True" TextWrapping="NoWrap"  TextChanged="TextBox_TextChanged" VerticalScrollBarVisibility="Auto"></TextBox>
+                <TextBox   x:Name="DefaultTextBox"  utilities:TextBoxHelper.Placeholder="{x:Static props:Resources.TextBoxHint}"  AcceptsReturn="True" TextWrapping="NoWrap"  TextChanged="TextBox_TextChanged" VerticalScrollBarVisibility="Auto"/>
             </TabItem>
         </TabControl>
 

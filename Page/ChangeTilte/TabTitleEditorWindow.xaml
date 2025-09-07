@@ -12,7 +12,6 @@
         AllowsTransparency="True"
         Background="Transparent"
         Topmost="True"
-        FontFamily="Resources/#Google Sans Code Light"
         Title="{x:Static props:Resources.TabTitleEditor}" Height="140" Width="272">
     <Border Background="#FFF0F0F0" 
             CornerRadius="4" 

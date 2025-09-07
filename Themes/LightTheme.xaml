@@ -2,5 +2,4 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <SolidColorBrush x:Key="BackgroundBrush" Color="White"/>
     <SolidColorBrush x:Key="TextBrush" Color="#000000"/>
-    <FontFamily x:Key="FontF" >Microsoft YaHei UI</FontFamily>
 </ResourceDictionary>

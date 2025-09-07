@@ -15,6 +15,15 @@ namespace ctxmgr.Properties
         Dark,
         Light
     }
+    public class  FontSetting
+    {
+        public int FontSize = 12;
+        public bool IsBold = false;
+        public bool IsItalic = false;
+        public bool IsUnderLine = false;
+        public string FontFamily = "Microsoft YaHei UI";
+        public long FontColor = 0xffffffff;
+    }
     public class Config
     {
         public static Config ConfigInstance = null!;
@@ -30,6 +39,8 @@ namespace ctxmgr.Properties
         public bool StayOnTop{ get; set; } = false;
         public bool RunOnStartUp { get; set; } = false;
         public ThemeMode Theme { get; set; } = ThemeMode.Dark;
+        public long BackgroundColor { get; set; } = 0x00000000;
+        public FontSetting Font { get; set; } = new FontSetting();
         public bool TextWrap { get; set; } = false;
         public string InsertLineText { get; set; } = Properties.ConstVariables.INSERT_LINE_TEXT;
         public string InsertDateText { get; set; } = Properties.ConstVariables.INSERT_DATE_TEXT;
