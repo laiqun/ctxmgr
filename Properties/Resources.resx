@@ -360,4 +360,7 @@
   <data name="BgColor" xml:space="preserve">
     <value>_Background Color</value>
   </data>
+  <data name="AboutWindowTitle" xml:space="preserve">
+    <value>About</value>
+  </data>
 </root>

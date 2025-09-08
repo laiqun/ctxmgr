@@ -360,4 +360,7 @@
   <data name="BgColor" xml:space="preserve">
     <value>背景色(_B)</value>
   </data>
+  <data name="AboutWindowTitle" xml:space="preserve">
+    <value>关于</value>
+  </data>
 </root>

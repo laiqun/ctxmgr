@@ -325,11 +325,12 @@ namespace ctxmgr
 
         #endregion
 
-        private Page.About.AboutWindow aboutDialog = new Page.About.AboutWindow();
+        
         private void About_Click(object sender, RoutedEventArgs e)
         {
+            var aboutDialog = new Page.About.AboutWindow();
             aboutDialog.Owner = this;
-            aboutDialog.Show();
+            aboutDialog.ShowDialog();
         }
 
         private void HideWindow_Click(object sender, RoutedEventArgs e)

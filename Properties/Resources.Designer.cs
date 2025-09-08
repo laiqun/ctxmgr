@@ -70,6 +70,15 @@ namespace ctxmgr.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to About.
+        /// </summary>
+        public static string AboutWindowTitle {
+            get {
+                return ResourceManager.GetString("AboutWindowTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to register the global hotkey Alt+Z.
         /// </summary>
         public static string AltZRegistrationFailed {
