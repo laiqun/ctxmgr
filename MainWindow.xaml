@@ -351,6 +351,9 @@
                 <Separator></Separator>
                 <MenuItem Header="{x:Static props:Resources.Settings}" x:Name="SettingsMenuItem" Click="SettingsMenuItem_Click"></MenuItem>
             </MenuItem>
+            <MenuItem Header="{x:Static props:Resources.Plugin}">
+                <MenuItem Header="BMI" ></MenuItem>
+            </MenuItem>
             <MenuItem Header="{x:Static props:Resources.Help}">
                 <MenuItem Header="{x:Static props:Resources.SoftwareDescription}" x:Name="SoftwareDescriptionMenuItem" Click="SoftwareDescriptionMenuItem_Click" ></MenuItem>
                 <MenuItem Header="{x:Static props:Resources.ShortcutList}"></MenuItem>

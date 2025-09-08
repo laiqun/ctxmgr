@@ -51,6 +51,7 @@ namespace ctxmgr
             
             this.ToggleTopmost.IsChecked = this.Topmost;
             // 恢复窗口位置 
+            ctxmgr.Properties.Config.ConfigInstance = ctxmgr.Properties.Config.Load();
             this.DataContext = ctxmgr.Properties.Config.ConfigInstance.Style;
             DynamicMenusContainer.Collection = ctxmgr.Properties.Config.ConfigInstance.CustomerTextSnippets;
             

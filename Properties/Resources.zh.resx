@@ -363,4 +363,7 @@
   <data name="AboutWindowTitle" xml:space="preserve">
     <value>关于</value>
   </data>
+  <data name="Plugin" xml:space="preserve">
+    <value>插件(_P)</value>
+  </data>
 </root>
