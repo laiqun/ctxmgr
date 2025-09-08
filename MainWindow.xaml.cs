@@ -51,16 +51,9 @@ namespace ctxmgr
             
             this.ToggleTopmost.IsChecked = this.Topmost;
             // 恢复窗口位置 
-            ctxmgr.Properties.Config.ConfigInstance = Properties.Config.Load();
+            this.DataContext = ctxmgr.Properties.Config.ConfigInstance.Style;
             DynamicMenusContainer.Collection = ctxmgr.Properties.Config.ConfigInstance.CustomerTextSnippets;
-            if(ctxmgr.Properties.Config.ConfigInstance.Theme == Properties.ThemeMode.Dark)
-            {
-                SwitchTheme(true);
-            }
-            else
-            {
-                SwitchTheme(false);
-            }
+            
             this.Topmost = ctxmgr.Properties.Config.ConfigInstance.StayOnTop;
             this.ToggleTopmost.IsChecked = ctxmgr.Properties.Config.ConfigInstance.StayOnTop;
 
@@ -358,27 +351,21 @@ namespace ctxmgr
 
         private void LightMode_Click(object sender, RoutedEventArgs e)
         {
-            SwitchTheme(false);
-            ctxmgr.Properties.Config.ConfigInstance.Theme = Properties.ThemeMode.Light;
+            ctxmgr.Properties.Config.ConfigInstance.Style.FontColor = 0xff000000;
+
+            ctxmgr.Properties.Config.ConfigInstance.Style.BackgroundColor = 0xffffffff;
+
             ctxmgr.Properties.Config.ConfigInstance.Save();
         }
 
         private void DarkMode_Click(object sender, RoutedEventArgs e)
         {
-            SwitchTheme(true);
-            ctxmgr.Properties.Config.ConfigInstance.Theme = Properties.ThemeMode.Dark;
+            ctxmgr.Properties.Config.ConfigInstance.Style.FontColor = 0xffffffff;
+
+            ctxmgr.Properties.Config.ConfigInstance.Style.BackgroundColor = 0xff000000;
             ctxmgr.Properties.Config.ConfigInstance.Save();
         }
-        public void SwitchTheme(bool isDarkMode)
-        {
-            Debug.WriteLine(DefaultTextBox.FontFamily.Source);
-            var uri = isDarkMode
-                ? new Uri("Themes/DarkTheme.xaml", UriKind.Relative)
-                : new Uri("Themes/LightTheme.xaml", UriKind.Relative);
-            var newTheme = new ResourceDictionary { Source = uri };
-            System.Windows.Application.Current.Resources.MergedDictionaries.Clear();
-            System.Windows.Application.Current.Resources.MergedDictionaries.Add(newTheme);
-        }
+
         //loading path AppData\Local\ctxmgr\ctxmgr_Url_qkyp43qq1dqf12ub3mpsvwt1inkryzoa\1.0.0.0
         //%APPDATA%\[公司名]\[程序名]_Url_[随机字符串]\[版本号]\user.config
 
@@ -1047,4 +1034,5 @@ namespace ctxmgr
             BackgroundColorWindow.Show(this);
         }
     }
+
 }

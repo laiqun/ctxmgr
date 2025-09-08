@@ -24,7 +24,7 @@ namespace ctxmgr.Page.FontSettings
         public FontSettingsWindow()
         {
             InitializeComponent();
-            this.DataContext = ctxmgr.Properties.Config.ConfigInstance.Font;
+            this.DataContext = ctxmgr.Properties.Config.ConfigInstance.Style;
 
             var allFonts = Fonts.SystemFontFamilies.ToList();
             //allFonts.Add(new FontFamily(new Uri("pack://application:,,,/"), "./Resources/#Google Sans Code Light"));
@@ -41,7 +41,7 @@ namespace ctxmgr.Page.FontSettings
         private void FontSettingsWindow_Loaded(object sender, RoutedEventArgs e)
         {
             // 1. 获取当前的绑定值，例如从DataContext中获取ViewModel，再获取FontFamily
-            var viewModel = (FontSetting)this.DataContext; // 假设DataContext就是你的FontSetting实例
+            var viewModel = (StyleSetting)this.DataContext; // 假设DataContext就是你的FontSetting实例
             string targetFontFamily = viewModel.FontFamily;
 
             // 2. 在ListBox的项中查找与目标值匹配的项

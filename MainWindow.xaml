@@ -12,22 +12,34 @@
         mc:Ignorable="d"
         LocationChanged="MainWindowInstance_LocationChanged"
         SizeChanged="MainWindowInstance_SizeChanged"
-        KeyDown="Window_KeyDown" Background="{DynamicResource BackgroundBrush}"  Foreground="{DynamicResource TextBrush}"
+        KeyDown="Window_KeyDown" 
         Topmost="True" Closing="Window_Closing" BorderThickness="1" 
-        Title="FlashPad" Height="600" Width="800"
-        
+        Title="FlashPad" Height="600" Width="800" Background="{Binding BgSelectedColor}" Foreground="{Binding SelectedColor}"
         >
     <Window.Resources>
+        
         <ResourceDictionary>
-            <Style TargetType="Control">
-                <Setter Property="Background" Value="{DynamicResource BackgroundBrush}"/>
-                <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
-                <Setter Property="BorderBrush" Value="{DynamicResource BackgroundBrush}"/>
-                <Setter Property="FontFamily" Value="{StaticResource PrimaryFont}"/>
-                <Setter Property="BorderThickness" Value="0"/>
+            
+            <Style TargetType="TextBox">
+                <Setter Property="FontFamily" Value="{Binding FontFamily}"/>
+                <Setter Property="Foreground" Value="{Binding SelectedColor}"/>
+                <Setter Property="Background" Value="{Binding BgSelectedColor}"/>
+                <Setter Property="FontSize" Value="{Binding FontSize}"/>
+                <Setter Property="FontWeight" Value="Normal" />
+                <Setter Property="FontStyle" Value="Normal" />
+                <Setter Property="TextDecorations" Value="{x:Null}" />
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsBold}"  Value="True">
+                        <Setter Property="FontWeight" Value="Bold" />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding IsItalic}" Value="True">
+                        <Setter Property="FontStyle" Value="Italic" />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding IsUnderline}" Value="True">
+                        <Setter Property="TextDecorations" Value="Underline" />
+                    </DataTrigger>
+                </Style.Triggers>
             </Style>
-
-            <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type Control}}"></Style>
             <Style x:Key="FocusVisual">
                 <Setter Property="Control.Template">
                     <Setter.Value>

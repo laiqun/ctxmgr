@@ -5,16 +5,9 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Themes/DarkTheme.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
             <Style TargetType="MenuItem">
                 <Setter Property="HorizontalContentAlignment" Value="Left"/>
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
-            </Style>
-            <FontFamily x:Key="PrimaryFont" >pack://application:,,,/Resources/GoogleSansCode[wght].ttf#Google Sans Code</FontFamily>
-            <Style TargetType="{x:Type Window}">
-                <Setter Property="FontFamily" Value="{StaticResource PrimaryFont}"/>
             </Style>
         </ResourceDictionary>
     </Application.Resources>

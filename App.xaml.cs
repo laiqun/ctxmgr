@@ -34,6 +34,7 @@ namespace ctxmgr
             if(current.TwoLetterISOLanguageName == "zh")
                 ctxmgr.Properties.Resources.Culture = new CultureInfo("zh");
             base.OnStartup(e);
+            ctxmgr.Properties.Config.ConfigInstance = ctxmgr.Properties.Config.Load();
         }
         private void ActivateExistingWindow()
         {

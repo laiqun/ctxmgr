@@ -14,11 +14,8 @@ namespace ctxmgr.Properties
         EditTitle,
         DeletePage
     }
-    public enum ThemeMode { 
-        Dark,
-        Light
-    }
-    public partial  class  FontSetting:ObservableObject
+
+    public partial  class  StyleSetting:ObservableObject
     {
         [ObservableProperty]
         private double fontSize = 12;
@@ -86,9 +83,73 @@ namespace ctxmgr.Properties
         [NotifyPropertyChangedFor(nameof(Red))]
         [NotifyPropertyChangedFor(nameof(Green))]
         [NotifyPropertyChangedFor(nameof(Blue))]
+        [NotifyPropertyChangedFor(nameof(SelectedColor))]
         private long fontColor = 0xffffffff;
+
+
+
+        [JsonIgnore]
+        public byte BgAlpha
+        {
+            get => (byte)((BackgroundColor & 0xFF000000) >> 24);
+            set
+            {
+                BackgroundColor = (BackgroundColor & 0x00FFFFFF) | ((uint)value << 24);
+                OnPropertyChanged(nameof(BackgroundColor)); // 通知
+                OnPropertyChanged(nameof(BgSelectedColor)); // 通知
+            }
+        }
+
+        [JsonIgnore]
+        public byte BgRed
+        {
+            get => (byte)((BackgroundColor & 0x00FF0000) >> 16);
+            set
+            {
+                BackgroundColor = (BackgroundColor & 0xFF00FFFF) | ((uint)value << 16);
+                OnPropertyChanged(nameof(BackgroundColor)); // 通知
+                OnPropertyChanged(nameof(BgSelectedColor)); // 通知
+            }
+        }
+
+        [JsonIgnore]
+        public byte BgGreen
+        {
+            get => (byte)((BackgroundColor & 0x0000FF00) >> 8);
+            set
+            {
+                BackgroundColor = (BackgroundColor & 0xFFFF00FF) | ((uint)value << 8);
+                OnPropertyChanged(nameof(BackgroundColor)); // 通知
+                OnPropertyChanged(nameof(BgSelectedColor)); // 通知
+            }
+        }
+
+        [JsonIgnore]
+        public byte BgBlue
+        {
+            get => (byte)(BackgroundColor & 0x000000FF);
+            set
+            {
+                BackgroundColor = (BackgroundColor & 0xFFFFFF00) | value;
+                OnPropertyChanged(nameof(BackgroundColor)); // 通知
+                OnPropertyChanged(nameof(BgSelectedColor)); // 通知
+            }
+        }
+
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(BgAlpha))]
+        [NotifyPropertyChangedFor(nameof(BgRed))]
+        [NotifyPropertyChangedFor(nameof(BgGreen))]
+        [NotifyPropertyChangedFor(nameof(BgBlue))]
+        [NotifyPropertyChangedFor(nameof(BgSelectedColor))]
+        private long backgroundColor = 0xff000000;
+
         [JsonIgnore]
         public  Brush SelectedColor => new SolidColorBrush(Color.FromArgb(Alpha,Red,Green,Blue));
+
+        [JsonIgnore]
+        public Brush BgSelectedColor => new SolidColorBrush(Color.FromArgb(BgAlpha, BgRed, BgGreen, BgBlue));
 
     }
     public class Config
@@ -105,9 +166,8 @@ namespace ctxmgr.Properties
         public int PageIndex { get; set; } = -1;
         public bool StayOnTop{ get; set; } = false;
         public bool RunOnStartUp { get; set; } = false;
-        public ThemeMode Theme { get; set; } = ThemeMode.Dark;
-        public long BackgroundColor { get; set; } = 0x00000000;
-        public FontSetting Font { get; set; } = new FontSetting();
+        
+        public StyleSetting Style { get; set; } = new StyleSetting();
         public bool TextWrap { get; set; } = false;
         public string InsertLineText { get; set; } = Properties.ConstVariables.INSERT_LINE_TEXT;
         public string InsertDateText { get; set; } = Properties.ConstVariables.INSERT_DATE_TEXT;
