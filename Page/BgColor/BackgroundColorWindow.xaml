@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ctxmgr.Page.BgColor"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterOwner"
         xmlns:color="clr-namespace:ctxmgr.UserControls.ColorPicker"
         Title="BackgroundColorWindow" Height="180" Width="300">
     <Grid>

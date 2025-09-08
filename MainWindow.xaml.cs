@@ -1,5 +1,7 @@
 ﻿using ctxmgr.Model;
+using ctxmgr.Page.BgColor;
 using ctxmgr.Page.ChangeTitle;
+using ctxmgr.Page.FontSettings;
 using ctxmgr.Page.MessageBox;
 using ctxmgr.Page.Settings;
 using ctxmgr.Utilities;
@@ -373,16 +375,6 @@ namespace ctxmgr
             var uri = isDarkMode
                 ? new Uri("Themes/DarkTheme.xaml", UriKind.Relative)
                 : new Uri("Themes/LightTheme.xaml", UriKind.Relative);
-            if (isDarkMode)
-            {
-                LightMode.Visibility = Visibility.Visible;
-                DarkMode.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                LightMode.Visibility = Visibility.Collapsed;
-                DarkMode.Visibility = Visibility.Visible;
-            }
             var newTheme = new ResourceDictionary { Source = uri };
             System.Windows.Application.Current.Resources.MergedDictionaries.Clear();
             System.Windows.Application.Current.Resources.MergedDictionaries.Add(newTheme);
@@ -1043,6 +1035,16 @@ namespace ctxmgr
                 return;
 
             InsertTextAtCursor(data.Text);
+        }
+
+        private void FontSettingMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            FontSettingsWindow.Show(this);
+        }
+
+        private void BgColorMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            BackgroundColorWindow.Show(this);
         }
     }
 }

@@ -79,6 +79,15 @@ namespace ctxmgr.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to _Background Color.
+        /// </summary>
+        public static string BgColor {
+            get {
+                return ResourceManager.GetString("BgColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string Cancel {
@@ -246,6 +255,15 @@ namespace ctxmgr.Properties {
         public static string FindNext {
             get {
                 return ResourceManager.GetString("FindNext", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Font.
+        /// </summary>
+        public static string Font {
+            get {
+                return ResourceManager.GetString("Font", resourceCulture);
             }
         }
         

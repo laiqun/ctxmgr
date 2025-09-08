@@ -11,27 +11,27 @@
 
         <StackPanel Orientation="Horizontal" Margin="0,2">
             <TextBlock Text="A:" Width="20" VerticalAlignment="Center"/>
-            <Slider Minimum="0" Maximum="255" Value="{Binding A, Mode=TwoWay}" Width="150"/>
-            <TextBox Text="{Binding A,Mode=TwoWay,UpdateSourceTrigger=LostFocus}" Width="30" Margin="5,0,0,0"/>
+            <Slider Minimum="0" Maximum="255" Value="{Binding Alpha, Mode=TwoWay}" Width="150"/>
+            <TextBox Text="{Binding Alpha,Mode=TwoWay,UpdateSourceTrigger=LostFocus}" Width="30" Margin="5,0,0,0"/>
         </StackPanel>
 
 
         <StackPanel Orientation="Horizontal" Margin="0,2">
             <TextBlock Text="R:" Width="20" VerticalAlignment="Center"/>
-            <Slider Minimum="0" Maximum="255" Value="{Binding R, Mode=TwoWay}" Width="150"/>
-            <TextBox Text="{Binding R,Mode=TwoWay,UpdateSourceTrigger=LostFocus}" Width="30" Margin="5,0,0,0"/>
+            <Slider Minimum="0" Maximum="255" Value="{Binding Red, Mode=TwoWay}" Width="150"/>
+            <TextBox Text="{Binding Red,Mode=TwoWay,UpdateSourceTrigger=LostFocus}" Width="30" Margin="5,0,0,0"/>
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Margin="0,2">
             <TextBlock Text="G:" Width="20" VerticalAlignment="Center"/>
-            <Slider Minimum="0" Maximum="255" Value="{Binding G, Mode=TwoWay}" Width="150"/>
-            <TextBox Text="{Binding G,Mode=TwoWay,UpdateSourceTrigger=LostFocus}" Width="30" Margin="5,0,0,0"/>
+            <Slider Minimum="0" Maximum="255" Value="{Binding Green, Mode=TwoWay}" Width="150"/>
+            <TextBox Text="{Binding Green,Mode=TwoWay,UpdateSourceTrigger=LostFocus}" Width="30" Margin="5,0,0,0"/>
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Margin="0,2">
             <TextBlock Text="B:" Width="20" VerticalAlignment="Center"/>
-            <Slider Minimum="0" Maximum="255" Value="{Binding B, Mode=TwoWay}" Width="150"/>
-            <TextBox Text="{Binding B,Mode=TwoWay,UpdateSourceTrigger=LostFocus}" Width="30" Margin="5,0,0,0"/>
+            <Slider Minimum="0" Maximum="255" Value="{Binding Blue, Mode=TwoWay}" Width="150"/>
+            <TextBox Text="{Binding Blue,Mode=TwoWay,UpdateSourceTrigger=LostFocus}" Width="30" Margin="5,0,0,0"/>
         </StackPanel>
 
         <!-- 当前颜色预览 -->

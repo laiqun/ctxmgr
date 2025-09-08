@@ -1,7 +1,10 @@
-﻿using ctxmgr.Page.Settings;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using ctxmgr.Page.Settings;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Windows.Media;
 
 namespace ctxmgr.Properties
 {
@@ -15,14 +18,77 @@ namespace ctxmgr.Properties
         Dark,
         Light
     }
-    public class  FontSetting
+    public partial  class  FontSetting:ObservableObject
     {
-        public int FontSize = 12;
-        public bool IsBold = false;
-        public bool IsItalic = false;
-        public bool IsUnderLine = false;
-        public string FontFamily = "Microsoft YaHei UI";
-        public long FontColor = 0xffffffff;
+        [ObservableProperty]
+        private double fontSize = 12;
+
+        [ObservableProperty]
+        private bool isBold = false;
+        [ObservableProperty]
+        private bool isItalic = false;
+        [ObservableProperty]
+        private bool isUnderline = false;
+        [ObservableProperty]
+        private string fontFamily = "Microsoft YaHei UI";
+
+        [JsonIgnore]
+        public byte Alpha
+        {
+            get => (byte)((FontColor & 0xFF000000) >> 24);
+            set
+            {
+                FontColor = (FontColor & 0x00FFFFFF) | ((uint)value << 24);
+                OnPropertyChanged(nameof(FontColor)); // 通知
+                OnPropertyChanged(nameof(SelectedColor)); // 通知
+            }
+        }
+
+        [JsonIgnore]
+        public byte Red
+        {
+            get => (byte)((FontColor & 0x00FF0000) >> 16);
+            set
+            {
+                FontColor = (FontColor & 0xFF00FFFF) | ((uint)value << 16);
+                OnPropertyChanged(nameof(FontColor)); // 通知
+                OnPropertyChanged(nameof(SelectedColor)); // 通知
+            }
+        }
+
+        [JsonIgnore]
+        public byte Green
+        {
+            get => (byte)((FontColor & 0x0000FF00) >> 8);
+            set
+            {
+                FontColor = (FontColor & 0xFFFF00FF) | ((uint)value << 8);
+                OnPropertyChanged(nameof(FontColor)); // 通知
+                OnPropertyChanged(nameof(SelectedColor)); // 通知
+            }
+        }
+
+        [JsonIgnore]
+        public byte Blue
+        {
+            get => (byte)(FontColor & 0x000000FF);
+            set
+            {
+                FontColor = (FontColor & 0xFFFFFF00) | value;
+                OnPropertyChanged(nameof(FontColor)); // 通知
+                OnPropertyChanged(nameof(SelectedColor)); // 通知
+            }
+        }
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(Alpha))]
+        [NotifyPropertyChangedFor(nameof(Red))]
+        [NotifyPropertyChangedFor(nameof(Green))]
+        [NotifyPropertyChangedFor(nameof(Blue))]
+        private long fontColor = 0xffffffff;
+        [JsonIgnore]
+        public  Brush SelectedColor => new SolidColorBrush(Color.FromArgb(Alpha,Red,Green,Blue));
+
     }
     public class Config
     {

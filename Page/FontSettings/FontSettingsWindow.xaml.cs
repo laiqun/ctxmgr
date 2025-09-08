@@ -1,4 +1,4 @@
-﻿using ctxmgr.Page.FontSettings;
+﻿using ctxmgr.Page.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,23 +13,30 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace ctxmgr.Page.BgColor
+namespace ctxmgr.Page.FontSettings
 {
     /// <summary>
-    /// Interaction logic for BackgroundColorWindow.xaml
+    /// Interaction logic for FontSettingsWindow.xaml
     /// </summary>
-    public partial class BackgroundColorWindow : Window
+    public partial class FontSettingsWindow : Window
     {
-        public BackgroundColorWindow()
+        public FontSettingsWindow()
         {
             InitializeComponent();
+            this.DataContext = ctxmgr.Properties.Config.ConfigInstance.Font;
+
         }
         public static void Show(
              Window owner)
         {
-            var settingWindow = new BackgroundColorWindow();
+            var settingWindow = new FontSettingsWindow();
             settingWindow.Owner = owner;
             settingWindow.ShowDialog();
+        }
+
+        private void ComboBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+
         }
     }
 }

@@ -297,6 +297,8 @@
             <MenuItem Header="{x:Static props:Resources.Format}">
                 <MenuItem Header="{x:Static props:Resources.LightMode}" x:Name="LightMode" Click="LightMode_Click"></MenuItem>
                 <MenuItem Header="{x:Static props:Resources.DarkMode}" x:Name="DarkMode" Click="DarkMode_Click"></MenuItem>
+                <MenuItem Header="{x:Static props:Resources.Font}" x:Name="FontSettingMenuItem" Click="FontSettingMenuItem_Click"></MenuItem>
+                <MenuItem Header="{x:Static props:Resources.BgColor}" x:Name="BgColorMenuItem" Click="BgColorMenuItem_Click"></MenuItem>
                 <Separator></Separator>
                 <MenuItem Header="{x:Static props:Resources.TextWrap}" IsCheckable="True" x:Name="TextWrapMenuItem" Click="TextWrapMenuItem_Click"></MenuItem>
             </MenuItem>

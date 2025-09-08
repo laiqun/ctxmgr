@@ -354,4 +354,10 @@
   <data name="NewSnippetPlaceholder" xml:space="preserve">
     <value>​输入新文本段​</value>
   </data>
+  <data name="Font" xml:space="preserve">
+    <value>字体(_F)</value>
+  </data>
+  <data name="BgColor" xml:space="preserve">
+    <value>背景色(_B)</value>
+  </data>
 </root>

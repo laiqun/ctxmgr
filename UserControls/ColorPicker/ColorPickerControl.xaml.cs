@@ -20,12 +20,9 @@ namespace ctxmgr.UserControls.ColorPicker
     /// </summary>
     public partial class ColorPickerControl : UserControl
     {
-        public ColorPickerViewModel ViewModel { get; }
         public ColorPickerControl()
         {
             InitializeComponent();
-            ViewModel = new ColorPickerViewModel();
-            DataContext = ViewModel;
         }
     }
 }
