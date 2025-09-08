@@ -25,6 +25,15 @@ namespace ctxmgr.Page.FontSettings
             InitializeComponent();
             this.DataContext = ctxmgr.Properties.Config.ConfigInstance.Font;
 
+            var allFonts = Fonts.SystemFontFamilies.ToList();
+            //allFonts.Add(new FontFamily(new Uri("pack://application:,,,/"), "./Resources/#Google Sans Code Light"));
+            allFonts.Add(new FontFamily(new Uri("pack://application:,,,/"), "./Resources/#Google Sans Code"));
+            //allFonts.Add(new FontFamily(new Uri("pack://application:,,,/"), "./Resources/#Google Sans Code Medium"));
+            //allFonts.Add(new FontFamily(new Uri("pack://application:,,,/"), "./Resources/#Google Sans Code SemiBold"));
+            //allFonts.Add(new FontFamily(new Uri("pack://application:,,,/"), "./Resources/#Google Sans Code ExtraBold"));
+            FontsListBox.ItemsSource = allFonts;
+            if (FontsListBox.SelectedItem != null)
+                FontsListBox.ScrollIntoView(FontsListBox.SelectedItem);
         }
         public static void Show(
              Window owner)
@@ -32,11 +41,6 @@ namespace ctxmgr.Page.FontSettings
             var settingWindow = new FontSettingsWindow();
             settingWindow.Owner = owner;
             settingWindow.ShowDialog();
-        }
-
-        private void ComboBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-
         }
     }
 }

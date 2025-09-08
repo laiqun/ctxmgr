@@ -32,6 +32,7 @@ namespace ctxmgr.Properties
         [ObservableProperty]
         private string fontFamily = "Microsoft YaHei UI";
 
+
         [JsonIgnore]
         public byte Alpha
         {

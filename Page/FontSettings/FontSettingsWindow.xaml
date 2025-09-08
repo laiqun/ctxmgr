@@ -22,13 +22,20 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- 字体列表 
-            <ListBox Grid.Row="0" Grid.RowSpan="3"
-                 ItemsSource="{Binding AllFonts}"
+        <!--字体列表-->
+        <ListBox Grid.Row="0" Grid.RowSpan="3"
+                 x:Name="FontsListBox"
                  DisplayMemberPath="Source"
-                 SelectedItem="{Binding SelectedFontFamily}"
-                 Margin="5"/>-->
-
+                 SelectedValuePath="Source"
+                 SelectedValue="{Binding FontFamily, Mode=TwoWay}" 
+                 Margin="5">
+            <ListBox.Resources>
+                <!-- 改选中背景色 -->
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#3399FF"/>
+                <!-- 改选中文字颜色 -->
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="White"/>
+            </ListBox.Resources>
+        </ListBox>
         <!-- 字号选择 -->
         <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="5">
             <TextBlock Text="字号:" VerticalAlignment="Center"/>
@@ -67,6 +74,7 @@
             <TextBlock Text="预览字体效果：The quick brown fox jumps over the lazy dog."
                        FontSize="{Binding FontSize}"
                        Foreground="{Binding SelectedColor}" 
+                       FontFamily="{Binding FontFamily}"
                            >
                 <TextBlock.Style>
                     <Style TargetType="TextBlock">
