@@ -34,7 +34,25 @@
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#3399FF"/>
                 <!-- 改选中文字颜色 -->
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="White"/>
+
             </ListBox.Resources>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <!-- 设置默认背景色为透明，避免默认颜色覆盖 -->
+                    <Setter Property="Background" Value="Transparent"/>
+                    <!-- 设置默认文字颜色 -->
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Style.Triggers>
+                        <!-- 当项被选中时 -->
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="White"/>
+                            <!-- 选中项背景色 -->
+                            <Setter Property="Foreground" Value="Red"/>
+                            <!-- 选中项文字颜色 -->
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListBox.ItemContainerStyle>
         </ListBox>
         <!-- 字号选择 -->
         <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="5">

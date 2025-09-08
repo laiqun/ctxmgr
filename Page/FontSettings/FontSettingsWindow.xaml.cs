@@ -1,4 +1,5 @@
 ﻿using ctxmgr.Page.Settings;
+using ctxmgr.Properties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +35,34 @@ namespace ctxmgr.Page.FontSettings
             FontsListBox.ItemsSource = allFonts;
             if (FontsListBox.SelectedItem != null)
                 FontsListBox.ScrollIntoView(FontsListBox.SelectedItem);
+            this.Loaded += FontSettingsWindow_Loaded;
+        }
+
+        private void FontSettingsWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            // 1. 获取当前的绑定值，例如从DataContext中获取ViewModel，再获取FontFamily
+            var viewModel = (FontSetting)this.DataContext; // 假设DataContext就是你的FontSetting实例
+            string targetFontFamily = viewModel.FontFamily;
+
+            // 2. 在ListBox的项中查找与目标值匹配的项
+            foreach (var item in FontsListBox.Items)
+            {
+                // 假设你的项有一个名为"Source"的属性，并且你将其作为DisplayMemberPath和SelectedValuePath
+                // 你需要根据你实际的数据项对象结构来获取用于比较的值
+                // 这里是一个示例，如果你的项是动态对象或具有特定属性，请调整代码
+                //if (item is YourItemType yourItem && yourItem.Source == targetFontFamily)
+                //{
+                // 3. 找到后，调用ScrollIntoView滚动到该项
+                //  FontsListBox.ScrollIntoView(item);
+                // break; // 找到后退出循环
+                //}
+                // 或者，如果你ItemsSource中的项本身就是字符串（即Source的值），可以直接比较
+                if (item.ToString() == targetFontFamily)
+                {
+                    FontsListBox.ScrollIntoView(item);
+                    break;
+                }
+            }
         }
         public static void Show(
              Window owner)
