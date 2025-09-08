@@ -151,6 +151,9 @@ namespace ctxmgr.Properties
         [JsonIgnore]
         public Brush BgSelectedColor => new SolidColorBrush(Color.FromArgb(BgAlpha, BgRed, BgGreen, BgBlue));
 
+        public void NotifyBgColorChanged() {
+            OnPropertyChanged(nameof(BgSelectedColor));
+        }
     }
     public class Config
     {

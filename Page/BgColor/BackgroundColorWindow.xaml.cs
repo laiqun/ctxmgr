@@ -23,6 +23,7 @@ namespace ctxmgr.Page.BgColor
         public BackgroundColorWindow()
         {
             InitializeComponent();
+            this.DataContext = new BackgroundColorWindowViewModel();
         }
         public static void Show(
              Window owner)
@@ -32,4 +33,5 @@ namespace ctxmgr.Page.BgColor
             settingWindow.ShowDialog();
         }
     }
+
 }

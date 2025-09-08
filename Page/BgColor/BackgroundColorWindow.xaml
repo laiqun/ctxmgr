@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
         xmlns:color="clr-namespace:ctxmgr.UserControls.ColorPicker"
-        Title="BackgroundColorWindow" Height="180" Width="300">
+        Title="BackgroundColorWindow" Height="200" Width="300">
     <Grid>
         <color:ColorPickerControl x:Name="BgColorPicker" Margin="10" Height="150" Width="220"/>
     </Grid>
