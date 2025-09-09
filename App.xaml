@@ -12,14 +12,14 @@
             <tb:TaskbarIcon x:Key="Taskbar" ToolTipText=""
                     
                      IconSource="/Resources/logo.ico">
-                <tb:TaskbarIcon.TrayToolTip>
+                <!--<tb:TaskbarIcon.TrayToolTip>
                     <Border Background="LightYellow" CornerRadius="5" Opacity="0.8" Padding="10">
                         <StackPanel Orientation="Vertical">
                             <TextBlock Text="" Foreground="Red"/>
-                            <!--<TextBlock Text="{Binding SystemTime}" Foreground="Red"/>-->
+                            <TextBlock Text="{Binding SystemTime}" Foreground="Red"/>
                         </StackPanel>
                     </Border>
-                </tb:TaskbarIcon.TrayToolTip>
+                </tb:TaskbarIcon.TrayToolTip>-->
             </tb:TaskbarIcon>
             <Style TargetType="MenuItem">
                 <Setter Property="HorizontalContentAlignment" Value="Left"/>
