@@ -671,7 +671,7 @@ namespace ctxmgr
         }
         #region tab persistence
         
-        private string DataFile => System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data.db");
+        private string DataFile => System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data","pages.db");
         
         private async void UpdateTabsIndexAsync(SQLite.SQLiteAsyncConnection db,
             string? uuid,

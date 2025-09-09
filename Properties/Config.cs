@@ -160,7 +160,7 @@ namespace ctxmgr.Properties
         public static Config ConfigInstance = null!;
         private static readonly string SettingsPath = Path.Combine(
             AppDomain.CurrentDomain.BaseDirectory,
-            "Config.json"
+            "data","config.json"
         );
         public double WindowLeft { get; set; } = -1;
         public double WindowTop { get; set; } = -1;

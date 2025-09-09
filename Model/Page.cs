@@ -23,6 +23,14 @@ namespace ctxmgr.Model
     {
         public async Task<SQLiteAsyncConnection> OpenOrCreateDatabase(string dbPath)
         {
+            if (!File.Exists(dbPath))
+            {
+                var directory = Path.GetDirectoryName(dbPath);
+                if (!Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
+            }
             return new SQLiteAsyncConnection(dbPath);
         }
         public async Task<CreateTableResult> CreateTables(SQLiteAsyncConnection db)
