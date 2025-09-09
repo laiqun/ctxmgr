@@ -513,8 +513,6 @@ namespace ctxmgr
                     Dispatcher.BeginInvoke(DispatcherPriority.Input, new Action(() =>
                     {
                         textBox.Focus();
-                        // Optionally move caret to end of text
-                        textBox.CaretIndex = textBox.Text.Length;
                     }));
                 }
             }
