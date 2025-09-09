@@ -108,3 +108,5 @@ System.Runtime.InteropServices.COMException
 ## minipad2
 * 细节不太舒服，Ctrl+F 查找框打开后，按Esc不能关闭查找框。
 * 写长文章时，没写完就将软件关闭的情况下，重新打开时，软件会自动显示在你上次写到的地方，不必拉滚动条。
+## flashpad
+## eDiary
