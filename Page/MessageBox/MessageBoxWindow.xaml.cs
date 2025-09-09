@@ -22,6 +22,11 @@ namespace ctxmgr.Page.MessageBox
         public MessageBoxWindow()
         {
             InitializeComponent();
+            PreviewKeyDown += (s, e) =>
+            {
+                e.Handled = true;
+                if (e.Key == Key.Escape) Close();
+            };
         }
         private MessageBoxResult _result;
         public static MessageBoxResult Show(string message, string caption = "",

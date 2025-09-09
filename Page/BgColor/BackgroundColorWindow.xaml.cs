@@ -23,6 +23,11 @@ namespace ctxmgr.Page.BgColor
         public BackgroundColorWindow()
         {
             InitializeComponent();
+            PreviewKeyDown += (s, e) =>
+            {
+                e.Handled = true;
+                if (e.Key == Key.Escape) Close();
+            };
             this.DataContext = new BackgroundColorWindowViewModel();
         }
         public static void Show(

@@ -24,6 +24,11 @@ namespace ctxmgr.Page.FontSettings
         public FontSettingsWindow()
         {
             InitializeComponent();
+            PreviewKeyDown += (s, e) =>
+            {
+                e.Handled = true;
+                if (e.Key == Key.Escape) Close();
+            };
             this.DataContext = ctxmgr.Properties.Config.ConfigInstance.Style;
 
             var allFonts = Fonts.SystemFontFamilies.ToList();

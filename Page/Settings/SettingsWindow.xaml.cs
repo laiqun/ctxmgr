@@ -23,6 +23,11 @@ namespace ctxmgr.Page.Settings
         public SettingsWindow()
         {
             InitializeComponent();
+            PreviewKeyDown += (s, e) =>
+            {
+                e.Handled = true;
+                if (e.Key == Key.Escape) Close();
+            };
         }
  
 
