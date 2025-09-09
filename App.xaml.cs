@@ -42,14 +42,14 @@ namespace ctxmgr
             // 创建 MenuItem
             menu.Items.Add(new MenuItem
             {
-                Header = "显示界面",
+                Header = ctxmgr.Properties.Resources.ShowWindow,
                 Command = ((TaskbarIconViewModel)mTaskbarIcon.DataContext).Button_ClickCommand,
                 CommandParameter = 1
             });
 
             menu.Items.Add(new MenuItem
             {
-                Header = "隐藏界面",
+                Header = ctxmgr.Properties.Resources.HideWindow2,
                 Command = ((TaskbarIconViewModel)mTaskbarIcon.DataContext).Button_ClickCommand,
                 CommandParameter = 0
             });
@@ -58,7 +58,7 @@ namespace ctxmgr
 
             menu.Items.Add(new MenuItem
             {
-                Header = "退出服务",
+                Header = ctxmgr.Properties.Resources.Exit,
                 Command = ((TaskbarIconViewModel)mTaskbarIcon.DataContext).Button_ClickCommand,
                 CommandParameter = 99
             });

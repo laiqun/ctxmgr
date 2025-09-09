@@ -232,6 +232,15 @@ namespace ctxmgr.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exit.
+        /// </summary>
+        public static string Exit {
+            get {
+                return ResourceManager.GetString("Exit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to E_xit.
         /// </summary>
         public static string ExitApp {
@@ -336,6 +345,15 @@ namespace ctxmgr.Properties {
         public static string HideWindow {
             get {
                 return ResourceManager.GetString("HideWindow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hide Window.
+        /// </summary>
+        public static string HideWindow2 {
+            get {
+                return ResourceManager.GetString("HideWindow2", resourceCulture);
             }
         }
         
@@ -678,6 +696,15 @@ namespace ctxmgr.Properties {
         public static string ShortcutsShowOrHideCombineKey {
             get {
                 return ResourceManager.GetString("ShortcutsShowOrHideCombineKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show WIndow.
+        /// </summary>
+        public static string ShowWindow {
+            get {
+                return ResourceManager.GetString("ShowWindow", resourceCulture);
             }
         }
         

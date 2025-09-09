@@ -366,4 +366,13 @@
   <data name="Plugin" xml:space="preserve">
     <value>插件(_P)</value>
   </data>
+  <data name="Exit" xml:space="preserve">
+    <value>退出</value>
+  </data>
+  <data name="ShowWindow" xml:space="preserve">
+    <value>显示界面</value>
+  </data>
+  <data name="HideWindow2" xml:space="preserve">
+    <value>隐藏界面</value>
+  </data>
 </root>

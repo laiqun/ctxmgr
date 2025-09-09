@@ -104,6 +104,7 @@ System.Runtime.InteropServices.COMException
 [x]表达式计算
 []在线更新功能
 []文档（实时）同步
+[]系统托盘  草稿本完成
 # 竞品
 ## minipad2
 * 细节不太舒服，Ctrl+F 查找框打开后，按Esc不能关闭查找框。  已处理，但要注意以后新建的window也要支持

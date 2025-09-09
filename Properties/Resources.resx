@@ -366,4 +366,13 @@
   <data name="Plugin" xml:space="preserve">
     <value>_Plugin</value>
   </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="ShowWindow" xml:space="preserve">
+    <value>Show WIndow</value>
+  </data>
+  <data name="HideWindow2" xml:space="preserve">
+    <value>Hide Window</value>
+  </data>
 </root>
