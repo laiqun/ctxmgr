@@ -267,7 +267,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*" />
-            <RowDefinition Height="0" />
         </Grid.RowDefinitions>
         <Menu Grid.Row="0" KeyboardNavigation.TabNavigation="None">
             <MenuItem Header="{x:Static props:Resources.File}">
@@ -381,27 +380,5 @@
             </TabItem>
         </TabControl>
 
-        <Popup x:Name="SuggestionsPopup"
-               Grid.Row="2"
-               Visibility="Collapsed"
-               Placement="Absolute"
-               StaysOpen="True"
-               AllowsTransparency="True"
-               IsOpen="False"
-               Margin="0,5,0,0"
-               Width="{Binding ElementName=MyGrid,Path=ActualWidth}"
-               >
-            <Border Background="White" BorderBrush="Black" BorderThickness="1">
-                <ListBox x:Name="CommandSuggestionsListbox"
-                         MaxHeight="200">
-                    <ListBoxItem Content="doc"></ListBoxItem>
-                    <ListBoxItem Content="explain"></ListBoxItem>
-                    <ListBoxItem Content="fix"></ListBoxItem>
-                    <ListBoxItem Content="help"></ListBoxItem>
-                    <ListBoxItem Content="optimize"></ListBoxItem>
-                    <ListBoxItem Content="tests"></ListBoxItem>
-                </ListBox>
-            </Border>
-        </Popup>
     </Grid>
 </Window>

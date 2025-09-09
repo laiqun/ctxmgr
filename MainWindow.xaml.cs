@@ -522,18 +522,11 @@ namespace ctxmgr
 
         private void MainWindowInstance_LocationChanged(object sender, EventArgs e)
         {
-            if (SuggestionsPopup.IsOpen)
-            {
-                UpdatePopupPosition(sender,e);
-            }
+
         }
         private void UpdatePopupPosition(object sender, EventArgs e)
         {
-            if (SuggestionsPopup.IsOpen)
-            {
-                SuggestionsPopup.HorizontalOffset = MainWindowInstance.Left;
-                SuggestionsPopup.VerticalOffset = MainWindowInstance.Top + MainWindowInstance.ActualHeight;
-            }
+
         }
         private void InsertSeparatorMenuItem_Click(object sender, RoutedEventArgs e)
         {
