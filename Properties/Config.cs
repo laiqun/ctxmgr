@@ -169,7 +169,8 @@ namespace ctxmgr.Properties
         public int PageIndex { get; set; } = -1;
         public bool StayOnTop{ get; set; } = false;
         public bool RunOnStartUp { get; set; } = false;
-        
+        public int LastCaretIndex { get; set; } = -1;
+        public string LastPage { get; set; } = string.Empty;
         public StyleSetting Style { get; set; } = new StyleSetting();
         public bool TextWrap { get; set; } = false;
         public string InsertLineText { get; set; } = Properties.ConstVariables.INSERT_LINE_TEXT;

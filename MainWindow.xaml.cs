@@ -21,6 +21,7 @@ using System.Reflection;
 using System.Reflection.Metadata;
 using System.Runtime;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -117,19 +118,6 @@ namespace ctxmgr
             Loaded += (s, e) =>
             {
                 _hotkeyManager.Register(this);
-                #region 自动聚焦到当前激活Tab的TextBox
-                if (MyTabControl.SelectedItem is TabItem selectedTab)
-                {
-                    if (selectedTab.Content is TextBox textBox)
-                    {
-                        Dispatcher.BeginInvoke(DispatcherPriority.Input, new Action(() =>
-                        {
-                            textBox.Focus();
-                            textBox.CaretIndex = textBox.Text.Length;
-                        }));
-                    }
-                }
-                #endregion
             };
             System.Windows.Application.Current.Exit += (s, e) => _hotkeyManager.Dispose();
             var dbInitTask = service.OpenOrCreateDatabase(DataFile);
@@ -350,9 +338,19 @@ namespace ctxmgr
             ctxmgr.Properties.Config.ConfigInstance.WindowTop = this.Top;
             ctxmgr.Properties.Config.ConfigInstance.WindowWidth = this.Width;
             ctxmgr.Properties.Config.ConfigInstance.WindowHeight = this.Height;
+            var selectedTab = MyTabControl.SelectedItem as TabItem;
+            if (selectedTab != null)
+            {
+                ctxmgr.Properties.Config.ConfigInstance.LastPage = selectedTab.Tag?.ToString() ?? "";
+                if (selectedTab.Content is TextBox tb)
+                {
+                    ctxmgr.Properties.Config.ConfigInstance.LastCaretIndex = tb.CaretIndex;
+                }
+            }
             ctxmgr.Properties.Config.ConfigInstance.Save();
             _saveTimer?.Stop();
             _saveTimer = null;
+
             System.Windows.Application.Current.Shutdown();
         }
 
@@ -382,6 +380,15 @@ namespace ctxmgr
             ctxmgr.Properties.Config.ConfigInstance.WindowTop = this.Top;
             ctxmgr.Properties.Config.ConfigInstance.WindowWidth = this.Width;
             ctxmgr.Properties.Config.ConfigInstance.WindowHeight = this.Height;
+            var selectedTab = MyTabControl.SelectedItem as TabItem;
+            if (selectedTab != null)
+            {
+                ctxmgr.Properties.Config.ConfigInstance.LastPage = selectedTab.Tag?.ToString() ?? "";
+                if (selectedTab.Content is TextBox tb)
+                {
+                    ctxmgr.Properties.Config.ConfigInstance.LastCaretIndex = tb.CaretIndex;
+                }
+            }
             ctxmgr.Properties.Config.ConfigInstance.Save();
 
             e.Cancel = true;
@@ -489,6 +496,8 @@ namespace ctxmgr
 
         private void MyTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (isLoadingTabs)
+                return;
             SyncTabsToMenu();
             #region Get the selected TabItem
             if (MyTabControl.SelectedItem is TabItem selectedTab)
@@ -714,11 +723,49 @@ namespace ctxmgr
             db.Table<Model.Page>().DeleteAsync(x => x.Uuid == uuid);
         }
         private bool isLoadingTabs = false;
+        private void RestoreLocation()
+        {
+            // 选择上次关闭时的标签页
+            if (string.IsNullOrEmpty(ctxmgr.Properties.Config.ConfigInstance.LastPage))
+                return;
+            bool findLast = false;
+            foreach (TabItem tab in MyTabControl.Items)
+            {
+                if (tab.Tag?.ToString() != ctxmgr.Properties.Config.ConfigInstance.LastPage)
+                    continue;
+
+                MyTabControl.SelectedItem = tab;
+                if (tab.Content is not TextBox tb)
+                    return;
+                Dispatcher.BeginInvoke(new Action(() => {
+                    int caretIndex = ctxmgr.Properties.Config.ConfigInstance.LastCaretIndex;
+                    if (caretIndex >= 0 && caretIndex <= tb.Text.Length)
+                    {
+                        tb.CaretIndex = caretIndex;
+                    }
+                    else
+                    {
+                        tb.CaretIndex = tb.Text.Length;
+                    }
+                    tb.Focus();
+                }), System.Windows.Threading.DispatcherPriority.Background);
+                findLast = true;
+                break;
+            }
+            if (findLast == false)
+            {
+                MyTabControl.SelectedIndex = 1;
+                DefaultTextBox.CaretIndex = DefaultTextBox.Text.Length;
+            }
+        }
         private void LoadTabsFromDatabase(SQLite.SQLiteAsyncConnection db)
         {
             isLoadingTabs = true;
             LoadTabsFromDatabaseImpl(db);
+            RestoreLocation();
+            SyncTabsToMenu();
             isLoadingTabs = false;
+           
         }
         private void LoadTabsFromDatabaseImpl(SQLite.SQLiteAsyncConnection db)
         {
@@ -1079,7 +1126,7 @@ namespace ctxmgr
                 string lineEnding = currentLine.Substring(lineContent.Length);
                 var expr = new NCalc.Expression(currentLine.Trim());
                 var result =  expr.Evaluate(); // result 在这里定义
-
+                
                 // 构造新行
                 int equalIndex = currentLine.IndexOf('=');
                 string newLine;

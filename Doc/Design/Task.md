@@ -106,7 +106,7 @@ System.Runtime.InteropServices.COMException
 []文档（实时）同步
 # 竞品
 ## minipad2
-* 细节不太舒服，Ctrl+F 查找框打开后，按Esc不能关闭查找框。
+* 细节不太舒服，Ctrl+F 查找框打开后，按Esc不能关闭查找框。  已处理，但要注意以后新建的window也要支持
 * 写长文章时，没写完就将软件关闭的情况下，重新打开时，软件会自动显示在你上次写到的地方，不必拉滚动条。
 ## flashpad
 ## eDiary
