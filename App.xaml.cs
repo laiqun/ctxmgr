@@ -52,7 +52,18 @@ namespace ctxmgr
 
         protected override void OnExit(ExitEventArgs e)
         {
-            _mutex?.ReleaseMutex();
+            try
+            {
+                if (_mutex != null)
+                {
+                    _mutex.ReleaseMutex(); // 只释放自己拥有的
+                    _mutex.Dispose();
+                }
+            }
+            catch (ApplicationException)
+            {
+                // 如果不是拥有者，则忽略
+            }
             base.OnExit(e);
         }
         public void ChangeGlobalFont(string fontResourceKey = "PrimaryFont",string value= "Microsoft YaHei UI")

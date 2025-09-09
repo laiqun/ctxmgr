@@ -101,7 +101,7 @@ System.Runtime.InteropServices.COMException
 []集成LLM 调用
 []快捷建 选择文件/文件夹
 []快速把当前tab的内容粘贴出来  减少手动复制粘贴
-[]表达式计算
+[x]表达式计算
 []在线更新功能
 []文档（实时）同步
 # 竞品

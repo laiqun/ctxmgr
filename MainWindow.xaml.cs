@@ -1085,7 +1085,7 @@ namespace ctxmgr
                 string newLine;
                 if (equalIndex >= 0)
                 {
-                    newLine = currentLine.Substring(0, equalIndex).TrimEnd() + " = " + result?.ToString();
+                    newLine = lineContent + " = " + result?.ToString();
                 }
                 else
                 {
@@ -1093,7 +1093,9 @@ namespace ctxmgr
                 }
 
                 // 替换整行文本
-                tb.Select(lineStart, lineLength-2);
+                bool isLastLine = (lineIndex == tb.LineCount - 1);
+                
+                tb.Select(lineStart, isLastLine? lineLength:lineLength - 2);
                 tb.SelectedText = newLine;
 
                 // 光标移动到行末，不选中
