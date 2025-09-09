@@ -1074,7 +1074,7 @@ namespace ctxmgr
                 int lineLength = tb.GetLineLength(lineIndex);
 
                 // 获取当前行文本
-                string currentLine = tb.Text.Substring(lineStart, lineLength).TrimEnd();
+                string currentLine = tb.Text.Substring(lineStart, lineLength);
                 string lineContent = currentLine.TrimEnd('\r', '\n');
                 string lineEnding = currentLine.Substring(lineContent.Length);
                 var expr = new NCalc.Expression(currentLine.Trim());
@@ -1089,15 +1089,15 @@ namespace ctxmgr
                 }
                 else
                 {
-                    newLine = currentLine + " = " + result?.ToString();
+                    newLine = lineContent + " = " + result?.ToString();
                 }
 
                 // 替换整行文本
-                tb.Select(lineStart, lineLength);
-                tb.SelectedText = newLine + lineEnding;
+                tb.Select(lineStart, lineLength-2);
+                tb.SelectedText = newLine;
 
                 // 光标移动到行末，不选中
-                tb.SelectionLength = 0;
+                //tb.SelectionLength = 0;
                 tb.CaretIndex = lineStart + newLine.Length;
 
             }
