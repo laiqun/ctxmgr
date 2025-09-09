@@ -3,9 +3,24 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:ctxmgr"
              StartupUri="MainWindow.xaml"
+             xmlns:tb="http://www.hardcodet.net/taskbar"
              >
     <Application.Resources>
         <ResourceDictionary>
+
+            <!--="{Binding Button_ClickCommand}"  DoubleClickCommandParameter="1"-->
+            <tb:TaskbarIcon x:Key="Taskbar" ToolTipText=""
+                    
+                     IconSource="/Resources/logo.ico">
+                <tb:TaskbarIcon.TrayToolTip>
+                    <Border Background="LightYellow" CornerRadius="5" Opacity="0.8" Padding="10">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="" Foreground="Red"/>
+                            <!--<TextBlock Text="{Binding SystemTime}" Foreground="Red"/>-->
+                        </StackPanel>
+                    </Border>
+                </tb:TaskbarIcon.TrayToolTip>
+            </tb:TaskbarIcon>
             <Style TargetType="MenuItem">
                 <Setter Property="HorizontalContentAlignment" Value="Left"/>
                 <Setter Property="VerticalContentAlignment" Value="Center"/>

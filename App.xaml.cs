@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using Hardcodet.Wpf.TaskbarNotification;
+using System.Configuration;
 using System.Data;
 using System.Diagnostics;
 using System.Globalization;
@@ -17,7 +18,7 @@ namespace ctxmgr
     {
         private const string UniqueMutexName = "ctxmgr.com.ctxmgr.UniqueStartupMutex";
         private static Mutex _mutex;
-
+        public static TaskbarIcon mTaskbarIcon;
         protected override void OnStartup(StartupEventArgs e)
         {
             bool createdNew;
@@ -33,6 +34,37 @@ namespace ctxmgr
             CultureInfo current = Thread.CurrentThread.CurrentUICulture;
             if(current.TwoLetterISOLanguageName == "zh")
                 ctxmgr.Properties.Resources.Culture = new CultureInfo("zh");
+            mTaskbarIcon = (TaskbarIcon)FindResource("Taskbar");
+            mTaskbarIcon.DataContext = new TaskbarIconViewModel();
+            // 创建 ContextMenu
+            var menu = new ContextMenu();
+
+            // 创建 MenuItem
+            menu.Items.Add(new MenuItem
+            {
+                Header = "显示界面",
+                Command = ((TaskbarIconViewModel)mTaskbarIcon.DataContext).Button_ClickCommand,
+                CommandParameter = 1
+            });
+
+            menu.Items.Add(new MenuItem
+            {
+                Header = "隐藏界面",
+                Command = ((TaskbarIconViewModel)mTaskbarIcon.DataContext).Button_ClickCommand,
+                CommandParameter = 0
+            });
+
+            menu.Items.Add(new Separator());
+
+            menu.Items.Add(new MenuItem
+            {
+                Header = "退出服务",
+                Command = ((TaskbarIconViewModel)mTaskbarIcon.DataContext).Button_ClickCommand,
+                CommandParameter = 99
+            });
+
+            // 绑定到 TaskbarIcon
+            mTaskbarIcon.ContextMenu = menu;
             base.OnStartup(e);
             
         }
