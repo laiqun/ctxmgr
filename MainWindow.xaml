@@ -361,7 +361,7 @@
                 <MenuItem Header="{x:Static props:Resources.About}" x:Name="About" Click="About_Click"></MenuItem>
             </MenuItem>
         </Menu>
-        <TabControl Grid.Row="1" x:Name="MyTabControl" MinHeight="180" MouseDoubleClick="MyTabControl_MouseDoubleClick" SelectionChanged="MyTabControl_SelectionChanged" >
+        <TabControl Grid.Row="1" x:Name="MyTabControl" MinHeight="180"  MouseDoubleClick="MyTabControl_MouseDoubleClick" SelectionChanged="MyTabControl_SelectionChanged" >
             <TabItem Style="{DynamicResource ListTabItemStyle}" x:Name="menuTabItem" Padding="0,0,0,0" Focusable="False" >
                 <TabItem.Header >
                     <Menu VerticalAlignment="Stretch" Padding="0,0,0,0"  x:Name="ListMenu" BorderThickness="0"  Margin="0" Background="LightGray"
@@ -377,7 +377,7 @@
                 </TabItem.Header>
             </TabItem>
             <TabItem HeaderTemplate="{DynamicResource DoubleClickableHeader}" Header="Tab 1" x:Name="DefaultTabItem" IsSelected="True" MouseDoubleClick="TabItemHeader_MouseDoubleClick">
-                <TextBox   x:Name="DefaultTextBox"  utilities:TextBoxHelper.Placeholder="{x:Static props:Resources.TextBoxHint}"  AcceptsReturn="True" TextWrapping="NoWrap"  TextChanged="TextBox_TextChanged" VerticalScrollBarVisibility="Auto"/>
+                <TextBox   x:Name="DefaultTextBox" PreviewKeyDown="DefaultTextBox_PreviewKeyDown"  utilities:TextBoxHelper.Placeholder="{x:Static props:Resources.TextBoxHint}"  AcceptsReturn="True" TextWrapping="NoWrap"  TextChanged="TextBox_TextChanged" VerticalScrollBarVisibility="Auto"/>
             </TabItem>
         </TabControl>
 

@@ -1,4 +1,5 @@
-﻿using ctxmgr.Model;
+﻿using CommunityToolkit.Mvvm.Input;
+using ctxmgr.Model;
 using ctxmgr.Page.BgColor;
 using ctxmgr.Page.ChangeTitle;
 using ctxmgr.Page.FontSettings;
@@ -34,8 +35,11 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using static System.Net.Mime.MediaTypeNames;
 
+
 namespace ctxmgr
 {
+    
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -48,7 +52,8 @@ namespace ctxmgr
         public MainWindow()
         {
             InitializeComponent();
-            
+           
+
             this.ToggleTopmost.IsChecked = this.Topmost;
             // 恢复窗口位置 
             ctxmgr.Properties.Config.ConfigInstance = ctxmgr.Properties.Config.Load();
@@ -432,7 +437,10 @@ namespace ctxmgr
                     var tabItem = MyTabControl.SelectedItem as TabItem;
                     var textBox = tabItem.Content as TextBox;
                     if (textBox != null)
+                    {
                         textBox.TextChanged -= TextBox_TextChanged;
+                        textBox.PreviewKeyDown -= DefaultTextBox_PreviewKeyDown;
+                    }
                     var uuid  = tabItem?.Tag?.ToString();
                     if (uuid != null)
                     {
@@ -942,7 +950,8 @@ namespace ctxmgr
             };
             TextBoxHelper.SetPlaceholder((TextBox)newTextBox, "");
             newTextBox.TextChanged += TextBox_TextChanged;
-            if(uuid == null)
+            newTextBox.PreviewKeyDown += DefaultTextBox_PreviewKeyDown;
+            if (uuid == null)
                 uuid = Guid.NewGuid().ToString();
             var tabItem = new TabItem
             {
@@ -1034,6 +1043,67 @@ namespace ctxmgr
         private void BgColorMenuItem_Click(object sender, RoutedEventArgs e)
         {
             BackgroundColorWindow.Show(this);
+        }
+
+
+        private void DefaultTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            
+            if (!(Keyboard.Modifiers == ModifierKeys.Control && e.Key == Key.Enter))
+                return;
+            if (sender is not TextBox tb)
+                return;
+            e.Handled = true;//阻止默认换行
+            int lineIndex = tb.GetLineIndexFromCharacterIndex(tb.CaretIndex);
+            if (lineIndex < 0) return;
+            try
+            {
+                /*
+                string lineText = tb.GetLineText(lineIndex);
+
+                var expr = new NCalc.Expression(lineText.Trim());
+                var result = expr.Evaluate();
+
+                int lineStart = tb.GetCharacterIndexFromLineIndex(lineIndex);
+                int lineEnd = lineStart + lineText.Length;
+
+                tb.Select(lineEnd, 0);
+                tb.SelectedText = " = " + result?.ToString();*/
+            //    int lineIndex = tb.GetLineIndexFromCharacterIndex(tb.CaretIndex);
+                int lineStart = tb.GetCharacterIndexFromLineIndex(lineIndex);
+                int lineLength = tb.GetLineLength(lineIndex);
+
+                // 获取当前行文本
+                string currentLine = tb.Text.Substring(lineStart, lineLength).TrimEnd();
+                string lineContent = currentLine.TrimEnd('\r', '\n');
+                string lineEnding = currentLine.Substring(lineContent.Length);
+                var expr = new NCalc.Expression(currentLine.Trim());
+                var result =  expr.Evaluate(); // result 在这里定义
+
+                // 构造新行
+                int equalIndex = currentLine.IndexOf('=');
+                string newLine;
+                if (equalIndex >= 0)
+                {
+                    newLine = currentLine.Substring(0, equalIndex).TrimEnd() + " = " + result?.ToString();
+                }
+                else
+                {
+                    newLine = currentLine + " = " + result?.ToString();
+                }
+
+                // 替换整行文本
+                tb.Select(lineStart, lineLength);
+                tb.SelectedText = newLine + lineEnding;
+
+                // 光标移动到行末，不选中
+                tb.SelectionLength = 0;
+                tb.CaretIndex = lineStart + newLine.Length;
+
+            }
+            catch (Exception ex) { 
+
+            }
         }
     }
 
