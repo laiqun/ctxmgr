@@ -141,7 +141,7 @@ namespace ctxmgr
 
         private void OnHotkeyPressed(object? sender, EventArgs e)
         {
-            if (this.Visibility != Visibility.Hidden)
+            if (this.Visibility != Visibility.Hidden && WindowState != WindowState.Minimized)
             {
                 this.Hide();
                 return;
