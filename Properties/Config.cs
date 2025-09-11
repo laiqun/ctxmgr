@@ -158,10 +158,17 @@ namespace ctxmgr.Properties
     public class Config
     {
         public static Config ConfigInstance = null!;
-        private static readonly string SettingsPath = Path.Combine(
-            AppDomain.CurrentDomain.BaseDirectory,
-            "data","config.json"
-        );
+
+        private static string SettingsPath
+        {
+            get {
+                string exePath = System.Diagnostics.Process.GetCurrentProcess().MainModule?.FileName ?? "";
+                string exeFolder = System.IO.Path.GetDirectoryName(exePath);
+                return Path.Combine(
+                exeFolder,
+                "data", "config.json");
+            }
+        }
         public double WindowLeft { get; set; } = -1;
         public double WindowTop { get; set; } = -1;
         public double WindowWidth { get; set; } = -1;

@@ -335,7 +335,7 @@ namespace ctxmgr
             if (ctxmgr.App.IsDuplicateInstance)
                 return;
             SaveState();
-            SaveTabToDatabase(MyTabControl.SelectedItem);
+            //SaveTabToDatabase(MyTabControl.SelectedItem);  lost focus 会触发保存的
             e.Cancel = true;
             this.Hide();
         }
@@ -631,14 +631,20 @@ namespace ctxmgr
         }
         #region tab persistence
         
-        private string DataFile => System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data","pages.db");
+        private string DataFile{
+            get {
+                string exePath = System.Diagnostics.Process.GetCurrentProcess().MainModule?.FileName ?? "";
+                string exeFolder = System.IO.Path.GetDirectoryName(exePath);
+                return System.IO.Path.Combine(exeFolder, "data", "pages.db");
+            }            
+        }
         
         private async void UpdateTabsIndexAsync(SQLite.SQLiteAsyncConnection db,
             string? uuid,
             long index) {
             db.ExecuteAsync("UPDATE Page SET `Index` = ? WHERE `Uuid` = ?",index, uuid).Wait();
         }
-        private async Task<int> SaveTabToDatabaseAsync(
+        private Task<int> SaveTabToDatabaseAsync(
             SQLite.SQLiteAsyncConnection db,
             string? uuid,
             string? id,
@@ -656,7 +662,7 @@ namespace ctxmgr
                 existingPageResult.Title = title ??"";
                 existingPageResult.Index = parsedId;
                 existingPageResult.Content = content ?? "";
-                return await db.UpdateAsync(existingPageResult);
+                return db.UpdateAsync(existingPageResult);
                  
             }
 
@@ -667,7 +673,7 @@ namespace ctxmgr
                 Title = title ?? "",
                 Content = content ?? ""
             };
-            return await db.InsertAsync(newPage);
+             return db.InsertAsync(newPage);
         }
         private void DeleteTabFileAsync(string? uuid)
         {
@@ -1125,7 +1131,8 @@ namespace ctxmgr
 
             var tabItem = sendTabItem != null ? sendTabItem : ItemsControl.ContainerFromElement(MyTabControl, tb) as TabItem;
 
-
+            if (tabItem == null)
+                return;
             string? uuid = tabItem.Tag.ToString();
             if (string.IsNullOrEmpty(uuid))
                 return;
