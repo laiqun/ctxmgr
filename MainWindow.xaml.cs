@@ -977,7 +977,8 @@ namespace ctxmgr
             {
                 AcceptsReturn = true,
                 TextWrapping = ctxmgr.Properties.Config.ConfigInstance.TextWrap ? TextWrapping.Wrap : TextWrapping.NoWrap,
-                Text = content
+                Text = content,
+                VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
             };
             TextBoxHelper.SetPlaceholder((TextBox)newTextBox, "");
             newTextBox.TextChanged += TextBox_TextChanged;
