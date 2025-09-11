@@ -25,8 +25,7 @@ namespace ctxmgr.Page.BgColor
             InitializeComponent();
             PreviewKeyDown += (s, e) =>
             {
-                e.Handled = true;
-                if (e.Key == Key.Escape) Close();
+                if (e.Key == Key.Escape) { e.Handled = true; Close(); }
             };
             this.DataContext = new BackgroundColorWindowViewModel();
         }

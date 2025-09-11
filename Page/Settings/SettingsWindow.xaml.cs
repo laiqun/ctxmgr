@@ -25,8 +25,7 @@ namespace ctxmgr.Page.Settings
             InitializeComponent();
             PreviewKeyDown += (s, e) =>
             {
-                e.Handled = true;
-                if (e.Key == Key.Escape) Close();
+                if (e.Key == Key.Escape) { e.Handled = true; Close(); }
             };
         }
  

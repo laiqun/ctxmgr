@@ -24,8 +24,13 @@ namespace ctxmgr.Page.ChangeTitle
             InitializeComponent();
             PreviewKeyDown += (s, e) =>
             {
-                e.Handled = true;
-                if (e.Key == Key.Escape) Close();
+                if (e.Key == Key.Escape) { e.Handled = true; Close(); }
+                else if(e.Key == Key.Enter && Keyboard.Modifiers == ModifierKeys.None)
+                {
+                    e.Handled = true; 
+                    _result = MessageTextBox.Text; 
+                    Close();
+                }
             };
         }
         private void SetupButtons()

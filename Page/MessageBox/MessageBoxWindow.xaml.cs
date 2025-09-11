@@ -24,8 +24,7 @@ namespace ctxmgr.Page.MessageBox
             InitializeComponent();
             PreviewKeyDown += (s, e) =>
             {
-                e.Handled = true;
-                if (e.Key == Key.Escape) Close();
+                if (e.Key == Key.Escape) { e.Handled = true; Close(); }
             };
         }
         private MessageBoxResult _result;

@@ -26,8 +26,7 @@ namespace ctxmgr.Page.FontSettings
             InitializeComponent();
             PreviewKeyDown += (s, e) =>
             {
-                e.Handled = true;
-                if (e.Key == Key.Escape) Close();
+                if (e.Key == Key.Escape) { e.Handled = true; Close(); }
             };
             this.DataContext = ctxmgr.Properties.Config.ConfigInstance.Style;
 

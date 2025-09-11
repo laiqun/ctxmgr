@@ -28,8 +28,7 @@ namespace ctxmgr.Page.About
   
             PreviewKeyDown += (s, e) =>
             {
-                e.Handled = true;
-                if (e.Key == Key.Escape) Close();
+                if (e.Key == Key.Escape) { e.Handled = true; Close(); }
             };
         }
         private void LoadAssemblyInfo()
