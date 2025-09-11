@@ -14,7 +14,7 @@
         SizeChanged="MainWindowInstance_SizeChanged"
         KeyDown="Window_KeyDown" 
         Topmost="True" Closing="Window_Closing" BorderThickness="1" 
-        Title="FlashPad" Height="600" Width="800" Background="{Binding BgSelectedColor}" Foreground="{Binding SelectedColor}"
+        Title="ThunderPad" Height="600" Width="800" Background="{Binding BgSelectedColor}" Foreground="{Binding SelectedColor}"
         >
     <Window.Resources>
         
