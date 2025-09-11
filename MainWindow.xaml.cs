@@ -60,6 +60,7 @@ namespace ctxmgr
             // 恢复窗口位置 
             ctxmgr.Properties.Config.ConfigInstance = ctxmgr.Properties.Config.Load();
             this.DataContext = ctxmgr.Properties.Config.ConfigInstance.Style;
+            this.InsertMenus.DataContext = null;
             DynamicMenusContainer.Collection = ctxmgr.Properties.Config.ConfigInstance.CustomerTextSnippets;
             
             this.Topmost = ctxmgr.Properties.Config.ConfigInstance.StayOnTop;

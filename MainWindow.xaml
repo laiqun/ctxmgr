@@ -569,7 +569,7 @@
                 <Separator></Separator>
                 <MenuItem Header="{x:Static props:Resources.TextWrap}" IsCheckable="True" x:Name="TextWrapMenuItem" Click="TextWrapMenuItem_Click"></MenuItem>
             </MenuItem>
-            <MenuItem Header="{x:Static props:Resources.Insert}" >
+            <MenuItem Header="{x:Static props:Resources.Insert}"  x:Name="InsertMenus">
                 <MenuItem.ItemsSource>
                     <CompositeCollection>
                         <MenuItem HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
