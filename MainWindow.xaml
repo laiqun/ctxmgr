@@ -514,6 +514,11 @@
                     </Trigger>
                 </Style.Triggers>
             </Style>
+            <Style TargetType="MenuItem">
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="Padding" Value="10,5"/>
+                <Setter Property="Height" Value="30"/>
+            </Style>
             <!--<Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type Control}}"></Style>
             <Style TargetType="Menu" BasedOn="{StaticResource {x:Type Control}}"></Style>-->
         </ResourceDictionary>
