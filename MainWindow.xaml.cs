@@ -53,8 +53,9 @@ namespace ctxmgr
         public MainWindow()
         {
             InitializeComponent();
-           
 
+            this.Deactivated += MainWindow_Deactivated;
+            this.Activated += MainWindow_Activated;
             this.ToggleTopmost.IsChecked = this.Topmost;
             // 恢复窗口位置 
             ctxmgr.Properties.Config.ConfigInstance = ctxmgr.Properties.Config.Load();
@@ -126,6 +127,16 @@ namespace ctxmgr
             service.CreateTables(db).Wait();
             LoadTabsFromDatabase(db);
         }
+        private bool IsActiveState = true;
+        private void MainWindow_Activated(object? sender, EventArgs e)
+        {
+            IsActiveState = true;
+        }
+
+        private void MainWindow_Deactivated(object? sender, EventArgs e)
+        {
+            IsActiveState = false;
+        }
 
         private void _hotkeyManager_HotkeyAppendPressed(object? sender, ClipEventArgs e)
         {
@@ -141,7 +152,9 @@ namespace ctxmgr
 
         private void OnHotkeyPressed(object? sender, EventArgs e)
         {
-            if (this.Visibility != Visibility.Hidden && WindowState != WindowState.Minimized)
+            if (this.Visibility != Visibility.Hidden && 
+                WindowState != WindowState.Minimized &&
+                IsActiveState)
             {
                 this.Hide();
                 return;
