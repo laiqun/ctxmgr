@@ -4,10 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ctxmgr.UserControls.ColorPicker"
+             xmlns:props="clr-namespace:ctxmgr.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="150" d:DesignWidth="220">
     <StackPanel Orientation="Vertical" Margin="5">
-        <TextBlock Text="颜色:" FontWeight="Bold"/>
+        <TextBlock Text="{x:Static props:Resources.Color}" FontWeight="Bold"/>
 
         <StackPanel Orientation="Horizontal" Margin="0,2">
             <TextBlock Text="A:" Width="20" VerticalAlignment="Center"/>

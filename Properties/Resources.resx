@@ -375,4 +375,28 @@
   <data name="HideWindow2" xml:space="preserve">
     <value>Hide Window</value>
   </data>
+  <data name="FontSettingsWindowTitle" xml:space="preserve">
+    <value>Font</value>
+  </data>
+  <data name="FontSize" xml:space="preserve">
+    <value>Font Size</value>
+  </data>
+  <data name="FontBold" xml:space="preserve">
+    <value>Bold</value>
+  </data>
+  <data name="FontItalic" xml:space="preserve">
+    <value>Italic</value>
+  </data>
+  <data name="FontUnderLine" xml:space="preserve">
+    <value>Underline</value>
+  </data>
+  <data name="Color" xml:space="preserve">
+    <value>Color</value>
+  </data>
+  <data name="FontPreview" xml:space="preserve">
+    <value>Preview font effects: The quick brown fox jumps over the lazy dog.</value>
+  </data>
+  <data name="BgColorWindowTitle" xml:space="preserve">
+    <value>Background Color</value>
+  </data>
 </root>

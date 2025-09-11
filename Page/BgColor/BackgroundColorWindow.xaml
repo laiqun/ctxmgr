@@ -4,10 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ctxmgr.Page.BgColor"
+        xmlns:props="clr-namespace:ctxmgr.Properties"
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
         xmlns:color="clr-namespace:ctxmgr.UserControls.ColorPicker"
-        Title="BackgroundColorWindow" Height="200" Width="300">
+        Title="{x:Static props:Resources.BgColorWindowTitle}" Height="200" Width="300">
     <Grid>
         <color:ColorPickerControl x:Name="BgColorPicker" Margin="10" Height="150" Width="220"/>
     </Grid>

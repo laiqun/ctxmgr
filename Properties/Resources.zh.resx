@@ -375,4 +375,28 @@
   <data name="HideWindow2" xml:space="preserve">
     <value>隐藏界面</value>
   </data>
+  <data name="FontSettingsWindowTitle" xml:space="preserve">
+    <value> 字体</value>
+  </data>
+  <data name="FontSize" xml:space="preserve">
+    <value>字体大小</value>
+  </data>
+  <data name="FontBold" xml:space="preserve">
+    <value>粗体</value>
+  </data>
+  <data name="FontItalic" xml:space="preserve">
+    <value>斜体</value>
+  </data>
+  <data name="FontUnderLine" xml:space="preserve">
+    <value>下划线</value>
+  </data>
+  <data name="Color" xml:space="preserve">
+    <value>颜色</value>
+  </data>
+  <data name="FontPreview" xml:space="preserve">
+    <value>预览字体效果：The quick brown fox jumps over the lazy dog.</value>
+  </data>
+  <data name="BgColorWindowTitle" xml:space="preserve">
+    <value>背景色</value>
+  </data>
 </root>
