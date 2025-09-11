@@ -26,7 +26,7 @@ namespace ctxmgr.Model
             if (!File.Exists(dbPath))
             {
                 var directory = Path.GetDirectoryName(dbPath);
-                if (!Directory.Exists(directory))
+                if (!Directory.Exists(directory)&&!string.IsNullOrEmpty(directory))
                 {
                     Directory.CreateDirectory(directory);
                 }

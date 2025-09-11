@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Media;
 
 namespace ctxmgr
@@ -19,6 +20,7 @@ namespace ctxmgr
         private const string UniqueMutexName = "ctxmgr.com.ctxmgr.UniqueStartupMutex";
         private static Mutex _mutex;
         public static TaskbarIcon mTaskbarIcon;
+        public static bool IsDuplicateInstance = false;
         protected override void OnStartup(StartupEventArgs e)
         {
             bool createdNew;
@@ -28,6 +30,7 @@ namespace ctxmgr
             {
                 // 已存在运行实例
                 ActivateExistingWindow();
+                IsDuplicateInstance = true;
                 Shutdown();
                 return;
             }

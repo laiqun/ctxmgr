@@ -303,7 +303,7 @@ namespace ctxmgr
             SystemParameters.StaticPropertyChanged += SystemParameters_StaticPropertyChanged;
 
         }
-        private static void SystemParameters_StaticPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private static void SystemParameters_StaticPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             EnsureStandardPopupAlignment();
         }
@@ -334,20 +334,7 @@ namespace ctxmgr
 
         private void ExitApp_Click(object sender, RoutedEventArgs e)
         {
-            ctxmgr.Properties.Config.ConfigInstance.WindowLeft = this.Left;
-            ctxmgr.Properties.Config.ConfigInstance.WindowTop = this.Top;
-            ctxmgr.Properties.Config.ConfigInstance.WindowWidth = this.Width;
-            ctxmgr.Properties.Config.ConfigInstance.WindowHeight = this.Height;
-            var selectedTab = MyTabControl.SelectedItem as TabItem;
-            if (selectedTab != null)
-            {
-                ctxmgr.Properties.Config.ConfigInstance.LastPage = selectedTab.Tag?.ToString() ?? "";
-                if (selectedTab.Content is TextBox tb)
-                {
-                    ctxmgr.Properties.Config.ConfigInstance.LastCaretIndex = tb.CaretIndex;
-                }
-            }
-            ctxmgr.Properties.Config.ConfigInstance.Save();
+            SaveState();
             _saveTimer?.Stop();
             _saveTimer = null;
 
@@ -376,6 +363,15 @@ namespace ctxmgr
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
+            if (ctxmgr.App.IsDuplicateInstance)
+                return;
+            SaveState();
+            e.Cancel = true;
+            this.Hide();
+        }
+        private void SaveState() {
+            if (this.Left == double.NaN)
+                return;
             ctxmgr.Properties.Config.ConfigInstance.WindowLeft = this.Left;
             ctxmgr.Properties.Config.ConfigInstance.WindowTop = this.Top;
             ctxmgr.Properties.Config.ConfigInstance.WindowWidth = this.Width;
@@ -390,11 +386,7 @@ namespace ctxmgr
                 }
             }
             ctxmgr.Properties.Config.ConfigInstance.Save();
-
-            e.Cancel = true;
-            this.Hide();
         }
-
         private void MyTabControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             // 获取点击位置相对于TabControl
