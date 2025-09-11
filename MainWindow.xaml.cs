@@ -110,7 +110,7 @@ namespace ctxmgr
                     this.Top = 100;
                 }
             }
-            DataObject.AddPastingHandler(DefaultTextBox, OnPasting);
+            //DataObject.AddPastingHandler(DefaultTextBox, OnPasting);
 
             _hotkeyManager = new GlobalHotkeyManager();
             _hotkeyManager.HotkeyPressed += OnHotkeyPressed;
@@ -196,9 +196,9 @@ namespace ctxmgr
         }
         private void OnPasting(object sender, DataObjectPastingEventArgs e)
         {
-            if (!e.DataObject.GetDataPresent(DataFormats.Text)) return;
+            if (!e.DataObject.GetDataPresent(DataFormats.UnicodeText)) return;
 
-            string raw = (string)e.DataObject.GetData(DataFormats.Text);
+            string raw = (string)e.DataObject.GetData(DataFormats.UnicodeText);
             string transformed = AnnotatePathType(raw);
 
             // 取消系统默认粘贴
