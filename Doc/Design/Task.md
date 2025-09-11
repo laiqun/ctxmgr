@@ -105,6 +105,7 @@ System.Runtime.InteropServices.COMException
 []在线更新功能
 []文档（实时）同步
 [x]系统托盘  草稿本完成
+* [ ] 局域网内，公告板的功能  比如要发一个通知啊，局域网内的同事都能看到
 # 竞品
 ## minipad2
 * 细节不太舒服，Ctrl+F 查找框打开后，按Esc不能关闭查找框。  已处理，但要注意以后新建的window也要支持
