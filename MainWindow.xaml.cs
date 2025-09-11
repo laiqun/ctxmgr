@@ -154,7 +154,8 @@ namespace ctxmgr
             }
             Activate();
             Topmost = true;
-            Topmost = false;
+            if(!ctxmgr.Properties.Config.ConfigInstance.StayOnTop)
+                Topmost = false;
             Focus();
         }
 
