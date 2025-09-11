@@ -399,4 +399,7 @@
   <data name="BgColorWindowTitle" xml:space="preserve">
     <value>背景色</value>
   </data>
+  <data name="Version" xml:space="preserve">
+    <value>版本</value>
+  </data>
 </root>

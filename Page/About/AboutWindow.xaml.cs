@@ -39,7 +39,7 @@ namespace ctxmgr.Page.About
             var version = asm.GetName().Version?.ToString(3) ?? "1.0.0";
 
             AppNameText.Text = name;
-            VersionText.Text = $"版本 {version}";
+            VersionText.Text = $"V {version}";
 
             // 读取 AssemblyCopyrightAttribute
             var copyrightAttr = asm.GetCustomAttribute<AssemblyCopyrightAttribute>();
