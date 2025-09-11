@@ -37,6 +37,7 @@ using System.Windows.Threading;
 using static System.Net.Mime.MediaTypeNames;
 
 
+
 namespace ctxmgr
 {
     
@@ -137,6 +138,7 @@ namespace ctxmgr
         private void MainWindow_Deactivated(object? sender, EventArgs e)
         {
             IsActiveState = false;
+            SaveTabToDatabase(MyTabControl.SelectedItem,false);
         }
 
         private void _hotkeyManager_HotkeyAppendPressed(object? sender, ClipEventArgs e)
@@ -226,7 +228,7 @@ namespace ctxmgr
             tb.CaretIndex = caret + transformed.Length;
         }
         #endregion
-        private DispatcherTimer _saveTimer; // 用于实现防抖的定时器
+        
         private readonly struct TabData
         {
             public readonly string Uuid;
@@ -242,52 +244,7 @@ namespace ctxmgr
                 Content = content;
             }
         }
-        private Dictionary<string, TabData> ChangedTabItems = new Dictionary<string, TabData>();
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (isLoadingTabs)
-                return;
-            if (sender is not TextBox tb)
-                return;
-            if (MyTabControl.SelectedItem is not TabItem selectedTab)
-                return;
-            string? uuid = selectedTab.Tag.ToString();
-            if (string.IsNullOrEmpty(uuid))
-                return;
-            
-            ChangedTabItems[uuid]= new TabData (
-                    uuid,
-                    MyTabControl.Items.IndexOf(selectedTab).ToString(),
-                    selectedTab.Header.ToString()!,
-                    tb.Text
-            );
-
-            async void SaveTimerHandler(object? s, EventArgs e)
-            {
-                _saveTimer.Stop();
-                // 复制并清空字典，避免并发修改
-                var itemsToSave = new Dictionary<string, TabData>(ChangedTabItems);
-                ChangedTabItems.Clear();
-                foreach (var kv in itemsToSave)
-                {
-                    var savedTab = kv.Value;
-
-                    SaveTabToDatabaseAsync(db, savedTab.Uuid, savedTab.Id,
-                        savedTab.Title, savedTab.Content);
-                }
-            }
-            if (_saveTimer == null)
-            {
-                _saveTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(2500) };
-                _saveTimer.Tick += SaveTimerHandler;
-            }
-            _saveTimer!.Stop();
-            _saveTimer!.Start();
-            UpdatePopupPosition(sender, e);
-            //SuggestionsPopup.IsOpen = !SuggestionsPopup.IsOpen;
-            
-        }
-
+        
 
 
         #region topmost
@@ -349,9 +306,6 @@ namespace ctxmgr
 
         private void ExitApp_Click(object sender, RoutedEventArgs e)
         {
-            SaveState();
-            _saveTimer?.Stop();
-            _saveTimer = null;
 
             System.Windows.Application.Current.Shutdown();
         }
@@ -381,6 +335,7 @@ namespace ctxmgr
             if (ctxmgr.App.IsDuplicateInstance)
                 return;
             SaveState();
+            SaveTabToDatabase(MyTabControl.SelectedItem);
             e.Cancel = true;
             this.Hide();
         }
@@ -452,14 +407,10 @@ namespace ctxmgr
                     var textBox = tabItem.Content as TextBox;
                     if (textBox != null)
                     {
-                        textBox.TextChanged -= TextBox_TextChanged;
+                        textBox.LostFocus -= DefaultTextBox_LostFocus;
                         textBox.PreviewKeyDown -= DefaultTextBox_PreviewKeyDown;
                     }
                     var uuid  = tabItem?.Tag?.ToString();
-                    if (uuid != null)
-                    {
-                        ChangedTabItems.Remove(uuid);
-                    }
                     DeleteTabFileAsync(tabItem?.Tag?.ToString());
                     MyTabControl.Items.Remove(MyTabControl.SelectedItem);
                     if (oldSelectedIndex >= MyTabControl.Items.Count)
@@ -473,6 +424,8 @@ namespace ctxmgr
             }
             SyncTabsToMenu();
         }
+
+
 
         private void SyncTabsToMenu()
         {
@@ -685,7 +638,7 @@ namespace ctxmgr
             long index) {
             db.ExecuteAsync("UPDATE Page SET `Index` = ? WHERE `Uuid` = ?",index, uuid).Wait();
         }
-        private async void SaveTabToDatabaseAsync(
+        private async Task<int> SaveTabToDatabaseAsync(
             SQLite.SQLiteAsyncConnection db,
             string? uuid,
             string? id,
@@ -703,8 +656,8 @@ namespace ctxmgr
                 existingPageResult.Title = title ??"";
                 existingPageResult.Index = parsedId;
                 existingPageResult.Content = content ?? "";
-                db.UpdateAsync(existingPageResult);
-                return;
+                return await db.UpdateAsync(existingPageResult);
+                 
             }
 
             Model.Page newPage = new Model.Page
@@ -714,7 +667,7 @@ namespace ctxmgr
                 Title = title ?? "",
                 Content = content ?? ""
             };
-            db.InsertAsync(newPage);
+            return await db.InsertAsync(newPage);
         }
         private void DeleteTabFileAsync(string? uuid)
         {
@@ -995,7 +948,8 @@ namespace ctxmgr
                 VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
             };
             TextBoxHelper.SetPlaceholder((TextBox)newTextBox, "");
-            newTextBox.TextChanged += TextBox_TextChanged;
+
+            newTextBox.LostFocus += DefaultTextBox_LostFocus;
             newTextBox.PreviewKeyDown += DefaultTextBox_PreviewKeyDown;
             if (uuid == null)
                 uuid = Guid.NewGuid().ToString();
@@ -1152,6 +1106,50 @@ namespace ctxmgr
             catch (Exception ex) { 
 
             }
+        }
+        private void SaveTabToDatabase(object sender, bool waitTabItem = true)
+        {
+            var sendTabItem = sender as TabItem;
+            TextBox tb = null!;
+            if (sendTabItem != null)//Sender is Textbox
+            {
+                tb = sendTabItem.Content as TextBox;
+            }
+            else
+            {
+                tb = sender as TextBox;
+            }
+
+            if (tb == null)
+                return;
+
+            var tabItem = sendTabItem != null ? sendTabItem : ItemsControl.ContainerFromElement(MyTabControl, tb) as TabItem;
+
+
+            string? uuid = tabItem.Tag.ToString();
+            if (string.IsNullOrEmpty(uuid))
+                return;
+
+            var data = new TabData(
+                    uuid,
+                    MyTabControl.Items.IndexOf(tabItem).ToString(),
+                    tabItem.Header.ToString()!,
+                    tb.Text
+            );
+            if (sendTabItem != null && waitTabItem)
+            {
+                SaveTabToDatabaseAsync(db, data.Uuid, data.Id,
+                    data.Title, data.Content).Wait();
+            }
+            else
+            {
+                _ = SaveTabToDatabaseAsync(db, data.Uuid, data.Id,
+                    data.Title, data.Content);
+            }
+        }
+        private  void DefaultTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            SaveTabToDatabase(sender);
         }
     }
 
