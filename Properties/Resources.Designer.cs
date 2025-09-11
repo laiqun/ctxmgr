@@ -862,7 +862,7 @@ namespace ctxmgr.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Keep Window on _Top.
+        ///   Looks up a localized string similar to _Topmost.
         /// </summary>
         public static string ToggleTopmost {
             get {

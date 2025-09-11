@@ -232,7 +232,7 @@
     <value>Jot something down or hit / for lazy command</value>
   </data>
   <data name="ToggleTopmost" xml:space="preserve">
-    <value>Keep Window on _Top</value>
+    <value>_Topmost</value>
   </data>
   <data name="Tools" xml:space="preserve">
     <value>_Tools</value>

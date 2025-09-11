@@ -232,7 +232,7 @@
     <value>快速记下或者按/使用快捷命令</value>
   </data>
   <data name="ToggleTopmost" xml:space="preserve">
-    <value>窗口保持在最顶层(_T)</value>
+    <value>置顶(_T)</value>
   </data>
   <data name="Tools" xml:space="preserve">
     <value>工具(_T)</value>
