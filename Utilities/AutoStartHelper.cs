@@ -20,7 +20,7 @@ namespace ctxmgr.Utilities
             System.Diagnostics.Process.GetCurrentProcess().MainModule?.FileName;
 
         // 快捷方式的名称（可以根据需要修改）
-        private static string ShortcutName => "ThunderPad";
+        private static string ShortcutName => "ctxmgr";
 
         /// <summary>
         /// 设置开机自动启动

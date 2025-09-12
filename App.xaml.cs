@@ -103,35 +103,36 @@ namespace ctxmgr
             }
             base.OnExit(e);
         }
-        public void ChangeGlobalFont(string fontResourceKey = "PrimaryFont",string value= "Microsoft YaHei UI")
-        {
-            // 获取当前应用程序的资源字典
-            var resources = Application.Current.Resources;
+        
+        //public void ChangeGlobalFont(string fontResourceKey = "PrimaryFont",string value= "Microsoft YaHei UI")
+        //{
+        //    // 获取当前应用程序的资源字典
+        //    var resources = Application.Current.Resources;
 
-            // 根据传入的Key获取新的FontFamily资源
-            // 注意：确保资源确实存在，否则需要进行检查
-            var newFontFamily = new FontFamily(value); ;
+        //    // 根据传入的Key获取新的FontFamily资源
+        //    // 注意：确保资源确实存在，否则需要进行检查
+        //    var newFontFamily = new FontFamily(value); ;
 
-            if (newFontFamily != null)
-            {
-                // 直接修改资源字典中对应的全局样式设置器（Setter）的值
-                // 由于样式是StaticResource，修改后需要手动通知UI更新
-                // 一种方法是直接替换整个Style，但更简单的方法是修改Setter的值
-                // 另一种可靠的方法是重新赋值资源本身，并触发资源失效通知
-                resources["PrimaryFont"] = newFontFamily; // 直接替换PrimaryFont资源
+        //    if (newFontFamily != null)
+        //    {
+        //        // 直接修改资源字典中对应的全局样式设置器（Setter）的值
+        //        // 由于样式是StaticResource，修改后需要手动通知UI更新
+        //        // 一种方法是直接替换整个Style，但更简单的方法是修改Setter的值
+        //        // 另一种可靠的方法是重新赋值资源本身，并触发资源失效通知
+        //        resources["PrimaryFont"] = newFontFamily; // 直接替换PrimaryFont资源
 
-                // 强制重新加载所有使用PrimaryFont静态资源的元素（方法较粗暴，但有效）
-                // 注意：这可能对性能有影响，但对于中小型应用通常可以接受
-                Resources.MergedDictionaries.Clear();
-                Resources.MergedDictionaries.Add(Resources);
-            }
-            //用法
-            /*if (Application.Current is App app)
-            {
-                string selectedFontKey = ((ComboBoxItem)FontSelectionComboBox.SelectedItem).Tag.ToString();
-                app.ChangeGlobalFont(selectedFontKey); // 例如: "MonoFont"
-            }*/
-        }
+        //        // 强制重新加载所有使用PrimaryFont静态资源的元素（方法较粗暴，但有效）
+        //        // 注意：这可能对性能有影响，但对于中小型应用通常可以接受
+        //        Resources.MergedDictionaries.Clear();
+        //        Resources.MergedDictionaries.Add(Resources);
+        //    }
+        //    //用法
+        //    /*if (Application.Current is App app)
+        //    {
+        //        string selectedFontKey = ((ComboBoxItem)FontSelectionComboBox.SelectedItem).Tag.ToString();
+        //        app.ChangeGlobalFont(selectedFontKey); // 例如: "MonoFont"
+        //    }*/
+        //}
     }
     /*
     internal static class NativeMethods
