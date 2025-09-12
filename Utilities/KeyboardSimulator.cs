@@ -13,6 +13,7 @@ namespace ctxmgr.Utilities
         private static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, uint dwExtraInfo);
 
         private const byte VK_CONTROL = 0x11;
+        private const byte VK_Alt = 0x12;
         private const byte VK_C = 0x43;
 
         public static void SendCtrlC()
@@ -25,6 +26,17 @@ namespace ctxmgr.Utilities
             keybd_event(VK_C, 0, 2, 0);
             // Ctrl up
             keybd_event(VK_CONTROL, 0, 2, 0);
+        }
+        public static void SendAltC()
+        {
+            // Ctrl down
+            keybd_event(VK_Alt, 0, 0, 0);
+            // C down
+            keybd_event(VK_C, 0, 0, 0);
+            // C up
+            keybd_event(VK_C, 0, 2, 0);
+            // Ctrl up
+            keybd_event(VK_Alt, 0, 2, 0);
         }
     }
 }

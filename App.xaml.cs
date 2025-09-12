@@ -29,7 +29,8 @@ namespace ctxmgr
             if (!createdNew)
             {
                 // 已存在运行实例
-                ActivateExistingWindow();
+                //ActivateExistingWindow();
+                ctxmgr.Utilities.KeyboardSimulator.SendAltC();
                 IsDuplicateInstance = true;
                 Shutdown();
                 return;
@@ -71,6 +72,7 @@ namespace ctxmgr
             base.OnStartup(e);
             
         }
+        /*
         private void ActivateExistingWindow()
         {
             // 通过进程间通信激活已有实例窗口
@@ -83,7 +85,7 @@ namespace ctxmgr
                 NativeMethods.ShowWindow(process.MainWindowHandle, NativeMethods.SW_RESTORE);
                 break;
             }
-        }
+        }*/
 
         protected override void OnExit(ExitEventArgs e)
         {
@@ -131,6 +133,7 @@ namespace ctxmgr
             }*/
         }
     }
+    /*
     internal static class NativeMethods
     {
         [DllImport("user32.dll")]
@@ -140,5 +143,5 @@ namespace ctxmgr
         public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
         public const int SW_RESTORE = 9;
-    }
+    }*/
 }
