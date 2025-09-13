@@ -43,8 +43,9 @@ namespace ctxmgr.Utilities
             _source.AddHook(HwndHook);
             var rst = NativeClipboardMethods.AddClipboardFormatListener(_windowHandle);
             // 注册 Alt+C 快捷键
-
-            if (!RegisterHotKey(_windowHandle, HOTKEY_ID, (uint)ModifierKeys.Alt, (uint)KeyInterop.VirtualKeyFromKey(Key.Z)))
+            var hotKeyBase = (Key)(ctxmgr.Properties.Config.ConfigInstance.HotKeyBase);
+            var modifiers = ctxmgr.Properties.Config.ConfigInstance.HotKeyModifiers;
+            if (!RegisterHotKey(_windowHandle, HOTKEY_ID, (uint)modifiers, (uint)KeyInterop.VirtualKeyFromKey(hotKeyBase)))
             {
                 window.Hide();
                 if (MessageBox.Show(Properties.Resources.AltZRegistrationFailed, Properties.Resources.OK) == MessageBoxResult.OK)
@@ -165,6 +166,29 @@ namespace ctxmgr.Utilities
                 _source?.RemoveHook(HwndHook);
             }
         }
+        public bool UpdateHotkey(Key baseKey,int modifiers)
+        {
+            int id = HOTKEY_ID;
+            if (_windowHandle == nint.Zero) return false;
+
+            // 先注销旧的
+            UnregisterHotKey(_windowHandle, id);
+
+            // 尝试注册新的
+            bool ok = RegisterHotKey(_windowHandle, id,
+                (uint)modifiers,
+                (uint)KeyInterop.VirtualKeyFromKey(baseKey));
+
+            if (ok)
+            {
+                ctxmgr.Properties.Config.ConfigInstance.HotKeyBase = (int)baseKey;
+                ctxmgr.Properties.Config.ConfigInstance.HotKeyModifiers = modifiers;
+                ctxmgr.Properties.Config.ConfigInstance.Save();
+            }
+
+            return ok;
+        }
+
     }
 
     internal static class NativeClipboardMethods

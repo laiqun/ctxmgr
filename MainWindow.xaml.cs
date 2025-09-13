@@ -1191,7 +1191,7 @@ namespace ctxmgr
 
         private void SettingsMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            ctxmgr.Page.Settings.SettingsWindow.Show(this);
+            ctxmgr.Page.Settings.SettingsWindow.Show(this,false, _hotkeyManager.UpdateHotkey);
         }
 
 
@@ -1211,7 +1211,7 @@ namespace ctxmgr
 
         private void InsertTextSettingMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            ctxmgr.Page.Settings.SettingsWindow.Show(this,true);
+            ctxmgr.Page.Settings.SettingsWindow.Show(this,true, _hotkeyManager.UpdateHotkey);
         }
         private void InsertCustomerTextSnippetMenuItem_Click(object sender, RoutedEventArgs e)
         {

@@ -63,6 +63,12 @@
                                     <CheckBox Content="Alt" x:Name="AltCheckBox" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" Margin="2"/>
                                     <CheckBox Content="Shift" x:Name="ShiftCheckBox" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" Margin="2"/>
                                     <CheckBox Content="Win" x:Name="WinCheckBox" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" Margin="2"/>
+                                    <TextBlock x:Name="TxtStatus" 
+                                        Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+                                        Foreground="Red"
+                                        FontSize="12"
+                                        Text=""
+                                        Margin="5,10,0,0"/>
                                 </StackPanel>
                             </Border>
                         </StackPanel>

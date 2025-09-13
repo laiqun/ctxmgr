@@ -21,6 +21,7 @@ namespace ctxmgr.Page.Settings
     public partial class SettingsWindow : Window
     {
         private bool IsInitDataLoading = true;
+        private Func<Key, int,bool> HotKeyChangedFunc;
         public SettingsWindow()
         {
             InitializeComponent();
@@ -45,7 +46,7 @@ namespace ctxmgr.Page.Settings
  
 
         public static void Show(
-             Window owner,bool isTextSnippets = false)
+             Window owner,bool isTextSnippets = false, Func<Key, int, bool> hotKeyChangedFunc = null)
         {
             var vm = new SettingsViewModel();
             var settingWindow = new SettingsWindow();
@@ -53,6 +54,7 @@ namespace ctxmgr.Page.Settings
             settingWindow.DataContext = vm;
             if(isTextSnippets)
                 settingWindow.TextSnippetsTabItem.IsSelected = true;
+            settingWindow.HotKeyChangedFunc = hotKeyChangedFunc;
             settingWindow.ShowDialog();
         }
 
@@ -73,8 +75,16 @@ namespace ctxmgr.Page.Settings
             if (CtrlCheckBox.IsChecked == true) modifiers |= 2;
             if (ShiftCheckBox.IsChecked == true) modifiers |= 4;
             if (WinCheckBox.IsChecked == true) modifiers |= 8;
-
-            
+            var rst = HotKeyChangedFunc?.Invoke(baseKey, modifiers);
+            if (rst == false)
+            {
+                HotKeyChangedFunc(Key.Z,(int)ModifierKeys.Alt);
+                TxtStatus.Text = "修改失败，恢复为原始快捷键";
+            }
+            else
+            {
+                TxtStatus.Text = "修改成功";
+            }
         }
         private void HotKeyBase_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
