@@ -23,6 +23,17 @@ namespace ctxmgr.Page.Settings
         public SettingsWindow()
         {
             InitializeComponent();
+            List<string> baseKeys = new List<string>();
+            for(int i= 0;i<26;i++)
+                baseKeys .Add(((Key)((int)Key.A + i)).ToString());
+            HotKeyBase.ItemsSource = baseKeys;
+            HotKeyBase.SelectedValue = ((Key)(ctxmgr.Properties.Config.ConfigInstance.HotKeyBase
+                )).ToString();
+            // 0: None, 1: Alt, 2: Ctrl, 4: Shift, 8: Win
+            AltCheckBox.IsChecked = (ctxmgr.Properties.Config.ConfigInstance.HotKeyModifiers & 1) != 0;
+            CtrlCheckBox.IsChecked = (ctxmgr.Properties.Config.ConfigInstance.HotKeyModifiers & 2) != 0;
+            ShiftCheckBox.IsChecked = (ctxmgr.Properties.Config.ConfigInstance.HotKeyModifiers & 4) != 0;
+            WinCheckBox.IsChecked = (ctxmgr.Properties.Config.ConfigInstance.HotKeyModifiers & 8) != 0;
             PreviewKeyDown += (s, e) =>
             {
                 if (e.Key == Key.Escape) { e.Handled = true; Close(); }
@@ -48,5 +59,7 @@ namespace ctxmgr.Page.Settings
             if (vm == null) return;
             vm.ResetToDefault();
         }
-}
+
+
+    }
 }
