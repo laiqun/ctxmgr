@@ -182,9 +182,17 @@ namespace ctxmgr
         #region Esc hide window
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key != Key.Escape)
-                return;
-            this.Hide();
+
+            if (e.Key == Key.Escape)
+                this.Hide();
+            else if(e.Key == Key.F && Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                e.Handled = true;
+                var findDialog = new ctxmgr.Page.Find.FindWindow(FindingLastKeyword);
+                findDialog.Owner = this;
+                findDialog.Show();
+            }
+
         }
         #endregion
         #region paste is file or folder?
