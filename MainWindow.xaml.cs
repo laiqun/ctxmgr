@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using AutoUpdaterDotNET;
+using CommunityToolkit.Mvvm.Input;
 using ctxmgr.Model;
 using ctxmgr.Page.BgColor;
 using ctxmgr.Page.ChangeTitle;
@@ -123,6 +124,7 @@ namespace ctxmgr
             Loaded += (s, e) =>
             {
                 _hotkeyManager.Register(this);
+                AutoUpdater.Start("http://localhost:8080/auto_update.xml");
             };
             System.Windows.Application.Current.Exit += (s, e) => _hotkeyManager.Dispose();
             var dbInitTask = service.OpenOrCreateDatabase(DataFile);
