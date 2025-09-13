@@ -2,6 +2,7 @@
 using ctxmgr.Model;
 using ctxmgr.Page.BgColor;
 using ctxmgr.Page.ChangeTitle;
+using ctxmgr.Page.Find;
 using ctxmgr.Page.FontSettings;
 using ctxmgr.Page.MessageBox;
 using ctxmgr.Page.Settings;
@@ -893,16 +894,116 @@ namespace ctxmgr
         {
             GetCurrentTextBox()?.Paste();
         }
-
+        private string FindingLastKeyword = string.Empty;
+        private bool FindingLastMatchCase = false;
+        private bool FindingLastWholeWord = false;
         private void FindMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            
-        }
+            var tb = GetCurrentTextBox();
+            var findWindow = new FindWindow
+            {
+                Owner = this
+            };
 
+            // 绑定事件
+            findWindow.FindRequested += (keyword, forward, matchCase, wholeWord) =>
+            {
+                FindingLastKeyword = keyword;
+                FindingLastMatchCase = matchCase;
+                FindingLastWholeWord = wholeWord;
+                FindTextInTextBox(tb, keyword, forward, matchCase, wholeWord);
+            };
+
+            findWindow.Show();
+        }
         private void FindNextMenuItem_Click(object sender, RoutedEventArgs e)
         {
-
+            if (string.IsNullOrEmpty(FindingLastKeyword))
+                return;
+            var tb = GetCurrentTextBox();
+            FindTextInTextBox(tb, FindingLastKeyword, true,
+                              FindingLastMatchCase,
+                              FindingLastWholeWord);
         }
+        private void FindPrevMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(FindingLastKeyword))
+                return;
+            var tb = GetCurrentTextBox();
+            FindTextInTextBox(tb, FindingLastKeyword, false,
+                              FindingLastMatchCase,
+                              FindingLastWholeWord);
+        }
+        private void FindTextInTextBox(TextBox textBox, string keyword, bool searchForward, bool caseSensitive, bool wholeWord)
+        {
+            if (string.IsNullOrEmpty(keyword)) return;
+
+            StringComparison comparison = caseSensitive
+                ? StringComparison.CurrentCulture
+                : StringComparison.CurrentCultureIgnoreCase;
+
+            int? FindNext(int start)
+            {
+                int idx = textBox.Text.IndexOf(keyword, start, comparison);
+                if (idx == -1 && start > 0) idx = textBox.Text.IndexOf(keyword, 0, comparison);
+                return idx == -1 ? (int?)null : idx;
+            }
+
+            int? FindPrevious(int start)
+            {
+                int idx = start > 0 ? textBox.Text.LastIndexOf(keyword, start, comparison) : -1;
+                if (idx == -1 && textBox.Text.Length > 0) idx = textBox.Text.LastIndexOf(keyword, textBox.Text.Length - 1, comparison);
+                return idx == -1 ? (int?)null : idx;
+            }
+
+            int? FindValidIndex(int? current)
+            {
+                if (current == null) return null;
+
+                if (!wholeWord || IsWholeWord(textBox.Text, current.Value, keyword.Length))
+                    return current;
+                if(current.Value + keyword.Length > textBox.Text.Length)
+                    return null;
+                // 当前索引不是全词，继续查找
+                int? nextIndex = searchForward
+                    ? FindNext(current.Value + keyword.Length)
+                    : (current.Value > 0 ? FindPrevious(current.Value - 1) : null);
+
+                return FindValidIndex(nextIndex);
+            }
+
+            int startIndex = searchForward
+                ? textBox.SelectionStart + textBox.SelectionLength
+                : Math.Max(0, textBox.SelectionStart - 1);
+
+            int? foundIndex = FindValidIndex(searchForward ? FindNext(startIndex) : FindPrevious(startIndex));
+
+            if (foundIndex != null)
+            {
+                textBox.Select(foundIndex.Value, keyword.Length);
+                textBox.ScrollToLine(textBox.GetLineIndexFromCharacterIndex(foundIndex.Value));
+                textBox.Focus();
+            }
+            else
+            {
+                MessageBoxWindow.Show(string.Format(Properties.Resources.CantFind,FindingLastKeyword),Properties.Resources.FindWindowTitle, MessageBoxButton.OK, this);
+            }
+        }
+
+        // 检查匹配是否是“全词”
+        private bool IsWholeWord(string text, int index, int length)
+        {
+            return IsLeftBoundarySafe(text, start:index) && IsRightBoundarySafe(text, end:index + length);
+        }
+
+        private bool IsLeftBoundarySafe(string text, int start) =>
+            start == 0 || !IsWordCharacter(text[start - 1]);
+
+        private bool IsRightBoundarySafe(string text, int end) =>
+            end == text.Length || !IsWordCharacter(text[end]);
+
+        private bool IsWordCharacter(char c) => char.IsLetterOrDigit(c) || c == '_';
+
 
         private void ReplaceMenuItem_Click(object sender, RoutedEventArgs e)
         {

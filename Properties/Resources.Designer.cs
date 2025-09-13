@@ -19,7 +19,7 @@ namespace ctxmgr.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -111,6 +111,15 @@ namespace ctxmgr.Properties {
         public static string Cancel {
             get {
                 return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t find {0}.
+        /// </summary>
+        public static string CantFind {
+            get {
+                return ResourceManager.GetString("CantFind", resourceCulture);
             }
         }
         
@@ -291,6 +300,24 @@ namespace ctxmgr.Properties {
         public static string FindNext {
             get {
                 return ResourceManager.GetString("FindNext", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Find _Previous.
+        /// </summary>
+        public static string FindPrev {
+            get {
+                return ResourceManager.GetString("FindPrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Find.
+        /// </summary>
+        public static string FindWindowTitle {
+            get {
+                return ResourceManager.GetString("FindWindowTitle", resourceCulture);
             }
         }
         

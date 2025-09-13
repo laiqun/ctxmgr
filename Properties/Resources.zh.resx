@@ -402,4 +402,13 @@
   <data name="Version" xml:space="preserve">
     <value>版本</value>
   </data>
+  <data name="CantFind" xml:space="preserve">
+    <value>找不到  {0}</value>
+  </data>
+  <data name="FindWindowTitle" xml:space="preserve">
+    <value>查找</value>
+  </data>
+  <data name="FindPrev" xml:space="preserve">
+    <value>查抄上一个(_P)</value>
+  </data>
 </root>

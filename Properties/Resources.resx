@@ -402,4 +402,13 @@
   <data name="Version" xml:space="preserve">
     <value>Version</value>
   </data>
+  <data name="CantFind" xml:space="preserve">
+    <value>Can't find {0}</value>
+  </data>
+  <data name="FindWindowTitle" xml:space="preserve">
+    <value>Find</value>
+  </data>
+  <data name="FindPrev" xml:space="preserve">
+    <value>Find _Previous</value>
+  </data>
 </root>

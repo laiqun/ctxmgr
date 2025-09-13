@@ -547,7 +547,8 @@
                 <MenuItem Header="{x:Static props:Resources.Paste}" x:Name="PasteMenuItem" Click="PasteMenuItem_Click"></MenuItem>
                 <Separator></Separator>
                 <MenuItem Header="{x:Static props:Resources.Find}" x:Name="FindMenuItem" Click="FindMenuItem_Click"></MenuItem>
-                <MenuItem Header="{x:Static props:Resources.FindNext}" x:Name="FindNextMenuItem" Click="FindNextMenuItem_Click"></MenuItem>
+                <MenuItem Header="{x:Static props:Resources.FindNext}"  x:Name="FindNextMenuItem" Click="FindNextMenuItem_Click"></MenuItem>
+                <MenuItem Header="{x:Static props:Resources.FindPrev}"  x:Name="FindPrevMenuItem" Click="FindPrevMenuItem_Click"></MenuItem>
                 <MenuItem Header="{x:Static props:Resources.Replace}" x:Name="ReplaceMenuItem" Click="ReplaceMenuItem_Click"></MenuItem>
                 <Separator></Separator>
                 <MenuItem Header="{x:Static props:Resources.SelectAll}" x:Name="SelectAllMenuItem" Click="SelectAllMenuItem_Click"></MenuItem>
