@@ -975,7 +975,30 @@ namespace ctxmgr
 
                 return null;
             }
+            /*
+            int? FindValidIndexRecursive(int start)
+            {
+                int textLength = textBox.Text.Length;
+                int? current = searchForward ? FindNext(start) : FindPrevious(start);
 
+                // 递归终止条件：current == null 或超出边界
+                if (current == null)
+                    return null;
+
+                // 检查当前索引是否满足条件（wholeWord 和边界检查）
+                if (!wholeWord || IsWholeWord(textBox.Text, current.Value, keyword.Length))
+                    return current;
+
+                // 计算下一个起始位置
+                int newStart = searchForward ? current.Value + keyword.Length : current.Value - 1;
+
+                // 边界检查，防止无限递归
+                if (newStart < 0 || newStart >= textLength)
+                    return null;
+
+                // 递归调用自身，继续查找
+                return FindValidIndexRecursive(newStart);
+            }*/
             int startIndex = searchForward
                 ? textBox.SelectionStart + textBox.SelectionLength
                 : Math.Max(0, textBox.SelectionStart - 1);
