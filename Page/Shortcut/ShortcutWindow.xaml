@@ -1,0 +1,16 @@
+﻿<Window x:Class="ctxmgr.Page.Shortcut.ShortcutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ctxmgr.Page.Shortcut"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterOwner"
+        xmlns:props="clr-namespace:ctxmgr.Properties"
+        Title="ShortcutWindow" Height="450" Width="400">
+    <Grid Margin="15,0,0,0" >
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <TextBox IsReadOnly="True" BorderThickness="0" Text="{x:Static props:Resources.ShortcutAllList}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        </ScrollViewer>
+    </Grid>
+</Window>

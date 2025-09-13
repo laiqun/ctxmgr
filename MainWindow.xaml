@@ -621,7 +621,7 @@
             </MenuItem>
             <MenuItem Header="{x:Static props:Resources.Help}">
                 <MenuItem Header="{x:Static props:Resources.SoftwareDescription}" x:Name="SoftwareDescriptionMenuItem" Click="SoftwareDescriptionMenuItem_Click" ></MenuItem>
-                <MenuItem Header="{x:Static props:Resources.ShortcutList}"></MenuItem>
+                <MenuItem Header="{x:Static props:Resources.ShortcutList}" x:Name="ShortcutListMenuItem" Click="ShortcutListMenuItem_Click"></MenuItem>
                 <Separator></Separator>
                 <MenuItem Header="{x:Static props:Resources.About}" x:Name="About" Click="About_Click"></MenuItem>
             </MenuItem>

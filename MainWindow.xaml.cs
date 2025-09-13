@@ -1333,6 +1333,15 @@ namespace ctxmgr
         {
             SaveTabToDatabase(sender);
         }
+
+        private void ShortcutListMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var shortCutWindow = new ctxmgr.Page.Shortcut.ShortcutWindow
+            {
+                Owner = this
+            };
+            shortCutWindow.Show();
+        }
     }
 
 }

@@ -41,6 +41,10 @@ namespace ctxmgr.Page.Find
             {
                 TxtKeyword.Focus();
             }
+            PreviewKeyDown += (s, e) =>
+            {
+                if (e.Key == Key.Escape) { e.Handled = true; Close(); }
+            };
         }
         private FindWindow()
         {
