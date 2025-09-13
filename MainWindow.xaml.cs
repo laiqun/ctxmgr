@@ -956,27 +956,31 @@ namespace ctxmgr
                 return idx == -1 ? (int?)null : idx;
             }
 
-            int? FindValidIndex(int? current)
+            int? FindValidIndex(int start)
             {
-                if (current == null) return null;
+                int textLength = textBox.Text.Length;
+                int? current = searchForward ? FindNext(start) : FindPrevious(start);
 
-                if (!wholeWord || IsWholeWord(textBox.Text, current.Value, keyword.Length))
-                    return current;
-                if(current.Value + keyword.Length > textBox.Text.Length)
-                    return null;
-                // 当前索引不是全词，继续查找
-                int? nextIndex = searchForward
-                    ? FindNext(current.Value + keyword.Length)
-                    : (current.Value > 0 ? FindPrevious(current.Value - 1) : null);
+                while (current != null)
+                {
+                    if (!wholeWord || IsWholeWord(textBox.Text, current.Value, keyword.Length))
+                        return current;
 
-                return FindValidIndex(nextIndex);
+                    int newStart = searchForward ? current.Value + keyword.Length : current.Value - 1;
+                    if (newStart < 0 || newStart >= textLength)
+                        return null;
+
+                    current = searchForward ? FindNext(newStart) : FindPrevious(newStart);
+                }
+
+                return null;
             }
 
             int startIndex = searchForward
                 ? textBox.SelectionStart + textBox.SelectionLength
                 : Math.Max(0, textBox.SelectionStart - 1);
 
-            int? foundIndex = FindValidIndex(searchForward ? FindNext(startIndex) : FindPrevious(startIndex));
+            int? foundIndex = FindValidIndex(startIndex);
 
             if (foundIndex != null)
             {
