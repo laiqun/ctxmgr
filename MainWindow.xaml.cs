@@ -24,6 +24,7 @@ using System.Runtime;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -899,8 +900,13 @@ namespace ctxmgr
         private bool FindingLastWholeWord = false;
         private void FindMenuItem_Click(object sender, RoutedEventArgs e)
         {
+            ShowFindWindowImpl();
+        }
+
+        private void ShowFindWindowImpl()
+        {
             var tb = GetCurrentTextBox();
-            var findWindow = new FindWindow
+            var findWindow = new FindWindow(FindingLastKeyword)
             {
                 Owner = this
             };
@@ -911,11 +917,26 @@ namespace ctxmgr
                 FindingLastKeyword = keyword;
                 FindingLastMatchCase = matchCase;
                 FindingLastWholeWord = wholeWord;
-                FindTextInTextBox(tb, keyword, forward, matchCase, wholeWord);
+                return FindTextInTextBox(tb, keyword, forward, matchCase, wholeWord,true);
             };
-
+            //string, bool, bool, bool,string,bool>   // 参数：keyword, forward, matchCase, wholeWord,replaceText
+            findWindow.ReplaceRequested += (keyword, forward, matchCase, wholeWord, replaceText) =>
+            {
+                FindingLastKeyword = keyword;
+                FindingLastMatchCase = matchCase;
+                FindingLastWholeWord = wholeWord;
+                return ReplaceTextInTextBox(keyword, forward, matchCase, wholeWord, replaceText);
+            };
+            findWindow.ReplacAllRequested += (keyword, replaceText, matchCase, wholeWord) =>
+            {
+                FindingLastKeyword = keyword;
+                FindingLastMatchCase = matchCase;
+                FindingLastWholeWord = wholeWord;
+                ReplaceAllInTextBox(keyword, replaceText, matchCase, wholeWord);
+            };
             findWindow.Show();
         }
+
         private void FindNextMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(FindingLastKeyword))
@@ -930,13 +951,14 @@ namespace ctxmgr
             if (string.IsNullOrEmpty(FindingLastKeyword))
                 return;
             var tb = GetCurrentTextBox();
+            
             FindTextInTextBox(tb, FindingLastKeyword, false,
                               FindingLastMatchCase,
                               FindingLastWholeWord);
         }
-        private void FindTextInTextBox(TextBox textBox, string keyword, bool searchForward, bool caseSensitive, bool wholeWord)
+        private bool FindTextInTextBox(TextBox textBox, string keyword, bool searchForward, bool caseSensitive, bool wholeWord,bool quiet = false)
         {
-            if (string.IsNullOrEmpty(keyword)) return;
+            if (string.IsNullOrEmpty(keyword)) return true;
 
             StringComparison comparison = caseSensitive
                 ? StringComparison.CurrentCulture
@@ -975,30 +997,6 @@ namespace ctxmgr
 
                 return null;
             }
-            /*
-            int? FindValidIndexRecursive(int start)
-            {
-                int textLength = textBox.Text.Length;
-                int? current = searchForward ? FindNext(start) : FindPrevious(start);
-
-                // 递归终止条件：current == null 或超出边界
-                if (current == null)
-                    return null;
-
-                // 检查当前索引是否满足条件（wholeWord 和边界检查）
-                if (!wholeWord || IsWholeWord(textBox.Text, current.Value, keyword.Length))
-                    return current;
-
-                // 计算下一个起始位置
-                int newStart = searchForward ? current.Value + keyword.Length : current.Value - 1;
-
-                // 边界检查，防止无限递归
-                if (newStart < 0 || newStart >= textLength)
-                    return null;
-
-                // 递归调用自身，继续查找
-                return FindValidIndexRecursive(newStart);
-            }*/
             int startIndex = searchForward
                 ? textBox.SelectionStart + textBox.SelectionLength
                 : Math.Max(0, textBox.SelectionStart - 1);
@@ -1012,9 +1010,12 @@ namespace ctxmgr
                 textBox.Focus();
             }
             else
-            {
+            {   
+                if(quiet)
+                    return false;
                 MessageBoxWindow.Show(string.Format(Properties.Resources.CantFind,FindingLastKeyword),Properties.Resources.FindWindowTitle, MessageBoxButton.OK, this);
             }
+            return true;
         }
 
         // 检查匹配是否是“全词”
@@ -1030,11 +1031,57 @@ namespace ctxmgr
             end == text.Length || !IsWordCharacter(text[end]);
 
         private bool IsWordCharacter(char c) => char.IsLetterOrDigit(c) || c == '_';
+        private bool ReplaceTextInTextBox(string keyword, bool searchForward, bool caseSensitive, bool wholeWord, string replaceText)
+        {
+            if (string.IsNullOrEmpty(keyword)) return true;
+            var textBox = GetCurrentTextBox();
+            // 如果当前选中内容就是 keyword → 替换
+            if (textBox.SelectedText.Length > 0 &&
+                string.Equals(textBox.SelectedText, keyword,
+                    caseSensitive ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase) &&
+                (!wholeWord || IsWholeWord(textBox.Text, textBox.SelectionStart, keyword.Length)))
+            {
+                textBox.SelectedText = replaceText;
+            }
 
+            // 然后继续查找下一个匹配
+            return FindTextInTextBox(textBox, keyword, searchForward, caseSensitive, wholeWord,true);
+        }
+
+        private void ReplaceAllInTextBox(string keyword, string replaceText, bool caseSensitive, bool wholeWord)
+        {
+            if (string.IsNullOrEmpty(keyword)) return;
+            var textBox = GetCurrentTextBox();
+            // 构造 Regex
+            var options = caseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase;
+            string pattern = Regex.Escape(keyword);
+
+            if (wholeWord)
+                pattern = $@"\b{pattern}\b";   // \b 单词边界（英文/数字/下划线 OK）
+
+            string original = textBox.Text;
+            string replaced = Regex.Replace(original, pattern, replaceText, options);
+
+            if (!ReferenceEquals(original, replaced))
+            {
+                int caret = textBox.CaretIndex;
+                textBox.Text = replaced;
+
+                // 尝试恢复光标（避免跳到开头）
+                textBox.CaretIndex = Math.Min(caret, replaced.Length);
+            }
+            else
+            {
+                MessageBoxWindow.Show(
+                    string.Format(Properties.Resources.CantFind, keyword),
+                    Properties.Resources.FindWindowTitle,
+                    MessageBoxButton.OK, this);
+            }
+        }
 
         private void ReplaceMenuItem_Click(object sender, RoutedEventArgs e)
         {
-
+            ShowFindWindowImpl();
         }
 
         private void SelectAllMenuItem_Click(object sender, RoutedEventArgs e)

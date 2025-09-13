@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,26 +21,46 @@ namespace ctxmgr.Page.Find
         public string Keyword => TxtKeyword.Text;
         public bool MatchCase => ChkCaseSensitive.IsChecked == true;
         public bool WholeWord => ChkWholeWord.IsChecked == true;
+        public string ReplaceTxt => TxtReplace.Text;
 
-        public event Action<string, bool, bool, bool>? FindRequested;
+        public event Func<string, bool, bool, bool,bool>? FindRequested;
         // 参数：keyword, forward, matchCase, wholeWord
-        public FindWindow()
+        public event Func<string, bool, bool, bool,string, bool>? ReplaceRequested;
+        
+        public event Action<string, string, bool, bool>? ReplacAllRequested;
+        // 参数：keyword, replaceText, matchCase, wholeWord
+        public FindWindow(string keyWord)
+        {
+            InitializeComponent();
+            if(!string.IsNullOrEmpty(keyWord))
+            {
+                TxtKeyword.Text = keyWord;
+                TxtKeyword.SelectAll();
+            }
+            else
+            {
+                TxtKeyword.Focus();
+            }
+        }
+        private FindWindow()
         {
             InitializeComponent();
         }
         private void BtnFindNext_Click(object sender, RoutedEventArgs e)
         {
-            FindRequested?.Invoke(Keyword, true, MatchCase, WholeWord);
+           bool? rst = FindRequested?.Invoke(Keyword, chkBackward.IsChecked == true, MatchCase, WholeWord);
+           TxtStatus.Text = rst == false? $"未找到: \"{Keyword}\"":"";
         }
 
-        private void BtnFindPrev_Click(object sender, RoutedEventArgs e)
+        private void BtnReplace_Click(object sender, RoutedEventArgs e)
         {
-            FindRequested?.Invoke(Keyword, false, MatchCase, WholeWord);
+            var rst = ReplaceRequested?.Invoke(Keyword, chkBackward.IsChecked == true, MatchCase, WholeWord, ReplaceTxt);
+            TxtStatus.Text = rst == false ? $"找不到: \"{Keyword}\"了" : "";
         }
 
-        private void BtnCancel_Click(object sender, RoutedEventArgs e)
+        private void BtnReplaceAll_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            ReplacAllRequested?.Invoke(Keyword, ReplaceTxt, MatchCase, WholeWord);
         }
     }
 }

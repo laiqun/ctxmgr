@@ -72,11 +72,11 @@
                 <StackPanel>
                     <Label Content="{x:Static props:Resources.InsertSeparatorFormat}"></Label>
                     <TextBox Text="{Binding InsertLineText,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
-                    <Label Content="{x:Static props:Resources.InsertDateTimeFormat}"></Label>
+                    <Label Content="{x:Static props:Resources.InsertDateTimeFormat}" Margin="0,5,0,0"></Label>
                     <TextBox Text="{Binding InsertDateText,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
-                    <Label Content="{x:Static props:Resources.InsertDateTimeSeparatorFormat}"></Label>
+                    <Label Content="{x:Static props:Resources.InsertDateTimeSeparatorFormat}" Margin="0,5,0,0"></Label>
                     <TextBox Text="{Binding InsertLineDateText,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
-                    <GroupBox Header="{x:Static props:Resources.TextSnippetsCustom}">
+                    <GroupBox Header="{x:Static props:Resources.TextSnippetsCustom}" Margin="0,15,0,0">
                         <StackPanel>
                             <Grid>
                                 <Grid.ColumnDefinitions>

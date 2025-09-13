@@ -8,7 +8,7 @@
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
         ShowInTaskbar="False"
-        Title="Find" Height="200" Width="450">
+        Title="Find" Height="220" Width="450">
     <Grid Margin="5,20,10,0" >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -22,9 +22,15 @@
         </Grid.ColumnDefinitions>
 
         <!-- 查找内容 -->
-        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Margin="0,0,0,10">
-            <Label Content="查找内容(N):" VerticalAlignment="Center"/>
-            <TextBox x:Name="TxtKeyword" Width="200" Margin="5,0,0,0"/>
+        <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="0" Margin="0,0,0,10">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="查找内容(N):" Width="80" VerticalAlignment="Center"/>
+                <TextBox x:Name="TxtKeyword" Width="200" Margin="5,0,0,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                <Label Content="替换为(P):" Width="80" VerticalAlignment="Center"/>
+                <TextBox x:Name="TxtReplace" Width="200" Margin="5,0,0,0"/>
+            </StackPanel>
         </StackPanel>
 
         <!-- 按钮区 -->
@@ -32,16 +38,26 @@
                     Orientation="Vertical" HorizontalAlignment="Right">
             <Button x:Name="BtnFindNext" Content="查找下一个(F)" Width="100" Height="25" Margin="10,0,0,5"
                     Click="BtnFindNext_Click"/>
-            <Button x:Name="BtnFindPrev" Content="查找上一个(P)" Width="100" Height="25" Margin="10,0,0,5"
-                    Click="BtnFindPrev_Click"/>
-            <Button Content="取消" Width="100" Height="25" Margin="10,20,0,0"
-                    Click="BtnCancel_Click"/>
+
+            <Button x:Name="BtnReplace" Content="替换(R)" Width="100" Height="25" Margin="10,38,0,5"
+                    Click="BtnReplace_Click"/>
+            <Button x:Name="BtnReplaceAll" Content="全部替换(A)" Width="100" Height="25" Margin="10,0,0,5"
+                    Click="BtnReplaceAll_Click"/>
         </StackPanel>
 
         <!-- 选项 -->
         <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical">
             <CheckBox x:Name="ChkWholeWord" Content="全字匹配(W)" Margin="5,0,0,5"/>
-            <CheckBox x:Name="ChkCaseSensitive" Content="区分大小写(C)" Margin="5,0,0,0"/>
+            <CheckBox x:Name="ChkCaseSensitive" Content="区分大小写(C)" Margin="5,0,0,5"/>
+            <CheckBox x:Name="chkBackward" Content="反向查找(B)" Margin="5,0,0,0"/>
+        </StackPanel>
+        <StackPanel Grid.Row="3" Grid.RowSpan="2">
+            <TextBlock x:Name="TxtStatus" 
+           Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+           Foreground="Red"
+           FontSize="12"
+           Text=""
+           Margin="5,10,0,0"/>
         </StackPanel>
     </Grid>
 </Window>
