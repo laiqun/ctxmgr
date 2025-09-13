@@ -175,6 +175,11 @@ namespace ctxmgr.Properties
         public double WindowHeight { get; set; } = -1;
         public int PageIndex { get; set; } = -1;
         public bool StayOnTop{ get; set; } = false;
+        //44-69 A-Z
+        public int HotKeyBase { get; set; } = 69;// System.Windows.Input.Key.Z
+        // 0: None, 1: Alt, 2: Ctrl, 4: Shift, 8: Win
+        public int HotKeyModifiers { get; set; } = 1;
+        
         public bool RunOnStartUp { get; set; } = false;
         public int LastCaretIndex { get; set; } = -1;
         public string LastPage { get; set; } = string.Empty;

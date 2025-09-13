@@ -44,7 +44,7 @@ namespace ctxmgr.Utilities
             var rst = NativeClipboardMethods.AddClipboardFormatListener(_windowHandle);
             // 注册 Alt+C 快捷键
 
-            if (!RegisterHotKey(_windowHandle, HOTKEY_ID, (uint)ModifierKeys.Alt, (uint)KeyInterop.VirtualKeyFromKey(Key.C)))
+            if (!RegisterHotKey(_windowHandle, HOTKEY_ID, (uint)ModifierKeys.Alt, (uint)KeyInterop.VirtualKeyFromKey(Key.Z)))
             {
                 window.Hide();
                 if (MessageBox.Show(Properties.Resources.AltZRegistrationFailed, Properties.Resources.OK) == MessageBoxResult.OK)
