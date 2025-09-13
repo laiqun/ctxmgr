@@ -20,9 +20,11 @@ namespace ctxmgr.Page.Settings
     /// </summary>
     public partial class SettingsWindow : Window
     {
+        private bool IsInitDataLoading = true;
         public SettingsWindow()
         {
             InitializeComponent();
+            IsInitDataLoading = true;
             List<string> baseKeys = new List<string>();
             for(int i= 0;i<26;i++)
                 baseKeys .Add(((Key)((int)Key.A + i)).ToString());
@@ -38,6 +40,7 @@ namespace ctxmgr.Page.Settings
             {
                 if (e.Key == Key.Escape) { e.Handled = true; Close(); }
             };
+            IsInitDataLoading = false;
         }
  
 
@@ -59,7 +62,34 @@ namespace ctxmgr.Page.Settings
             if (vm == null) return;
             vm.ResetToDefault();
         }
+        private void HotKeyChanged()
+        {
+            if (IsInitDataLoading) return;
+            var baseKeyOffset = HotKeyBase.SelectedIndex;
+            if(baseKeyOffset < 0 || baseKeyOffset > 25) return; 
+            var baseKey = (Key)((int)Key.A + baseKeyOffset);
+            int modifiers = 0;
+            if (AltCheckBox.IsChecked == true) modifiers |= 1;
+            if (CtrlCheckBox.IsChecked == true) modifiers |= 2;
+            if (ShiftCheckBox.IsChecked == true) modifiers |= 4;
+            if (WinCheckBox.IsChecked == true) modifiers |= 8;
 
+            
+        }
+        private void HotKeyBase_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            HotKeyChanged();
+        }
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            HotKeyChanged();
+        }
+
+        private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            HotKeyChanged();
+        }
 
     }
 }
