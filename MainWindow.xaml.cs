@@ -48,7 +48,7 @@ namespace ctxmgr
     public partial class MainWindow : Window
     {
         DatabaseService service = new ctxmgr.Model.DatabaseService();
-        SQLite.SQLiteAsyncConnection db = null;
+        SQLite.SQLiteAsyncConnection db = null!;
         private GlobalHotkeyManager _hotkeyManager;
        
         public MainWindow()
