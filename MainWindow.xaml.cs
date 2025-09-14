@@ -142,7 +142,10 @@ namespace ctxmgr
         private void MainWindow_Deactivated(object? sender, EventArgs e)
         {
             IsActiveState = false;
-            SaveTabToDatabase(MyTabControl.SelectedItem,false);
+            if(isExiting)
+                SaveTabToDatabase(MyTabControl.SelectedItem,true);
+            else
+                SaveTabToDatabase(MyTabControl.SelectedItem,false);
         }
 
         private void _hotkeyManager_HotkeyAppendPressed(object? sender, ClipEventArgs e)
@@ -315,10 +318,10 @@ namespace ctxmgr
         {
             this.Hide();
         }
-
+        private bool isExiting = false;
         private void ExitApp_Click(object sender, RoutedEventArgs e)
         {
-
+            isExiting = true;
             System.Windows.Application.Current.Shutdown();
         }
 
@@ -1341,7 +1344,7 @@ namespace ctxmgr
         }
         private  void DefaultTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            SaveTabToDatabase(sender);
+            SaveTabToDatabase(sender,false);
         }
 
         private void ShortcutListMenuItem_Click(object sender, RoutedEventArgs e)
