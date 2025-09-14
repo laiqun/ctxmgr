@@ -141,6 +141,8 @@ namespace ctxmgr
 
         private void MainWindow_Deactivated(object? sender, EventArgs e)
         {
+            if(isLoadingTabs)
+                return;
             IsActiveState = false;
             if(isExiting)
                 SaveTabToDatabase(MyTabControl.SelectedItem,true);
@@ -408,7 +410,17 @@ namespace ctxmgr
             MyTabControl.SelectedItem = tabItem;
             SyncTabsToMenu();
         }
-
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (isLoadingTabs)
+                return;
+            if (sender is not TextBox tb)
+                return;
+            if (MyTabControl.SelectedItem is not TabItem selectedTab)
+                return;
+            TextChangedTabItems[selectedTab] = true;
+        }
+        private Dictionary<TabItem, bool> TextChangedTabItems = new Dictionary<TabItem, bool>();
         private void DelTab_Click(object sender, RoutedEventArgs e)
         {
             if (MyTabControl.Items.Count <= 2)
@@ -422,9 +434,11 @@ namespace ctxmgr
                     var textBox = tabItem.Content as TextBox;
                     if (textBox != null)
                     {
+                        textBox.TextChanged -= TextBox_TextChanged;
                         textBox.LostFocus -= DefaultTextBox_LostFocus;
                         textBox.PreviewKeyDown -= DefaultTextBox_PreviewKeyDown;
                     }
+                    TextChangedTabItems.Remove(tabItem);
                     var uuid  = tabItem?.Tag?.ToString();
                     DeleteTabFileAsync(tabItem?.Tag?.ToString());
                     MyTabControl.Items.Remove(MyTabControl.SelectedItem);
@@ -1142,7 +1156,7 @@ namespace ctxmgr
                 VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
             };
             TextBoxHelper.SetPlaceholder((TextBox)newTextBox, "");
-
+            newTextBox.TextChanged += TextBox_TextChanged;
             newTextBox.LostFocus += DefaultTextBox_LostFocus;
             newTextBox.PreviewKeyDown += DefaultTextBox_PreviewKeyDown;
             if (uuid == null)
@@ -1304,6 +1318,9 @@ namespace ctxmgr
         private void SaveTabToDatabase(object sender, bool waitTabItem = true)
         {
             var sendTabItem = sender as TabItem;
+            if (!TextChangedTabItems.ContainsKey(sendTabItem))
+                return;
+            TextChangedTabItems.Remove(sendTabItem);
             TextBox tb = null!;
             if (sendTabItem != null)//Sender is Textbox
             {
@@ -1316,7 +1333,7 @@ namespace ctxmgr
 
             if (tb == null)
                 return;
-
+            
             var tabItem = sendTabItem != null ? sendTabItem : ItemsControl.ContainerFromElement(MyTabControl, tb) as TabItem;
 
             if (tabItem == null)
@@ -1344,6 +1361,9 @@ namespace ctxmgr
         }
         private  void DefaultTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
+            if(isLoadingTabs)
+                return;
+            
             SaveTabToDatabase(sender,false);
         }
 
