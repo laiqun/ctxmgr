@@ -48,7 +48,15 @@ namespace ctxmgr.Utilities
             if (!RegisterHotKey(_windowHandle, HOTKEY_ID, (uint)modifiers, (uint)KeyInterop.VirtualKeyFromKey(hotKeyBase)))
             {
                 window.Hide();
-                if (MessageBox.Show(Properties.Resources.AltZRegistrationFailed, Properties.Resources.OK) == MessageBoxResult.OK)
+                string baseKeyStr = ((Key)hotKeyBase).ToString();
+                string mofifierStr = "";
+                if ((modifiers & (int)ModifierKeys.Windows) != 0) mofifierStr += "Win + ";
+                if ((modifiers & (int)ModifierKeys.Shift) != 0) mofifierStr += "Shift + ";
+                if ((modifiers & (int)ModifierKeys.Control) != 0) mofifierStr += "Control + ";
+                if ((modifiers & (int)ModifierKeys.Alt) != 0) mofifierStr += "Alt + ";
+                
+
+                if (MessageBox.Show(string.Format(Properties.Resources.AltZRegistrationFailed, mofifierStr+baseKeyStr), Properties.Resources.OK) == MessageBoxResult.OK)
                     Application.Current.Shutdown();
             }
             if (!RegisterHotKey(_windowHandle, HOTKEY_ID_APPEND, (uint)ModifierKeys.Control, (uint)KeyInterop.VirtualKeyFromKey(Key.Q)))

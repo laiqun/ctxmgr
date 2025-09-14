@@ -19,7 +19,7 @@ namespace ctxmgr.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -79,7 +79,7 @@ namespace ctxmgr.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to register the global hotkey Alt+Z.
+        ///   Looks up a localized string similar to Unable to register the global hotkey {0}.
         /// </summary>
         public static string AltZRegistrationFailed {
             get {
@@ -754,35 +754,10 @@ namespace ctxmgr.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ctrl+F  :  查找字符串。
-        ///Ctrl+H 或 Ctrl+R  :  替换字符串。
-        ///F3  :  继续查找。
-        ///
-        ///Ctrl+N 或 F4  :  新建页面。
-        ///Alt+Del  :  删除页面。
-        ///F2  :  修改页面标题。
-        ///
-        ///Ctrl+-  :  插入分隔行。
-        ///Ctrl+D  :  插入日期时间。
-        ///Shift+Ctrl+-  :  插入分隔行和日期时间。
-        ///
-        ///F6  :  窗口保持在最顶层
-        ///F8  :  显示设置窗口
-        ///
-        ///ESC  :  隐藏窗口。
-        ///Ctrl+W  :  切换是否自动换行。
-        ///Ctrl+Enter  :  对光标之前的一行字符进行计算。
-        ///Ctrl+Alt+Right  :  移动窗口到屏幕右下方。
-        ///
-        ///Alt+Left/Right  :  切换页面。
-        ///Alt+0..9  :  切换页面。
-        ///Alt+Home  :  切换到第一页。
-        ///Alt+End  :  切换到最后一页。
-        ///Alt+D  :  弹出页面切换菜单。
-        ///Ctrl+Tab  :  显示下一页。
-        ///Shift+Ctrl+Tab  :  显示上一页。
-        ///
-        ///Alt+Shift+Left/Right [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to Alt+Z: Show/Hide the main window   (Customizable)
+        ///Esc: Hide the window  
+        ///Ctrl+Q: Send selected content to the current tab  
+        ///Ctrl+F: Find.
         /// </summary>
         public static string ShortcutAllList {
             get {

@@ -124,7 +124,7 @@ namespace ctxmgr
             Loaded += (s, e) =>
             {
                 _hotkeyManager.Register(this);
-                AutoUpdater.Start("http://localhost:8080/auto_update.xml");
+                AutoUpdater.Start("https://cgxmgr.com/update/auto_update.xml");
             };
             System.Windows.Application.Current.Exit += (s, e) => _hotkeyManager.Dispose();
             var dbInitTask = service.OpenOrCreateDatabase(DataFile);
