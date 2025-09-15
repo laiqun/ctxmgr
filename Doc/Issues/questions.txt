@@ -9,3 +9,52 @@ https://stackoverflow.com/questions/78194215/why-is-publicresxfilecodegenerator-
 
 # 2. 给TextBox添加水印
 https://learn.microsoft.com/en-us/dotnet/desktop/wpf/controls/how-to-add-a-watermark-to-a-textbox
+
+# 3. WPF 有多个tab，每个tab中有一个Textbox，当我点击某个tab时，当前tab，和我要切换到的Tab，都会触发 TextBox_LostFocus ，为啥？
+这个现象其实是 WPF 的焦点管理机制 导致的，不是你代码写错了。简单说就是：
+你当前在 Tab A（TextBox A 里有焦点）。
+当你点击 Tab B 的标题时，WPF 需要先切换 Tab。
+在这个过程中，TextBox A 失去了焦点 → 触发了 LostFocus。
+但是新的 Tab B 的 TextBox 还没真正得到焦点，因为点击的是 TabControl 的 TabItem Header（标签头），焦点会先暂时落在 Header 上。
+这时候 Tab B 的 TextBox 也会收到一次“失去焦点”的通知（其实是因为它没获得焦点，但逻辑上 IsVisibleChanged、GotFocus/LostFocus 事件会伴随 Tab 切换）。
+
+误触发的那次， 目标的Textbox找不到父TabItem。
+WPF 在切换 Tab 时，目标 TextBox 会被 先加载进视觉树，再触发一堆路由事件（包括 LostFocus/GotFocus 等）。但是注意：
+
+在 TabItem 的 ContentPresenter 还没完全挂载之前，目标 TextBox 不在可视化树里，因此你拿它去找 TabItem 父级，结果就是 null。
+
+事件冒泡/隧道的机制还是会跑一遍，所以你“误收到了 LostFocus”。
+
+```C#
+private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+{
+    var tb = (TextBox)sender;
+
+    // 1. TextBox 还没挂到 TabItem 上，直接忽略
+    var parentTab = ItemsControl.ItemsControlFromItemContainer(tb) 
+                    ?? tb.TryFindParent<TabItem>();
+    if (parentTab == null)
+        return; // 这就是误触发的情况
+
+    // 2. 确认焦点到底去了哪里
+    var focused = Keyboard.FocusedElement as DependencyObject;
+    if (focused != null && tb.IsAncestorOf(focused))
+        return; // 焦点还在自己内部，忽略
+
+    // 3. 到这里才算“真正失去焦点”
+    Console.WriteLine($"{tb.Name} 在 {parentTab.Header} Tab 真正 LostFocus");
+}
+//或者
+public static class DependencyObjectExtensions
+{
+    public static T? TryFindParent<T>(this DependencyObject child) where T : DependencyObject
+    {
+        DependencyObject parent = VisualTreeHelper.GetParent(child);
+        while (parent != null && !(parent is T))
+        {
+            parent = VisualTreeHelper.GetParent(parent);
+        }
+        return parent as T;
+    }
+}
+```
