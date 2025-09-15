@@ -166,7 +166,7 @@ namespace ctxmgr
         {
             if (this.Visibility != Visibility.Hidden && 
                 WindowState != WindowState.Minimized &&
-                IsActiveState||(!IsActiveState && this.Topmost))
+                (IsActiveState||(!IsActiveState && this.Topmost)))
             {
                 this.Hide();
                 return;
