@@ -10,7 +10,7 @@
 
             <!--="{Binding Button_ClickCommand}"  DoubleClickCommandParameter="1"-->
             <tb:TaskbarIcon x:Key="Taskbar" ToolTipText=""
-                    
+                     
                      IconSource="/Resources/logo.ico">
                 <!--<tb:TaskbarIcon.TrayToolTip>
                     <Border Background="LightYellow" CornerRadius="5" Opacity="0.8" Padding="10">

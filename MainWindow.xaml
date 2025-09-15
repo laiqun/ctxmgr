@@ -642,7 +642,7 @@
                 </TabItem.Header>
             </TabItem>
             <TabItem HeaderTemplate="{DynamicResource DoubleClickableHeader}" Header="Tab 1" x:Name="DefaultTabItem" IsSelected="True" MouseDoubleClick="TabItemHeader_MouseDoubleClick">
-                <TextBox   x:Name="DefaultTextBox"  PreviewKeyDown="DefaultTextBox_PreviewKeyDown"  utilities:TextBoxHelper.Placeholder="{x:Static props:Resources.TextBoxHint}"  AcceptsReturn="True" TextWrapping="NoWrap" LostFocus="DefaultTextBox_LostFocus" VerticalScrollBarVisibility="Auto"/>
+                <TextBox   x:Name="DefaultTextBox"  PreviewKeyDown="DefaultTextBox_PreviewKeyDown"  utilities:TextBoxHelper.Placeholder="{x:Static props:Resources.TextBoxHint}"  AcceptsReturn="True" TextWrapping="NoWrap" TextChanged="TextBox_TextChanged" LostFocus="DefaultTextBox_LostFocus" VerticalScrollBarVisibility="Auto"/>
             </TabItem>
         </TabControl>
 

@@ -53,16 +53,17 @@ namespace ctxmgr
         DatabaseService service = new ctxmgr.Model.DatabaseService();
         SQLite.SQLiteAsyncConnection db = null!;
         private GlobalHotkeyManager _hotkeyManager;
+        public static MainWindow Instance { get; private set; }
        
         public MainWindow()
         {
             InitializeComponent();
-
+            Instance = this;
             this.Deactivated += MainWindow_Deactivated;
             this.Activated += MainWindow_Activated;
             this.ToggleTopmost.IsChecked = this.Topmost;
             // 恢复窗口位置 
-            ctxmgr.Properties.Config.ConfigInstance = ctxmgr.Properties.Config.Load();
+
             this.DataContext = ctxmgr.Properties.Config.ConfigInstance.Style;
             this.InsertMenus.DataContext = null;
             DynamicMenusContainer.Collection = ctxmgr.Properties.Config.ConfigInstance.CustomerTextSnippets;

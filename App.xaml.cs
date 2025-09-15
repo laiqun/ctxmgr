@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 
+
 namespace ctxmgr
 {
     /// <summary>
@@ -25,23 +26,22 @@ namespace ctxmgr
         {
             bool createdNew;
             _mutex = new Mutex(true, UniqueMutexName, out createdNew);
-
+            ctxmgr.Properties.Config.ConfigInstance = ctxmgr.Properties.Config.Load();
             if (!createdNew)
             {
                 // 已存在运行实例
-                //ActivateExistingWindow();
-                ctxmgr.Utilities.KeyboardSimulator.SendAltC();
+                ActivateExistingWindow();
                 IsDuplicateInstance = true;
                 Shutdown();
                 return;
             }
             CultureInfo current = Thread.CurrentThread.CurrentUICulture;
-            if(current.TwoLetterISOLanguageName == "zh")
+            if (current.TwoLetterISOLanguageName == "zh")
                 ctxmgr.Properties.Resources.Culture = new CultureInfo("zh");
             mTaskbarIcon = (TaskbarIcon)FindResource("Taskbar");
             mTaskbarIcon.DataContext = new TaskbarIconViewModel();
             // 创建 ContextMenu
-            var menu = new ContextMenu();
+            var menu = new ContextMenu() { StaysOpen = false };
 
             // 创建 MenuItem
             menu.Items.Add(new MenuItem
@@ -69,10 +69,29 @@ namespace ctxmgr
 
             // 绑定到 TaskbarIcon
             mTaskbarIcon.ContextMenu = menu;
+
+            mTaskbarIcon.TrayLeftMouseDown += MTaskbarIcon_TrayLeftMouseDown;
             base.OnStartup(e);
-            
+
         }
-        /*
+
+        private void MTaskbarIcon_TrayLeftMouseDown(object sender, RoutedEventArgs e)
+        {
+            ctxmgr.MainWindow.Instance.Show();
+            if (ctxmgr.MainWindow.Instance.WindowState == WindowState.Minimized)
+            {
+                ctxmgr.MainWindow.Instance.WindowState = WindowState.Normal;
+            }
+            ctxmgr.MainWindow.Instance.Activate();
+            ctxmgr.MainWindow.Instance.Topmost = true;
+            if (!ctxmgr.Properties.Config.ConfigInstance.StayOnTop)
+                ctxmgr.MainWindow.Instance.Topmost = false;
+
+            ctxmgr.MainWindow.Instance.Focus();
+
+        }
+
+
         private void ActivateExistingWindow()
         {
             // 通过进程间通信激活已有实例窗口
@@ -85,7 +104,7 @@ namespace ctxmgr
                 NativeMethods.ShowWindow(process.MainWindowHandle, NativeMethods.SW_RESTORE);
                 break;
             }
-        }*/
+        }
 
         protected override void OnExit(ExitEventArgs e)
         {
@@ -103,7 +122,7 @@ namespace ctxmgr
             }
             base.OnExit(e);
         }
-        
+
         //public void ChangeGlobalFont(string fontResourceKey = "PrimaryFont",string value= "Microsoft YaHei UI")
         //{
         //    // 获取当前应用程序的资源字典
@@ -134,7 +153,7 @@ namespace ctxmgr
         //    }*/
         //}
     }
-    /*
+    
     internal static class NativeMethods
     {
         [DllImport("user32.dll")]
@@ -144,5 +163,5 @@ namespace ctxmgr
         public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
         public const int SW_RESTORE = 9;
-    }*/
+    }
 }
