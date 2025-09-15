@@ -40,6 +40,7 @@ namespace ctxmgr
                 ctxmgr.Properties.Resources.Culture = new CultureInfo("zh");
             mTaskbarIcon = (TaskbarIcon)FindResource("Taskbar");
             mTaskbarIcon.DataContext = new TaskbarIconViewModel();
+            //mTaskbarIcon.MenuActivation = PopupActivationMode.LeftOrRightClick;
             // 创建 ContextMenu
             var menu = new ContextMenu() { StaysOpen = false };
 

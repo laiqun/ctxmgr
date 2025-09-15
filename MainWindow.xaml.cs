@@ -1192,8 +1192,10 @@ namespace ctxmgr
             string id = lines[0];
             string title = lines[1];
             string content = string.Join("\n", lines.Skip(2));
-
+            isLoadingTabs = true;
             var tabItem = CreateNewTabImpl(title,content);
+            SaveTabToDatabase(MyTabControl.SelectedItem, false);
+            isLoadingTabs = false;
             MyTabControl.Items.Add(tabItem);
         }
         private async Task SaveTabToFileAsync(
