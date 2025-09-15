@@ -1318,6 +1318,10 @@ namespace ctxmgr
         private void SaveTabToDatabase(object sender, bool waitTabItem = true)
         {
             var sendTabItem = sender as TabItem;
+            if (sendTabItem == null)
+                return;
+            if (sendTabItem == menuTabItem)
+                return;
             if (!TextChangedTabItems.ContainsKey(sendTabItem))
                 return;
             TextChangedTabItems.Remove(sendTabItem);
