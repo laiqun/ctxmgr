@@ -41,6 +41,8 @@ using static System.Net.Mime.MediaTypeNames;
 
 
 
+
+
 namespace ctxmgr
 {
     
@@ -77,7 +79,7 @@ namespace ctxmgr
             }
             #region textwrap
             TextWrapMenuItem.IsChecked = ctxmgr.Properties.Config.ConfigInstance.TextWrap;
-            DefaultTextBox.TextWrapping = ctxmgr.Properties.Config.ConfigInstance.TextWrap ? TextWrapping.Wrap : TextWrapping.NoWrap;
+            //DefaultTextBox.TextWrapping = ctxmgr.Properties.Config.ConfigInstance.TextWrap ? TextWrapping.Wrap : TextWrapping.NoWrap;
             foreach (var item in MyTabControl.Items)
             {
                 if (item is TabItem tab && tab.Content is TextBox tb)
@@ -714,7 +716,10 @@ namespace ctxmgr
         {
             // 选择上次关闭时的标签页
             if (string.IsNullOrEmpty(ctxmgr.Properties.Config.ConfigInstance.LastPage))
-                return;
+            {
+                MyTabControl.SelectedIndex = 1;
+                return; 
+            }
             bool findLast = false;
             foreach (TabItem tab in MyTabControl.Items)
             {
@@ -742,7 +747,6 @@ namespace ctxmgr
             if (findLast == false)
             {
                 MyTabControl.SelectedIndex = 1;
-                DefaultTextBox.CaretIndex = DefaultTextBox.Text.Length;
             }
         }
         private void LoadTabsFromDatabase(SQLite.SQLiteAsyncConnection db)
@@ -761,21 +765,22 @@ namespace ctxmgr
             var pages = pagesTask.Result;
             if (pages.Count == 0)
             {
-                string uuid = Guid.NewGuid().ToString();
-                DefaultTabItem.Tag = uuid;
+                var tabItem = CreateNewTabImpl(ctxmgr.Properties.Resources.DefaultPageTitle, "");
+                MyTabControl.Items.Add(tabItem);
+                tabItem.IsSelected = true;
                 return;
             }
             var tabInfos = new List<(long SortKey, TabItem Tab)>();
             foreach (var page in pages)
             {
-                if (page.Index == 1)
+                /*if (page.Index == 1)
                 {
                     DefaultTabItem.Header = page.Title;
                     DefaultTabItem.Tag = page.Uuid;
                     DefaultTextBox.Text = page.Content;
                     TextBoxHelper.SetPlaceholder((TextBox)DefaultTextBox, "");
                     continue;
-                }
+                }*/
                 var tabItem = CreateNewTabImpl(page.Title,page.Content,page.Uuid);
                 tabInfos.Add((page.Index, tabItem));
             }
@@ -1320,30 +1325,33 @@ namespace ctxmgr
         }
         private void SaveTabToDatabase(object sender, bool waitTabItem = true)
         {
-            var sendTabItem = sender as TabItem;
-            if (sendTabItem == null)
+            var tabItem = sender as TabItem;
+            if (tabItem == null)
                 return;
-            if (sendTabItem == menuTabItem)
-                return;
-            if (!TextChangedTabItems.ContainsKey(sendTabItem))
-                return;
-            TextChangedTabItems.Remove(sendTabItem);
-            TextBox tb = null!;
-            if (sendTabItem != null)//Sender is Textbox
-            {
-                tb = sendTabItem.Content as TextBox;
-            }
-            else
-            {
-                tb = sender as TextBox;
-            }
 
+            SaveTabToDatabaseImpl(tabItem,waitTabItem);
+        }
+        private void SaveTbsTabToDatabase(object sender, bool waitTabItem)
+        {
+            var tb = sender as TextBox;
             if (tb == null)
                 return;
-            
-            var tabItem = sendTabItem != null ? sendTabItem : ItemsControl.ContainerFromElement(MyTabControl, tb) as TabItem;
-
+            var tabItem = ItemsControl.ContainerFromElement(MyTabControl, tb) as TabItem;
             if (tabItem == null)
+                return;
+            SaveTabToDatabaseImpl(tabItem, waitTabItem);
+        }
+        private void SaveTabToDatabaseImpl(TabItem tabItem, bool waitTabItem)
+        {
+            if (tabItem == menuTabItem)
+                return;
+            if (!TextChangedTabItems.ContainsKey(tabItem))
+                return;
+            TextChangedTabItems.Remove(tabItem);
+            if (tabItem == null)
+                return;
+            var tb = tabItem.Content as TextBox;
+            if (tb == null)
                 return;
             string? uuid = tabItem.Tag.ToString();
             if (string.IsNullOrEmpty(uuid))
@@ -1355,7 +1363,7 @@ namespace ctxmgr
                     tabItem.Header.ToString()!,
                     tb.Text
             );
-            if (sendTabItem != null && waitTabItem)
+            if (tabItem != null && waitTabItem)
             {
                 SaveTabToDatabaseAsync(db, data.Uuid, data.Id,
                     data.Title, data.Content).Wait();
@@ -1370,8 +1378,8 @@ namespace ctxmgr
         {
             if(isLoadingTabs)
                 return;
-            
-            SaveTabToDatabase(sender,false);
+
+            SaveTbsTabToDatabase(sender,false);
         }
 
         private void ShortcutListMenuItem_Click(object sender, RoutedEventArgs e)

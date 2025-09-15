@@ -417,4 +417,7 @@ Esc：    隐藏窗口
 Ctrl+q： 发送选中内容到当前Tab
 Ctrl+F： 查找</value>
   </data>
+  <data name="DefaultPageTitle" xml:space="preserve">
+    <value>默认页</value>
+  </data>
 </root>
