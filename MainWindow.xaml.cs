@@ -188,17 +188,163 @@ namespace ctxmgr
         }
 
         #region Esc hide window
-        private void Window_KeyDown(object sender, KeyEventArgs e)
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
 
             if (e.Key == Key.Escape)
-                this.Hide();
-            else if(e.Key == Key.F && Keyboard.Modifiers == ModifierKeys.Control)
             {
-                e.Handled = true;
-                var findDialog = new ctxmgr.Page.Find.FindWindow(FindingLastKeyword);
-                findDialog.Owner = this;
-                findDialog.Show();
+                this.Hide();
+            }//find actions
+            else if ((e.Key == Key.F || e.Key == Key.R) && Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                FindMenuItem_Click(FindMenuItem, new RoutedEventArgs());
+            }
+            else if (e.Key == Key.F3)
+            {
+                FindNextMenuItem_Click(FindNextMenuItem, new RoutedEventArgs());
+            }//page actions
+            else if ((e.Key == Key.N && Keyboard.Modifiers == ModifierKeys.Control) || e.Key == Key.F4)
+            {
+                NewTab_Click(NewTab, new RoutedEventArgs());
+            }
+            else if (e.Key == Key.System && Keyboard.Modifiers == ModifierKeys.Alt)
+            {
+                if (Keyboard.IsKeyDown(Key.Delete))
+                    DelTab_Click(DelTab, new RoutedEventArgs());
+                else if (Keyboard.IsKeyDown(Key.D))
+                {
+                    TabList.IsSubmenuOpen = true;
+                }
+                //to first page
+                else if (Keyboard.IsKeyDown(Key.Home))
+                {
+                    if (MyTabControl.Items.Count < 2)
+                        return;
+                    MyTabControl.SelectedIndex = 1;
+                }
+                //to end page
+                else if (Keyboard.IsKeyDown(Key.End))
+                {
+                    if (MyTabControl.Items.Count < 2)
+                        return;
+                    MyTabControl.SelectedIndex = MyTabControl.Items.Count - 1;
+                }
+                else
+                {
+                    for (var curKey = Key.NumPad0; curKey <= Key.NumPad9; curKey++)
+                    {
+                        if (Keyboard.IsKeyDown(curKey))
+                        {
+                            var number = curKey - Key.NumPad0;
+                            if (number <= 0)
+                                number = 10;
+                            if (MyTabControl.Items.Count <= number)
+                                return;
+                            MyTabControl.SelectedIndex = number;
+                            break;
+                        }
+                    }
+                    for (var curKey = Key.D0; curKey <= Key.D9; curKey++)
+                    {
+                        if (Keyboard.IsKeyDown(curKey))
+                        {
+                            var number = curKey - Key.D0;
+                            if (number <= 0)
+                                number = 10;
+                            if (MyTabControl.Items.Count <= number)
+                                return;
+                            MyTabControl.SelectedIndex = number;
+                            break;
+                        }
+                    }
+                }
+            }
+            else if (e.Key == Key.F2)
+            {
+                ChangeTitle_Click(ChangeTitle, new RoutedEventArgs());
+            }//insert actions
+            else if ((e.Key == Key.OemMinus && Keyboard.Modifiers == ModifierKeys.Control))
+            {
+                InsertSeparatorMenuItem_Click(InsertSeparatorMenuItem, new RoutedEventArgs());
+            }
+            else if ((e.Key == Key.D && Keyboard.Modifiers == ModifierKeys.Control))
+            {
+                InsertDateTimeMenuItem_Click(InsertDateTimeMenuItem, new RoutedEventArgs());
+            }
+            else if ((e.Key == Key.OemMinus && Keyboard.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift)))
+            {
+                InsertDateTimeSeparator_Click(InsertDateTimeSeparator, new RoutedEventArgs());
+            }
+            else if (e.Key == Key.F6)//topmost
+            {
+                ToggleTopmost_Click(ToggleTopmost, new RoutedEventArgs());
+            }
+            else if (e.Key == Key.F8)//settings
+            {
+                SettingsMenuItem_Click(SettingsMenuItem, new RoutedEventArgs());
+            }
+            else if (e.Key == Key.W && Keyboard.Modifiers == ModifierKeys.Control)//text wrap
+            {
+                TextWrapMenuItem_Click(TextWrapMenuItem, new RoutedEventArgs());
+            }
+            //to next page
+            else if ((e.Key == Key.Right && Keyboard.Modifiers == ModifierKeys.Alt) ||
+                (e.Key == Key.Tab && Keyboard.Modifiers == ModifierKeys.Control))
+            {
+                if (MyTabControl.Items.Count <= 2)
+                    return;
+                int currentIndex = MyTabControl.SelectedIndex;
+                Debug.WriteLine(currentIndex);
+                int nextIndex = (currentIndex + 1) % MyTabControl.Items.Count;
+                if (nextIndex == 0)//skip first menu tab
+                    nextIndex = 1;
+                Debug.WriteLine("xxx");
+                Debug.WriteLine(nextIndex);
+                //原因：在窗口加载或 TabItem 还没生成时，直接设置 SelectedIndex 可能被 WPF 修正。
+
+                //方法：用 Dispatcher.BeginInvoke 延迟到布局完成后设置：
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    MyTabControl.SelectedIndex = nextIndex;
+                }), System.Windows.Threading.DispatcherPriority.Loaded);
+            }
+            //to previous page
+            else if ((e.Key == Key.Left && Keyboard.Modifiers == ModifierKeys.Alt) ||
+                (e.Key == Key.Tab && Keyboard.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift)))
+            {
+                if (MyTabControl.Items.Count <= 2)
+                    return;
+                int currentIndex = MyTabControl.SelectedIndex;
+                int previousIndex = (currentIndex - 1 + MyTabControl.Items.Count) % MyTabControl.Items.Count;
+                if (previousIndex == 0)//skip first menu tab
+                    previousIndex = MyTabControl.Items.Count - 1;
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    MyTabControl.SelectedIndex = previousIndex;
+                }), System.Windows.Threading.DispatcherPriority.Loaded);
+            }
+            else if (Keyboard.Modifiers ==( ModifierKeys.Alt | ModifierKeys.Shift))
+            {
+                //move page to left
+                if (Keyboard.IsKeyDown(Key.Left) )
+                {
+                    MoveLeftMenuItem_Click(MoveLeftMenuItem, new RoutedEventArgs());
+                }
+                else if (Keyboard.IsKeyDown(Key.Right))
+                {
+                    MoveRightMenuItem_Click(MoveRightMenuItem, new RoutedEventArgs());
+                }
+                //move to the first
+                else if (Keyboard.IsKeyDown(Key.Home) )
+                {
+                    MoveLeftMostMenuItem_Click(MoveLeftMostMenuItem, new RoutedEventArgs());
+                }
+                //move to the end
+                else if (Keyboard.IsKeyDown(Key.End))
+                {
+                    MoveRightMostMenuItem_Click(MoveRightMostMenuItem, new RoutedEventArgs());
+
+                }
             }
 
         }
@@ -491,6 +637,7 @@ namespace ctxmgr
             if (isLoadingTabs)
                 return;
             SyncTabsToMenu();
+            
             #region Get the selected TabItem
             if (MyTabControl.SelectedItem is TabItem selectedTab)
             {
@@ -1000,14 +1147,16 @@ namespace ctxmgr
             int? FindNext(int start)
             {
                 int idx = textBox.Text.IndexOf(keyword, start, comparison);
-                if (idx == -1 && start > 0) idx = textBox.Text.IndexOf(keyword, 0, comparison);
+                if (idx == -1 && start > 0) 
+                    idx = textBox.Text.IndexOf(keyword, 0, comparison);
                 return idx == -1 ? (int?)null : idx;
             }
 
             int? FindPrevious(int start)
             {
-                int idx = start > 0 ? textBox.Text.LastIndexOf(keyword, start, comparison) : -1;
-                if (idx == -1 && textBox.Text.Length > 0) idx = textBox.Text.LastIndexOf(keyword, textBox.Text.Length - 1, comparison);
+                int idx = start >= 0 ? textBox.Text.LastIndexOf(keyword, start, comparison) : -1;
+                if (idx == -1 && textBox.Text.Length > 0) 
+                    idx = textBox.Text.LastIndexOf(keyword, textBox.Text.Length - 1, comparison);
                 return idx == -1 ? (int?)null : idx;
             }
 
@@ -1032,7 +1181,7 @@ namespace ctxmgr
             }
             int startIndex = searchForward
                 ? textBox.SelectionStart + textBox.SelectionLength
-                : Math.Max(0, textBox.SelectionStart - 1);
+                : textBox.SelectionStart - 1;
 
             int? foundIndex = FindValidIndex(startIndex);
 
