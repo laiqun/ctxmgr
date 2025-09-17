@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ctxmgr.Page.Toast;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -87,7 +88,7 @@ namespace ctxmgr.Utilities
                         previousClipboardText = newText;
 
                         HotkeyAppendPressed?.Invoke(this, new ClipEventArgs(newText));
-
+                        new ToastWindow("添加成功！").Show();
                         // 恢复旧剪贴板
                         if (!string.IsNullOrEmpty(oldClipboardText))
                         {
