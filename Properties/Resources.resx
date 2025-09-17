@@ -416,6 +416,39 @@
 Esc: Hide the window  
 Ctrl+Q: Send selected content to the current tab  
 Ctrl+F: Find</value>
+    <comment>Alt+Z : Show/Hide main window (modifiable)
+Ctrl+Q : Send selected content to current tab
+
+F6 : Keep window always on top
+F8 : Show settings window
+ESC : Hide window.
+
+Ctrl+F : Find string.
+Ctrl+R : Replace string.
+F3 : Find next.
+
+Ctrl+N or F4 : Create new page.
+Alt+Del : Delete page.
+F2 : Edit page title.
+
+Ctrl+- : Insert separator line.
+Ctrl+D : Insert date and time.
+Shift+Ctrl+- : Insert separator line and date &amp; time.
+
+Ctrl+W : Toggle word wrap.
+Ctrl+Enter : Calculate the line before the cursor.
+
+Alt+Left/Right : Switch page.
+Ctrl+Tab : Show next page.
+Shift+Ctrl+Tab : Show previous page.
+Alt+0..9 : Switch page.
+Alt+Home : Switch to first page.
+Alt+End : Switch to last page.
+Alt+D : Show page switch menu.
+
+Alt+Shift+Left/Right : Move page left/right.
+Alt+Shift+Home : Move page to far left.
+Alt+Shift+End : Move page to far right.</comment>
   </data>
   <data name="DefaultPageTitle" xml:space="preserve">
     <value>Default</value>
