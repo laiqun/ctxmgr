@@ -257,17 +257,17 @@
                            MouseDoubleClick="TabItemHeader_MouseDoubleClick">
                         <Label.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="{x:Static props:Resources.NewTab}" x:Name="NewTab" Click="NewTab_Click"></MenuItem>
-                                <MenuItem Header="{x:Static props:Resources.DelTab}" x:Name="DelTab" Click="DelTab_Click"></MenuItem>
+                                <MenuItem Header="{x:Static props:Resources.NewTab}" Click="NewTab_Click"></MenuItem>
+                                <MenuItem Header="{x:Static props:Resources.DelTab}" Click="DelTab_Click"></MenuItem>
                                 <Separator></Separator>
-                                <MenuItem Header="{x:Static props:Resources.EditTabTitle}" x:Name="ChangeTitle" Click="ChangeTitle_Click"></MenuItem>
+                                <MenuItem Header="{x:Static props:Resources.EditTabTitle}" Click="ChangeTitle_Click"></MenuItem>
                                 <Separator></Separator>
                                 <MenuItem Header="{x:Static props:Resources.Move}">
-                                    <MenuItem Header="{x:Static props:Resources.MoveToLeftMost}" x:Name="MoveLeftMostMenuItem" Click="MoveLeftMostMenuItem_Click"></MenuItem>
-                                    <MenuItem Header="{x:Static props:Resources.MoveToRightMost}" x:Name="MoveRightMostMenuItem" Click="MoveRightMostMenuItem_Click"></MenuItem>
+                                    <MenuItem Header="{x:Static props:Resources.MoveToLeftMost}"  Click="MoveLeftMostMenuItem_Click"></MenuItem>
+                                    <MenuItem Header="{x:Static props:Resources.MoveToRightMost}"  Click="MoveRightMostMenuItem_Click"></MenuItem>
                                     <Separator></Separator>
-                                    <MenuItem Header="{x:Static props:Resources.MoveLeft}" x:Name="MoveLeftMenuItem" Click="MoveLeftMenuItem_Click"></MenuItem>
-                                    <MenuItem Header="{x:Static props:Resources.MoveRight}" x:Name="MoveRightMenuItem" Click="MoveRightMenuItem_Click"></MenuItem>
+                                    <MenuItem Header="{x:Static props:Resources.MoveLeft}"  Click="MoveLeftMenuItem_Click"></MenuItem>
+                                    <MenuItem Header="{x:Static props:Resources.MoveRight}"  Click="MoveRightMenuItem_Click"></MenuItem>
                                 </MenuItem>
 
                             </ContextMenu>
