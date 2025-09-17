@@ -220,14 +220,20 @@ namespace ctxmgr
                 {
                     if (MyTabControl.Items.Count < 2)
                         return;
-                    MyTabControl.SelectedIndex = 1;
+                    Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        MyTabControl.SelectedIndex = 1;
+                    }), System.Windows.Threading.DispatcherPriority.Loaded);
                 }
                 //to end page
                 else if (Keyboard.IsKeyDown(Key.End))
                 {
                     if (MyTabControl.Items.Count < 2)
                         return;
-                    MyTabControl.SelectedIndex = MyTabControl.Items.Count - 1;
+                    Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        MyTabControl.SelectedIndex = MyTabControl.Items.Count - 1;
+                    }), System.Windows.Threading.DispatcherPriority.Loaded);
                 }
                 else
                 {
