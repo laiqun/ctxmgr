@@ -53,13 +53,13 @@ namespace ctxmgr.Page.Find
         private void BtnFindNext_Click(object sender, RoutedEventArgs e)
         {
            bool? rst = FindRequested?.Invoke(Keyword, chkBackward.IsChecked == false, MatchCase, WholeWord);
-           TxtStatus.Text = rst == false? $"未找到: \"{Keyword}\"":"";
+           TxtStatus.Text = rst == false? ctxmgr.Properties.Resources.NotFound +$": \"{Keyword}\"":"";
         }
 
         private void BtnReplace_Click(object sender, RoutedEventArgs e)
         {
             var rst = ReplaceRequested?.Invoke(Keyword, chkBackward.IsChecked == false, MatchCase, WholeWord, ReplaceTxt);
-            TxtStatus.Text = rst == false ? $"找不到: \"{Keyword}\"了" : "";
+            TxtStatus.Text = rst == false ? ctxmgr.Properties.Resources.NoMoreFound + $": \"{Keyword}\"" : "";
         }
 
         private void BtnReplaceAll_Click(object sender, RoutedEventArgs e)

@@ -453,4 +453,25 @@ Alt+Shift+End : Move page to far right.</comment>
   <data name="DefaultPageTitle" xml:space="preserve">
     <value>Default</value>
   </data>
+  <data name="SuccessfulAdd" xml:space="preserve">
+    <value>Successful add !</value>
+  </data>
+  <data name="ChangeHotkeySuccess" xml:space="preserve">
+    <value>Change Hotkey success!</value>
+  </data>
+  <data name="ChangeHotkeyFail" xml:space="preserve">
+    <value>Change HotKey fail!,Reset to default!</value>
+  </data>
+  <data name="NotFound" xml:space="preserve">
+    <value>Not Found</value>
+  </data>
+  <data name="NoMoreFound" xml:space="preserve">
+    <value>No More Found</value>
+  </data>
+  <data name="ErrorSettingAutoStart" xml:space="preserve">
+    <value>Error occurred when setting auto-start</value>
+  </data>
+  <data name="ErrorCreatingShotcut" xml:space="preserve">
+    <value>Error creating shortcut.</value>
+  </data>
 </root>

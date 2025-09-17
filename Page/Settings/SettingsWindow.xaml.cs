@@ -79,11 +79,11 @@ namespace ctxmgr.Page.Settings
             if (rst == false)
             {
                 HotKeyChangedFunc(Key.Z,(int)ModifierKeys.Alt);
-                TxtStatus.Text = "修改失败，恢复为原始快捷键";
+                TxtStatus.Text = ctxmgr.Properties.Resources.ChangeHotkeyFail;
             }
             else
             {
-                TxtStatus.Text = "修改成功";
+                TxtStatus.Text = ctxmgr.Properties.Resources.ChangeHotkeySuccess;
             }
         }
         private void HotKeyBase_SelectionChanged(object sender, SelectionChangedEventArgs e)

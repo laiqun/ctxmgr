@@ -124,6 +124,24 @@ namespace ctxmgr.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change HotKey fail!,Reset to default!.
+        /// </summary>
+        public static string ChangeHotkeyFail {
+            get {
+                return ResourceManager.GetString("ChangeHotkeyFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change Hotkey success!.
+        /// </summary>
+        public static string ChangeHotkeySuccess {
+            get {
+                return ResourceManager.GetString("ChangeHotkeySuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Color.
         /// </summary>
         public static string Color {
@@ -264,6 +282,24 @@ namespace ctxmgr.Properties {
         public static string EditTabTitle {
             get {
                 return ResourceManager.GetString("EditTabTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error creating shortcut..
+        /// </summary>
+        public static string ErrorCreatingShotcut {
+            get {
+                return ResourceManager.GetString("ErrorCreatingShotcut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error occurred when setting auto-start.
+        /// </summary>
+        public static string ErrorSettingAutoStart {
+            get {
+                return ResourceManager.GetString("ErrorSettingAutoStart", resourceCulture);
             }
         }
         
@@ -628,6 +664,24 @@ namespace ctxmgr.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No More Found.
+        /// </summary>
+        public static string NoMoreFound {
+            get {
+                return ResourceManager.GetString("NoMoreFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not Found.
+        /// </summary>
+        public static string NotFound {
+            get {
+                return ResourceManager.GetString("NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to OK.
         /// </summary>
         public static string OK {
@@ -834,6 +888,15 @@ namespace ctxmgr.Properties {
         public static string SoftwareDescription {
             get {
                 return ResourceManager.GetString("SoftwareDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successful add !.
+        /// </summary>
+        public static string SuccessfulAdd {
+            get {
+                return ResourceManager.GetString("SuccessfulAdd", resourceCulture);
             }
         }
         

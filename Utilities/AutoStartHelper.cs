@@ -51,7 +51,7 @@ namespace ctxmgr.Utilities
             catch (Exception ex)
             {
                 // 实际项目中可进行日志记录
-                Console.WriteLine($"设置自启动时出错: {ex.Message}");
+                Console.WriteLine(ctxmgr.Properties.Resources.ErrorSettingAutoStart+$": {ex.Message}");
                 return false;
             }
         }
@@ -92,7 +92,7 @@ namespace ctxmgr.Utilities
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"创建快捷方式时出错: {ex.Message}");
+                Console.WriteLine(ctxmgr.Properties.Resources.ErrorCreatingShotcut+$": {ex.Message}");
                 return false;
             }
         }

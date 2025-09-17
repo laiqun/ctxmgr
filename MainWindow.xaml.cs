@@ -300,12 +300,9 @@ namespace ctxmgr
                 if (MyTabControl.Items.Count <= 2)
                     return;
                 int currentIndex = MyTabControl.SelectedIndex;
-                Debug.WriteLine(currentIndex);
                 int nextIndex = (currentIndex + 1) % MyTabControl.Items.Count;
                 if (nextIndex == 0)//skip first menu tab
                     nextIndex = 1;
-                Debug.WriteLine("xxx");
-                Debug.WriteLine(nextIndex);
                 //原因：在窗口加载或 TabItem 还没生成时，直接设置 SelectedIndex 可能被 WPF 修正。
 
                 //方法：用 Dispatcher.BeginInvoke 延迟到布局完成后设置：

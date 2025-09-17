@@ -53,8 +53,8 @@ namespace ctxmgr.Page.Toast
                 }
             };
 
-            Width = 240;
-            Height = 60;
+            Width = 160;
+            Height = 40;
 
             // 定位到右下角
             var wa = SystemParameters.WorkArea;

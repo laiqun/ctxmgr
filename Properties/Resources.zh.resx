@@ -452,4 +452,25 @@ Alt+Shift+End         :  移动页面到最右侧。</value>
   <data name="DefaultPageTitle" xml:space="preserve">
     <value>默认页</value>
   </data>
+  <data name="SuccessfulAdd" xml:space="preserve">
+    <value>添加成功!</value>
+  </data>
+  <data name="ChangeHotkeySuccess" xml:space="preserve">
+    <value>修改成功</value>
+  </data>
+  <data name="ChangeHotkeyFail" xml:space="preserve">
+    <value>修改失败，恢复为原始快捷键</value>
+  </data>
+  <data name="NotFound" xml:space="preserve">
+    <value>找不到</value>
+  </data>
+  <data name="NoMoreFound" xml:space="preserve">
+    <value>找不到更多</value>
+  </data>
+  <data name="ErrorSettingAutoStart" xml:space="preserve">
+    <value>设置自启动时出错</value>
+  </data>
+  <data name="ErrorCreatingShotcut" xml:space="preserve">
+    <value>创建快捷方式时出错</value>
+  </data>
 </root>
