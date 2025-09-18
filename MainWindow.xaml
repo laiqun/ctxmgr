@@ -629,7 +629,7 @@
             </MenuItem>
             <MenuItem Header="{x:Static props:Resources.Tools}">
                 <MenuItem Header="{x:Static props:Resources.ToggleTopmost}" x:Name="ToggleTopmost" Click="ToggleTopmost_Click"></MenuItem>
-                <MenuItem Header="{x:Static props:Resources.RunOnStartUp}" Visibility="Collapsed" x:Name="ToggleRunOnStartUp" Click="ToggleRunOnStartUp_Click"></MenuItem>
+                <MenuItem Header="Select Folder/Files"  x:Name="ToggleRunOnStartUp" Click="ToggleRunOnStartUp_Click"></MenuItem>
                 <Separator></Separator>
                 <MenuItem Header="{x:Static props:Resources.Settings}" x:Name="SettingsMenuItem" Click="SettingsMenuItem_Click"></MenuItem>
             </MenuItem>

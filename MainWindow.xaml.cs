@@ -780,6 +780,9 @@ namespace ctxmgr
 
         private void ToggleRunOnStartUp_Click(object sender, RoutedEventArgs e)
         {
+            var selctor = new Page.FileFolderSelector.FileFolderSelector();
+            selctor.Show();
+            return;
             this.ToggleRunOnStartUp.IsChecked = !this.ToggleRunOnStartUp.IsChecked;
 
             AutoStartHelper.SetAutoStart(this.ToggleRunOnStartUp.IsChecked == true);
