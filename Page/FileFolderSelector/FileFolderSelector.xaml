@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ctxmgr.Page.FileFolderSelector"
         mc:Ignorable="d"
-        Title="FileFolderSelector" Height="600" Width="800">
+        WindowStartupLocation="CenterOwner"
+        Title="FileFolderSelector" Height="460" Width="740">
     <Window.Resources>
         <SolidColorBrush x:Key="TreeViewItem.TreeArrow.Static.Stroke" Color="#FF818181"/>
         <SolidColorBrush x:Key="TreeViewItem.TreeArrow.Static.Fill" Color="#FFFFFFFF"/>
@@ -145,14 +146,20 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <!-- 顶部输入栏 -->
-        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
-            <TextBox Text="{Binding TargetFolder, UpdateSourceTrigger=PropertyChanged}" Width="600" VerticalAlignment="Center" Margin="0,0,10,0"/>
-            <Button Content="浏览..." Width="80" Command="{Binding BrowseCommand}"/>
-            <Button Content="加载" Width="80" Margin="10,0,0,0" Command="{Binding LoadCommand}"/>
-        </StackPanel>
+        <Grid Grid.Row="0"  Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0" Text="{Binding TargetFolder, UpdateSourceTrigger=PropertyChanged}" x:Name="FolderTextBox"  VerticalAlignment="Center" Margin="0,0,10,0"/>
+            <Button Grid.Column="1" Content="浏览..." Width="80" Command="{Binding BrowseCommand}"/>
+            <Button Grid.Column="2" Content="加载" Width="80" Margin="10,0,0,0" Command="{Binding LoadCommand}"/>
+        </Grid>
        <!-- <TreeView>
             <TreeViewItem Style="{DynamicResource TreeViewItemStyle1}" Header="计算机">
                 <TreeViewItem Header="本地磁盘 (C:)">
@@ -168,7 +175,7 @@
             <TreeViewItem Header="回收站"/>
         </TreeView>-->
         <!-- TreeView -->
-        <TreeView Grid.Row="1" ItemsSource="{Binding RootItems}" >
+        <TreeView Grid.Row="1" ItemsSource="{Binding RootItems}" MouseDoubleClick="TreeView_MouseDoubleClick">
             
             <TreeView.Resources>
                 <HierarchicalDataTemplate DataType="{x:Type local:FileSystemItemViewModel}" ItemsSource="{Binding Children}">
@@ -180,7 +187,7 @@
                             </CheckBox.LayoutTransform>
                         </CheckBox>
                         <!-- 文件夹/文件图标 -->
-                        <TextBlock Text="{Binding Icon}" FontSize="20" VerticalAlignment="Center"  Margin="0,0,5,0"/>
+                        <TextBlock Text="{Binding Icon}" FontSize="20" Foreground="{Binding IconColor}" VerticalAlignment="Center"  Margin="0,0,5,0"/>
 
                         <!-- 文件/文件夹名字 -->
                         <TextBlock Text="{Binding Name}" FontSize="20" VerticalAlignment="Center"  />
@@ -194,8 +201,11 @@
                     <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
                     <Setter Property="Margin" Value="0,0,0,4"/>
                 </Style>
-            </TreeView.ItemContainerStyle> 
+            </TreeView.ItemContainerStyle>
         </TreeView>
-
+        <StackPanel Orientation="Vertical" Grid.Row="3">
+            <TextBlock Text="在文件夹上双击展开/隐藏文子节点"></TextBlock>
+            <TextBlock Text="在文件上双击选中文件"></TextBlock>
+        </StackPanel>
     </Grid>
 </Window>

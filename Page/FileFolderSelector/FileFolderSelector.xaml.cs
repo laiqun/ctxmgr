@@ -25,10 +25,56 @@ namespace ctxmgr.Page.FileFolderSelector
         public FileFolderSelector()
         {
             InitializeComponent();
+            FolderTextBox.Focus();
+            
             PreviewKeyDown += (s, e) =>
             {
                 if (e.Key == Key.Escape) { e.Handled = true; Close(); }
             };
+        }
+
+        private void TreeView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is System.Windows.Controls.TreeView treeView)
+            {
+                // 获取点击的TreeViewItem
+                //e.OriginalSource：获取鼠标点击的原始UI元素
+                //可能是TextBlock、CheckBox、Border等任意子元素
+                //需要找到包含这些元素的TreeViewItem
+                var clickedItem = GetClickedTreeViewItem(e.OriginalSource as DependencyObject);
+                /*
+                DependencyObject 是WPF中所有UI元素的基类
+                System.Object
+                └── System.Windows.DependencyObject
+                    └── System.Windows.UIElement
+                        └── System.Windows.FrameworkElement
+                            └── System.Windows.Controls.Control
+                                └── System.Windows.Controls.ContentControl
+                                    └── System.Windows.Controls.Button
+
+                */
+
+
+                if (clickedItem != null && clickedItem.DataContext is FileSystemItemViewModel item)
+                {
+                    // 只对文件启用双击功能，不对文件夹
+                    if (!item.IsDirectory)
+                    {
+                        // 切换复选框状态
+                        item.IsChecked = !item.IsChecked;
+                        e.Handled = true;
+                    }
+                }
+            }
+        }
+
+        private TreeViewItem GetClickedTreeViewItem(DependencyObject source)
+        {
+            while (source != null && source is not TreeViewItem)
+            {
+                source = VisualTreeHelper.GetParent(source);
+            }
+            return source as TreeViewItem;
         }
     }
     public partial class MainViewModel : ObservableObject
@@ -60,7 +106,7 @@ namespace ctxmgr.Page.FileFolderSelector
             RootItems.Clear();
             RootItems.Add(new FileSystemItemViewModel
             {
-                Name = System.IO.Path.GetFileName(TargetFolder),
+                Name = System.IO.Path.GetFileName(TargetFolder.TrimEnd('\\')),
                 FullPath = TargetFolder,
                 IsDirectory = true
             });

@@ -2,8 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+
 using System.IO;
 using System.Text;
+using System.Windows.Media;
 
 namespace ctxmgr.Page.FileFolderSelector
 {
@@ -38,10 +40,12 @@ namespace ctxmgr.Page.FileFolderSelector
         public FileSystemItemViewModel Parent { get; set; }
 
         public string Icon => IsDirectory ? (IsExpanded ? "📂" : "📁") : "📄";
+        public Brush IconColor => IsDirectory ? Brushes.Orange : Brushes.Gray;
 
         partial void OnIsExpandedChanged(bool value)
         {
             OnPropertyChanged(nameof(Icon));
+            //Line:32
             if (value && IsDirectory && Children.Count == 1 && Children[0] == null)
                 LoadChildren();
         }
@@ -114,6 +118,43 @@ namespace ctxmgr.Page.FileFolderSelector
 
             OnPropertyChanged(nameof(IsChecked));
             Parent?.UpdateCheckState();
+        }
+
+        /// <summary>
+        /// 获取所有选中的文件ViewModel
+        /// </summary>
+        public static List<FileSystemItemViewModel> GetSelectedFileViewModels(IEnumerable<FileSystemItemViewModel> items)
+        {
+            var selectedFiles = new List<FileSystemItemViewModel>();
+            foreach (var item in items)
+            {
+                GetSelectedFileViewModelsRecursive(item, selectedFiles);
+            }
+            return selectedFiles;
+        }
+
+        private static void GetSelectedFileViewModelsRecursive(FileSystemItemViewModel item, List<FileSystemItemViewModel> selectedFiles)
+        {
+            if (item.IsDirectory)
+            {
+                if (item.IsChecked == true)//Skip include child
+                    selectedFiles.Add(item);
+                else if (item.IsChecked == null && item.Children != null)
+                {
+                    foreach (var child in item.Children)
+                    {
+                        if (child != null)
+                        {
+                            GetSelectedFileViewModelsRecursive(child, selectedFiles);
+                        }
+                    }
+                }
+            }
+            else //is file
+            {
+                if(item.IsChecked == true)
+                    selectedFiles.Add(item);
+            }
         }
     }
 }

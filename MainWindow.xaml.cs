@@ -780,8 +780,11 @@ namespace ctxmgr
 
         private void ToggleRunOnStartUp_Click(object sender, RoutedEventArgs e)
         {
-            var selctor = new Page.FileFolderSelector.FileFolderSelector();
-            selctor.Show();
+            var selctor = new Page.FileFolderSelector.FileFolderSelector()
+            {
+                Owner = this
+            };
+            selctor.ShowDialog();
             return;
             this.ToggleRunOnStartUp.IsChecked = !this.ToggleRunOnStartUp.IsChecked;
 
