@@ -156,25 +156,10 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0" Text="{Binding TargetFolder, UpdateSourceTrigger=PropertyChanged}" x:Name="FolderTextBox" KeyDown="FolderTextBox_KeyDown"  VerticalAlignment="Center" Margin="0,0,10,0" RenderTransformOrigin="0.5,0.5">
-                <TextBox.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform  ScaleY="1.5"/>
-                        <SkewTransform/>
-                        <RotateTransform/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </TextBox.RenderTransform>
+            <TextBox Grid.Column="0" Height="26" VerticalContentAlignment="Center" Text="{Binding TargetFolder, UpdateSourceTrigger=PropertyChanged}" x:Name="FolderTextBox" KeyDown="FolderTextBox_KeyDown"  VerticalAlignment="Center" Margin="0,0,10,0" RenderTransformOrigin="0.5,0.5">
+
             </TextBox>
-            <Button Grid.Column="1" Content="{x:Static props:Resources.Browse}" Width="80" Command="{Binding BrowseCommand}" RenderTransformOrigin="0.5,0.5" Margin="2,0,0,0">
-                <Button.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform ScaleX="1" ScaleY="1.2"/>
-                        <SkewTransform/>
-                        <RotateTransform/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </Button.RenderTransform>
+            <Button Grid.Column="1" Height="32" Padding="2"  Content="{x:Static props:Resources.Browse}" Width="80" Command="{Binding BrowseCommand}" RenderTransformOrigin="0.5,0.5" Margin="2,0,0,0">
             </Button>
             <!--      <Button Grid.Column="2" Content="{x:Static props:Resources.Load}" Width="80" Margin="10,0,0,0" Command="{Binding LoadCommand}"/> -->
         </Grid>
