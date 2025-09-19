@@ -611,7 +611,7 @@ namespace ctxmgr
         private void SyncTabsToMenu()
         {
             //TabList.Items.Clear();
-            if (MyTabControl.Items.Count <= 2)
+            if (MyTabControl.Items.Count < 2)
                 return;
             List<MenuItem> menuItemList = new List<MenuItem>();
             foreach (TabItem tab in MyTabControl.Items)
