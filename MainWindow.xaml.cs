@@ -73,10 +73,6 @@ namespace ctxmgr
             this.Topmost = ctxmgr.Properties.Config.ConfigInstance.StayOnTop;
             this.ToggleTopmost.IsChecked = ctxmgr.Properties.Config.ConfigInstance.StayOnTop;
 
-            {
-                bool isAutoStartEnabled = AutoStartHelper.IsAutoStartEnabled();
-                this.ToggleRunOnStartUp.IsChecked = isAutoStartEnabled;
-            }
             #region textwrap
             TextWrapMenuItem.IsChecked = ctxmgr.Properties.Config.ConfigInstance.TextWrap;
             //DefaultTextBox.TextWrapping = ctxmgr.Properties.Config.ConfigInstance.TextWrap ? TextWrapping.Wrap : TextWrapping.NoWrap;
@@ -198,6 +194,10 @@ namespace ctxmgr
             else if ((e.Key == Key.F || e.Key == Key.R) && Keyboard.Modifiers == ModifierKeys.Control)
             {
                 FindMenuItem_Click(FindMenuItem, new RoutedEventArgs());
+            }
+            else if(e.Key == Key.O && Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                ToggleSelector_Click(ToggleSelector, new RoutedEventArgs());
             }
             else if (e.Key == Key.F3)
             {
@@ -326,10 +326,10 @@ namespace ctxmgr
                     MyTabControl.SelectedIndex = previousIndex;
                 }), System.Windows.Threading.DispatcherPriority.Loaded);
             }
-            else if (Keyboard.Modifiers ==( ModifierKeys.Alt | ModifierKeys.Shift))
+            else if (Keyboard.Modifiers == (ModifierKeys.Alt | ModifierKeys.Shift))
             {
                 //move page to left
-                if (Keyboard.IsKeyDown(Key.Left) )
+                if (Keyboard.IsKeyDown(Key.Left))
                 {
                     MoveLeftMenuItem_Click(MoveLeftMenuItem, new RoutedEventArgs());
                 }
@@ -338,7 +338,7 @@ namespace ctxmgr
                     MoveRightMenuItem_Click(MoveRightMenuItem, new RoutedEventArgs());
                 }
                 //move to the first
-                else if (Keyboard.IsKeyDown(Key.Home) )
+                else if (Keyboard.IsKeyDown(Key.Home))
                 {
                     MoveLeftMostMenuItem_Click(MoveLeftMostMenuItem, new RoutedEventArgs());
                 }
@@ -778,7 +778,7 @@ namespace ctxmgr
             Process.Start(psi);
         }
 
-        private void ToggleRunOnStartUp_Click(object sender, RoutedEventArgs e)
+        private void ToggleSelector_Click(object sender, RoutedEventArgs e)
         {
             var selctor = new Page.FileFolderSelector.FileFolderSelector()
             {
@@ -786,11 +786,12 @@ namespace ctxmgr
             };
             selctor.ShowDialog();
             return;
+            /*
             this.ToggleRunOnStartUp.IsChecked = !this.ToggleRunOnStartUp.IsChecked;
 
             AutoStartHelper.SetAutoStart(this.ToggleRunOnStartUp.IsChecked == true);
             ctxmgr.Properties.Config.ConfigInstance.RunOnStartUp = this.ToggleRunOnStartUp.IsChecked == true;
-            ctxmgr.Properties.Config.ConfigInstance.Save();
+            ctxmgr.Properties.Config.ConfigInstance.Save();*/
         }
 
         private void TextWrapMenuItem_Click(object sender, RoutedEventArgs e)

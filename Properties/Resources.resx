@@ -220,7 +220,7 @@
     <value>Select _All</value>
   </data>
   <data name="Settings" xml:space="preserve">
-    <value>Settings(_O)</value>
+    <value>Settings(_S)</value>
   </data>
   <data name="ShortcutList" xml:space="preserve">
     <value>_Shortcut List</value>
@@ -418,6 +418,7 @@ Ctrl+Q: Send selected content to the current tab
 Ctrl+F: Find</value>
     <comment>Alt+Z : Show/Hide main window (modifiable)
 Ctrl+Q : Send selected content to current tab
+Ctrl+O: Choose Folder/Files
 
 F6 : Keep window always on top
 F8 : Show settings window
@@ -473,5 +474,23 @@ Alt+Shift+End : Move page to far right.</comment>
   </data>
   <data name="ErrorCreatingShotcut" xml:space="preserve">
     <value>Error creating shortcut.</value>
+  </data>
+  <data name="ChooseFolderFiles" xml:space="preserve">
+    <value>_Ch_oose Folder &amp; Files...</value>
+  </data>
+  <data name="ChooseFolderFilesWindowTitle" xml:space="preserve">
+    <value>Choose Folder &amp; Files</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="Load" xml:space="preserve">
+    <value>Load</value>
+  </data>
+  <data name="DoubleClickFolder" xml:space="preserve">
+    <value>💡 Double-click on a folder to expand or collapse its subnodes.</value>
+  </data>
+  <data name="DoubleClickFile" xml:space="preserve">
+    <value>💡 ​Double-click a file to check/uncheck it.​</value>
   </data>
 </root>

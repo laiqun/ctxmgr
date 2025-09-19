@@ -5,10 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ctxmgr.Page.Find"
         mc:Ignorable="d"
+        xmlns:props="clr-namespace:ctxmgr.Properties"
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
         ShowInTaskbar="False"
-        Title="Find" Height="220" Width="450">
+        Title="{x:Static props:Resources.FindWindowTitle}" Height="220" Width="450">
     <Grid Margin="5,20,10,0" >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

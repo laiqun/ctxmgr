@@ -76,6 +76,19 @@ namespace ctxmgr.Page.FileFolderSelector
             }
             return source as TreeViewItem;
         }
+
+        private void FolderTextBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key != Key.Enter)
+                return;
+
+            // 可选：阻止事件继续传递（如避免换行）
+            e.Handled = true;
+            if (this.DataContext is MainViewModel vm)
+            {
+                vm.LoadCommand.Execute(null);
+            }
+        }
     }
     public partial class MainViewModel : ObservableObject
     {
@@ -90,12 +103,13 @@ namespace ctxmgr.Page.FileFolderSelector
             using (var dialog = new FolderBrowserDialog())
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
+                {
                     TargetFolder = dialog.SelectedPath;
+                    LoadImpl();
+                }
             }
         }
-
-        [RelayCommand]
-        private void Load()
+        private void LoadImpl()
         {
             if (!Directory.Exists(TargetFolder))
             {
@@ -110,6 +124,11 @@ namespace ctxmgr.Page.FileFolderSelector
                 FullPath = TargetFolder,
                 IsDirectory = true
             });
+        }
+        [RelayCommand]
+        private void Load()
+        {
+            LoadImpl();
         }
     }
 }

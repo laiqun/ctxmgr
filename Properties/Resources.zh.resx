@@ -220,7 +220,7 @@
     <value>全选(_A)</value>
   </data>
   <data name="Settings" xml:space="preserve">
-    <value>设置(_O)</value>
+    <value>设置(_S)</value>
   </data>
   <data name="ShortcutList" xml:space="preserve">
     <value>快捷键列表(_S)</value>
@@ -414,6 +414,7 @@
   <data name="ShortcutAllList" xml:space="preserve">
     <value>Alt+Z :  显示/隐藏主窗口(可修改)
 Ctrl+Q:  发送选中内容到当前Tab
+Ctrl+O:  选择文件夹/文件
 
 F6  :  窗口保持在最顶层
 F8  :  显示设置窗口
@@ -472,5 +473,23 @@ Alt+Shift+End         :  移动页面到最右侧。</value>
   </data>
   <data name="ErrorCreatingShotcut" xml:space="preserve">
     <value>创建快捷方式时出错</value>
+  </data>
+  <data name="ChooseFolderFiles" xml:space="preserve">
+    <value>选择文件夹和文件...(_O)</value>
+  </data>
+  <data name="ChooseFolderFilesWindowTitle" xml:space="preserve">
+    <value>选择文件夹和文件</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>浏览...</value>
+  </data>
+  <data name="Load" xml:space="preserve">
+    <value>加载</value>
+  </data>
+  <data name="DoubleClickFolder" xml:space="preserve">
+    <value>💡 双击文件夹 展开/折叠子节点</value>
+  </data>
+  <data name="DoubleClickFile" xml:space="preserve">
+    <value>💡 双击文件 选择/取消勾选</value>
   </data>
 </root>

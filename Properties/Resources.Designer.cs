@@ -106,6 +106,15 @@ namespace ctxmgr.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Browse.
+        /// </summary>
+        public static string Browse {
+            get {
+                return ResourceManager.GetString("Browse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string Cancel {
@@ -138,6 +147,24 @@ namespace ctxmgr.Properties {
         public static string ChangeHotkeySuccess {
             get {
                 return ResourceManager.GetString("ChangeHotkeySuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Ch_oose Folder &amp; Files....
+        /// </summary>
+        public static string ChooseFolderFiles {
+            get {
+                return ResourceManager.GetString("ChooseFolderFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose Folder &amp; Files.
+        /// </summary>
+        public static string ChooseFolderFilesWindowTitle {
+            get {
+                return ResourceManager.GetString("ChooseFolderFilesWindowTitle", resourceCulture);
             }
         }
         
@@ -264,6 +291,24 @@ namespace ctxmgr.Properties {
         public static string DelTab {
             get {
                 return ResourceManager.GetString("DelTab", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 💡 ​Double-click a file to check/uncheck it.​.
+        /// </summary>
+        public static string DoubleClickFile {
+            get {
+                return ResourceManager.GetString("DoubleClickFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 💡 Double-click on a folder to expand or collapse its subnodes..
+        /// </summary>
+        public static string DoubleClickFolder {
+            get {
+                return ResourceManager.GetString("DoubleClickFolder", resourceCulture);
             }
         }
         
@@ -583,6 +628,15 @@ namespace ctxmgr.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Load.
+        /// </summary>
+        public static string Load {
+            get {
+                return ResourceManager.GetString("Load", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _Load from File.
         /// </summary>
         public static string LoadFromFile {
@@ -799,7 +853,7 @@ namespace ctxmgr.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Settings(_O).
+        ///   Looks up a localized string similar to Settings(_S).
         /// </summary>
         public static string Settings {
             get {
