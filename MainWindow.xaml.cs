@@ -37,7 +37,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using static System.Net.Mime.MediaTypeNames;
 
 
 
@@ -779,7 +778,7 @@ namespace ctxmgr
             };
             Process.Start(psi);
         }
-
+        
         private void ToggleSelector_Click(object sender, RoutedEventArgs e)
         {
             Label lbl = sender as Label;
@@ -794,8 +793,8 @@ namespace ctxmgr
                 return;
             var page = GetWorkdSpaceAsync(db, uuid);
 
-            
-            var selector = new Page.FileFolderSelector.FileFolderSelector((workspace) =>
+
+            var selectorWindow = new Page.FileFolderSelector.FileFolderSelector((workspace) =>
             {
                 var curTab = MyTabControl.SelectedItem as TabItem;
                 if(curTab == null)
@@ -804,10 +803,10 @@ namespace ctxmgr
                 if(string.IsNullOrEmpty(uuid))
                     return;
                 UpdateWorkdSpaceAsync(db,uuid, workspace);
-                curTab.ToolTip = workspace;
+               // curTab.ToolTip = workspace;
             }, page?.Workspace);
-            selector.Owner = this;
-            selector.ShowDialog();
+            selectorWindow.Owner = this;
+            selectorWindow.ShowDialog();
             return;
             /*
             this.ToggleRunOnStartUp.IsChecked = !this.ToggleRunOnStartUp.IsChecked;
@@ -1361,6 +1360,7 @@ namespace ctxmgr
             newTextBox.TextChanged += TextBox_TextChanged;
             newTextBox.LostFocus += DefaultTextBox_LostFocus;
             newTextBox.PreviewKeyDown += DefaultTextBox_PreviewKeyDown;
+            
             if (uuid == null)
                 uuid = Guid.NewGuid().ToString();
             var tabItem = new TabItem
@@ -1369,8 +1369,8 @@ namespace ctxmgr
                 Tag = uuid,
                 Content = newTextBox
             };
-            if(!string.IsNullOrEmpty(tooltip))
-                tabItem.ToolTip = tooltip;
+            //if (!string.IsNullOrEmpty(tooltip))
+            //    tabItem.ToolTip = tooltip;
             tabItem.HeaderTemplate = this.FindResource("DoubleClickableHeader") as DataTemplate;
             return tabItem;
         }
@@ -1594,6 +1594,6 @@ namespace ctxmgr
 
         }
 
-   }
+}
 
 }

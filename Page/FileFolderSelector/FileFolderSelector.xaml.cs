@@ -30,16 +30,21 @@ namespace ctxmgr.Page.FileFolderSelector
         {
             InitializeComponent();
             var vm = new MainViewModel();
-            vm.TargetFolder = workSpace;
+            
             vm.SetWorkSpace +=   act;
+            vm.TargetFolder = workSpace;
             this.DataContext = vm;
+            this.FolderTextBox.Text = workSpace;
             FolderTextBox.Focus();
-
+            FolderTextBox.SelectAll();
+            
             PreviewKeyDown += (s, e) =>
             {
                 if (e.Key == Key.Escape) { e.Handled = true; Close(); }
             };
+
         }
+
 
         private void TreeView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
