@@ -49,7 +49,7 @@ namespace ctxmgr.Page.FileFolderSelector
             if (value && IsDirectory && Children.Count == 1 && Children[0] == null)
                 LoadChildren();
         }
-
+        public static event Func<List<FileSystemItemViewModel>> GetAllChecked;
         partial void OnIsCheckedChanged(bool? value)
         {
             // 防止用户手动点击时出现 null
@@ -70,6 +70,8 @@ namespace ctxmgr.Page.FileFolderSelector
 
             // 更新父节点状态（父节点显示三态仅由子节点决定）
             Parent?.UpdateCheckState();
+            //Gen list
+            var items = GetAllChecked();
         }
 
         private void LoadChildren()
@@ -120,41 +122,5 @@ namespace ctxmgr.Page.FileFolderSelector
             Parent?.UpdateCheckState();
         }
 
-        /// <summary>
-        /// 获取所有选中的文件ViewModel
-        /// </summary>
-        public static List<FileSystemItemViewModel> GetSelectedFileViewModels(IEnumerable<FileSystemItemViewModel> items)
-        {
-            var selectedFiles = new List<FileSystemItemViewModel>();
-            foreach (var item in items)
-            {
-                GetSelectedFileViewModelsRecursive(item, selectedFiles);
-            }
-            return selectedFiles;
-        }
-
-        private static void GetSelectedFileViewModelsRecursive(FileSystemItemViewModel item, List<FileSystemItemViewModel> selectedFiles)
-        {
-            if (item.IsDirectory)
-            {
-                if (item.IsChecked == true)//Skip include child
-                    selectedFiles.Add(item);
-                else if (item.IsChecked == null && item.Children != null)
-                {
-                    foreach (var child in item.Children)
-                    {
-                        if (child != null)
-                        {
-                            GetSelectedFileViewModelsRecursive(child, selectedFiles);
-                        }
-                    }
-                }
-            }
-            else //is file
-            {
-                if(item.IsChecked == true)
-                    selectedFiles.Add(item);
-            }
-        }
     }
 }

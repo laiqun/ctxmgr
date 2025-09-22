@@ -73,6 +73,7 @@ namespace ctxmgr
             this.Topmost = ctxmgr.Properties.Config.ConfigInstance.StayOnTop;
             this.ToggleTopmost.IsChecked = ctxmgr.Properties.Config.ConfigInstance.StayOnTop;
 
+
             #region textwrap
             TextWrapMenuItem.IsChecked = ctxmgr.Properties.Config.ConfigInstance.TextWrap;
             //DefaultTextBox.TextWrapping = ctxmgr.Properties.Config.ConfigInstance.TextWrap ? TextWrapping.Wrap : TextWrapping.NoWrap;
@@ -119,7 +120,7 @@ namespace ctxmgr
 
             _hotkeyManager = new GlobalHotkeyManager();
             _hotkeyManager.HotkeyPressed += OnHotkeyPressed;
-            _hotkeyManager.HotkeyAppendPressed += _hotkeyManager_HotkeyAppendPressed; ;
+            _hotkeyManager.HotkeyAppendPressed += HotkeyManager_HotkeyAppendPressed; ;
             Loaded += (s, e) =>
             {
                 _hotkeyManager.Register(this);
@@ -149,7 +150,7 @@ namespace ctxmgr
                 SaveTabToDatabase(MyTabControl.SelectedItem,false);
         }
 
-        private void _hotkeyManager_HotkeyAppendPressed(object? sender, ClipEventArgs e)
+        private void HotkeyManager_HotkeyAppendPressed(object? sender, ClipEventArgs e)
         {
             var tabItem = MyTabControl.SelectedItem as TabItem;
             if(tabItem == null)
@@ -197,6 +198,7 @@ namespace ctxmgr
             }
             else if(e.Key == Key.O && Keyboard.Modifiers == ModifierKeys.Control)
             {
+                e.Handled = true;
                 ToggleSelector_Click(ToggleSelector, new RoutedEventArgs());
             }
             else if (e.Key == Key.F3)
@@ -780,11 +782,32 @@ namespace ctxmgr
 
         private void ToggleSelector_Click(object sender, RoutedEventArgs e)
         {
-            var selctor = new Page.FileFolderSelector.FileFolderSelector()
+            Label lbl = sender as Label;
+            if (lbl != null)
+                return;
+            var curTab = MyTabControl.SelectedItem as TabItem;
+            if (curTab == null)
+                return;
+
+            var uuid = curTab.Tag.ToString();
+            if (string.IsNullOrEmpty(uuid))
+                return;
+            var page = GetWorkdSpaceAsync(db, uuid);
+
+            
+            var selector = new Page.FileFolderSelector.FileFolderSelector((workspace) =>
             {
-                Owner = this
-            };
-            selctor.ShowDialog();
+                var curTab = MyTabControl.SelectedItem as TabItem;
+                if(curTab == null)
+                    return;
+                var uuid = curTab.Tag.ToString();
+                if(string.IsNullOrEmpty(uuid))
+                    return;
+                UpdateWorkdSpaceAsync(db,uuid, workspace);
+                curTab.ToolTip = workspace;
+            }, page?.Workspace);
+            selector.Owner = this;
+            selector.ShowDialog();
             return;
             /*
             this.ToggleRunOnStartUp.IsChecked = !this.ToggleRunOnStartUp.IsChecked;
@@ -833,6 +856,20 @@ namespace ctxmgr
             long index) {
             db.ExecuteAsync("UPDATE Page SET `Index` = ? WHERE `Uuid` = ?",index, uuid).Wait();
         }
+        private async void UpdateWorkdSpaceAsync(SQLite.SQLiteAsyncConnection db,
+        string? uuid,
+        string Workspace)
+        {
+            db.ExecuteAsync("UPDATE Page SET `Workspace` = ? WHERE `Uuid` = ?", Workspace, uuid).Wait();
+        }
+        private Model.Page  GetWorkdSpaceAsync(SQLite.SQLiteAsyncConnection db,
+        string? uuid)
+        {
+            var existingPage = db.Table<Model.Page>().FirstOrDefaultAsync(x => x.Uuid == uuid);
+            existingPage.Wait();
+            return existingPage.Result;
+        }
+
         private Task<int> SaveTabToDatabaseAsync(
             SQLite.SQLiteAsyncConnection db,
             string? uuid,
@@ -938,7 +975,7 @@ namespace ctxmgr
                     TextBoxHelper.SetPlaceholder((TextBox)DefaultTextBox, "");
                     continue;
                 }*/
-                var tabItem = CreateNewTabImpl(page.Title,page.Content,page.Uuid);
+                var tabItem = CreateNewTabImpl(page.Title,page.Content,page.Uuid,page.Workspace);
                 tabInfos.Add((page.Index, tabItem));
             }
             foreach (var info in tabInfos.OrderBy(x => x.SortKey))
@@ -1311,7 +1348,7 @@ namespace ctxmgr
 
             SaveTabToFileAsync(uuid, id, title, content, filePath);
         }
-        private TabItem CreateNewTabImpl(string header,string content,string uuid = null)
+        private TabItem CreateNewTabImpl(string header,string content,string uuid = null,string tooltip = null)
         {
             var newTextBox = new TextBox
             {
@@ -1332,6 +1369,8 @@ namespace ctxmgr
                 Tag = uuid,
                 Content = newTextBox
             };
+            if(!string.IsNullOrEmpty(tooltip))
+                tabItem.ToolTip = tooltip;
             tabItem.HeaderTemplate = this.FindResource("DoubleClickableHeader") as DataTemplate;
             return tabItem;
         }
@@ -1549,6 +1588,12 @@ namespace ctxmgr
             };
             shortCutWindow.Show();
         }
-    }
+
+        private void GenerateCtxBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+   }
 
 }

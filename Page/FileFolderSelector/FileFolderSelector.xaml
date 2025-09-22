@@ -140,9 +140,6 @@
             </Style.Triggers>
         </Style>
     </Window.Resources>
-    <Window.DataContext>
-        <local:MainViewModel/>
-    </Window.DataContext>
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -206,9 +203,16 @@
                 </Style>
             </TreeView.ItemContainerStyle>
         </TreeView>
-        <StackPanel Orientation="Vertical" Grid.Row="3">
-            <TextBlock Text="{x:Static props:Resources.DoubleClickFolder}" Margin="0,5,0,0" ></TextBlock>
-            <TextBlock Text="{x:Static props:Resources.DoubleClickFile}"></TextBlock>
-        </StackPanel>
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Vertical" Grid.Column="0">
+                <TextBlock Text="{x:Static props:Resources.DoubleClickFolder}" Margin="0,5,0,0" ></TextBlock>
+                <TextBlock Text="{x:Static props:Resources.DoubleClickFile}"></TextBlock>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>

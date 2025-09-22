@@ -22,11 +22,19 @@ namespace ctxmgr.Page.FileFolderSelector
     /// </summary>
     public partial class FileFolderSelector : Window
     {
-        public FileFolderSelector()
+        private FileFolderSelector()
         {
             InitializeComponent();
+        }
+        public FileFolderSelector(Action<String> act,string workSpace)
+        {
+            InitializeComponent();
+            var vm = new MainViewModel();
+            vm.TargetFolder = workSpace;
+            vm.SetWorkSpace +=   act;
+            this.DataContext = vm;
             FolderTextBox.Focus();
-            
+
             PreviewKeyDown += (s, e) =>
             {
                 if (e.Key == Key.Escape) { e.Handled = true; Close(); }
@@ -96,7 +104,7 @@ namespace ctxmgr.Page.FileFolderSelector
         private string targetFolder;
 
         public ObservableCollection<FileSystemItemViewModel> RootItems { get; } = new ObservableCollection<FileSystemItemViewModel>();
-
+        
         [RelayCommand]
         private void Browse()
         {
@@ -109,6 +117,7 @@ namespace ctxmgr.Page.FileFolderSelector
                 }
             }
         }
+        public event Action<string> SetWorkSpace;
         private void LoadImpl()
         {
             if (!Directory.Exists(TargetFolder))
@@ -116,14 +125,49 @@ namespace ctxmgr.Page.FileFolderSelector
                 System.Windows.MessageBox.Show("目标文件夹不存在！");
                 return;
             }
-
+            SetWorkSpace(TargetFolder);
             RootItems.Clear();
             RootItems.Add(new FileSystemItemViewModel
             {
                 Name = System.IO.Path.GetFileName(TargetFolder.TrimEnd('\\')),
                 FullPath = TargetFolder,
-                IsDirectory = true
+                IsDirectory = true,
             });
+            FileSystemItemViewModel.GetAllChecked += () =>
+            {
+                var list = new List<FileSystemItemViewModel>();
+                void Traverse(FileSystemItemViewModel node)
+                {
+                    if (node.IsChecked == false)
+                        return;
+                    if (node.IsChecked == true)
+                    {
+                        if (node.IsDirectory)
+                        {
+                            list.Add(node);
+                        }
+                        else
+                            list.Add(node);
+                    }
+                    else if (node.IsChecked == null)
+                    {
+                        if (!node.IsDirectory)
+                            return;
+                        if (node.Children != null)
+                        {
+                            foreach (var child in node.Children)
+                            {
+                                if (child == null)
+                                    continue;
+                                Traverse(child); 
+                            }
+                        }
+                    }
+                }
+                foreach (var root in RootItems)
+                    Traverse(root);
+                return list;
+            };
         }
         [RelayCommand]
         private void Load()
