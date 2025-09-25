@@ -5,12 +5,14 @@ using System.Collections.ObjectModel;
 
 using System.IO;
 using System.Text;
+using System.Text.Json;
 using System.Windows.Media;
 
 namespace ctxmgr.Page.FileFolderSelector
 {
     public partial class FileSystemItemViewModel: ObservableObject
     {
+        public static string WorkSpace;
         public string Name { get; set; }
         public string FullPath { get; set; }
         public bool IsDirectory { get; set; }
@@ -50,6 +52,7 @@ namespace ctxmgr.Page.FileFolderSelector
                 LoadChildren();
         }
         public static event Func<List<FileSystemItemViewModel>> GetAllChecked;
+        public static event Action<string> WriteSelectedList;
         partial void OnIsCheckedChanged(bool? value)
         {
             // 防止用户手动点击时出现 null
@@ -72,6 +75,13 @@ namespace ctxmgr.Page.FileFolderSelector
             Parent?.UpdateCheckState();
             //Gen list
             var items = GetAllChecked();
+            
+            List<string> pathList = new List<string>();
+            foreach (var item in items)
+            {
+                pathList.Add(item.FullPath.Substring(WorkSpace.Length));
+            }
+            WriteSelectedList(JsonSerializer.Serialize(pathList));
         }
 
         private void LoadChildren()

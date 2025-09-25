@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 namespace ctxmgr.Model
@@ -18,7 +20,32 @@ namespace ctxmgr.Model
         public string Title { get; set; }
         public string Content { get; set; }
         public string Workspace { get; set; }
+        public string SelectedList { get; set; }
+        public long CreatedAtTimestamp { get; set; }  // Unix时间戳（毫秒）  
+        public long UpdatedAtTimestamp { get; set; }  // Unix时间戳（毫秒）  
 
+
+
+        [Ignore]
+        public List<string> SelectedListItems
+        {
+            get => String.IsNullOrEmpty(SelectedList) ? null : JsonSerializer.Deserialize<List<String>>(SelectedList);
+            set => SelectedList = value.Count() <= 0? "":JsonSerializer.Serialize(value);
+        }
+
+        // 辅助属性用于转换  
+        [Ignore]
+        public DateTime CreatedAt
+        {
+            get => DateTimeOffset.FromUnixTimeMilliseconds(CreatedAtTimestamp).DateTime;
+            set => CreatedAtTimestamp = ((DateTimeOffset)value).ToUnixTimeMilliseconds();
+        }
+        [Ignore]
+        public DateTime UpdatedAt
+        {
+            get => DateTimeOffset.FromUnixTimeMilliseconds(UpdatedAtTimestamp).DateTime;
+            set => UpdatedAtTimestamp = ((DateTimeOffset)value).ToUnixTimeMilliseconds();
+        }
     }
     /*
     public class DbVersion

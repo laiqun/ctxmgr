@@ -555,6 +555,8 @@ namespace ctxmgr
         private void NewTab_Click(object sender, RoutedEventArgs e)
         {
             var tabItem = CreateNewTabImpl($"Tab {MyTabControl.Items.Count}","");
+            
+            
             SaveTabToDatabaseAsync(db,tabItem?.Tag?.ToString(),
                 MyTabControl.Items?.Count.ToString(), tabItem?.Header?.ToString(),
                 "");
@@ -796,15 +798,17 @@ namespace ctxmgr
 
             var selectorWindow = new Page.FileFolderSelector.FileFolderSelector((workspace) =>
             {
-                var curTab = MyTabControl.SelectedItem as TabItem;
+                /*var curTab = MyTabControl.SelectedItem as TabItem;
                 if(curTab == null)
                     return;
                 var uuid = curTab.Tag.ToString();
                 if(string.IsNullOrEmpty(uuid))
-                    return;
+                    return;*/
                 UpdateWorkdSpaceAsync(db,uuid, workspace);
                // curTab.ToolTip = workspace;
-            }, page?.Workspace);
+            }, page?.Workspace, uuid, (selectList) => {
+                UpdateSelectedListAsync(db, uuid, selectList);
+            });
             selectorWindow.Owner = this;
             selectorWindow.ShowDialog();
             return;
@@ -854,12 +858,24 @@ namespace ctxmgr
             string? uuid,
             long index) {
             db.ExecuteAsync("UPDATE Page SET `Index` = ? WHERE `Uuid` = ?",index, uuid).Wait();
+            long nowTimestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            db.ExecuteAsync("UPDATE Page SET `UpdatedAtTimestamp` = ? WHERE `Uuid` = ?", nowTimestamp, uuid).Wait();
         }
         private async void UpdateWorkdSpaceAsync(SQLite.SQLiteAsyncConnection db,
         string? uuid,
         string Workspace)
         {
             db.ExecuteAsync("UPDATE Page SET `Workspace` = ? WHERE `Uuid` = ?", Workspace, uuid).Wait();
+            long nowTimestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            db.ExecuteAsync("UPDATE Page SET `UpdatedAtTimestamp` = ? WHERE `Uuid` = ?", nowTimestamp, uuid).Wait();
+        }
+        private async void UpdateSelectedListAsync(SQLite.SQLiteAsyncConnection db,
+        string? uuid,
+        string selectedList)
+        {
+            db.ExecuteAsync("UPDATE Page SET `SelectedList` = ? WHERE `Uuid` = ?", selectedList, uuid).Wait();
+            long nowTimestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            db.ExecuteAsync("UPDATE Page SET `UpdatedAtTimestamp` = ? WHERE `Uuid` = ?", nowTimestamp, uuid).Wait();
         }
         private Model.Page  GetWorkdSpaceAsync(SQLite.SQLiteAsyncConnection db,
         string? uuid)
@@ -882,21 +898,25 @@ namespace ctxmgr
             var existingPage = db.Table<Model.Page>().FirstOrDefaultAsync(x => x.Uuid == uuid);
             existingPage.Wait();
             var existingPageResult = existingPage.Result;
+            long nowTimestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
             if (existingPageResult != null)
             {
                 existingPageResult.Title = title ??"";
                 existingPageResult.Index = parsedId;
                 existingPageResult.Content = content ?? "";
+                existingPageResult.UpdatedAtTimestamp = nowTimestamp;
                 return db.UpdateAsync(existingPageResult);
                  
             }
 
+            
             Model.Page newPage = new Model.Page
             {
                 Uuid = uuid ?? Guid.NewGuid().ToString(),
                 Index = parsedId,
                 Title = title ?? "",
-                Content = content ?? ""
+                Content = content ?? "",
+                CreatedAtTimestamp = nowTimestamp
             };
              return db.InsertAsync(newPage);
         }

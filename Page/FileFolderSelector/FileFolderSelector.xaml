@@ -213,6 +213,10 @@
                 <TextBlock Text="{x:Static props:Resources.DoubleClickFolder}" Margin="0,5,0,0" ></TextBlock>
                 <TextBlock Text="{x:Static props:Resources.DoubleClickFile}"></TextBlock>
             </StackPanel>
+            <Grid Grid.Column="1"></Grid>
+            <Grid Grid.Column="2">
+                <Button Content="Reset" Padding="4" Command="{Binding ResetCommand}"></Button>
+            </Grid>
         </Grid>
     </Grid>
 </Window>

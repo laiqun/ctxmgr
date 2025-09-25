@@ -26,13 +26,16 @@ namespace ctxmgr.Page.FileFolderSelector
         {
             InitializeComponent();
         }
-        public FileFolderSelector(Action<String> act,string workSpace)
+        
+        public FileFolderSelector(Action<String> setWorkSpaceAction,string workSpace, string uuid,Action<string> writeSelectedListAction)
         {
             InitializeComponent();
             var vm = new MainViewModel();
             
-            vm.SetWorkSpace +=   act;
+            vm.SetWorkSpace += setWorkSpaceAction;
+            vm.WriteSelectedList += writeSelectedListAction;
             vm.TargetFolder = workSpace;
+            vm.LoadCommand.Execute(null);
             this.DataContext = vm;
             this.FolderTextBox.Text = workSpace;
             FolderTextBox.Focus();
@@ -123,6 +126,7 @@ namespace ctxmgr.Page.FileFolderSelector
             }
         }
         public event Action<string> SetWorkSpace;
+        public event Action<string> WriteSelectedList;
         private void LoadImpl()
         {
             if (!Directory.Exists(TargetFolder))
@@ -136,48 +140,72 @@ namespace ctxmgr.Page.FileFolderSelector
             {
                 Name = System.IO.Path.GetFileName(TargetFolder.TrimEnd('\\')),
                 FullPath = TargetFolder,
-                IsDirectory = true,
+                IsDirectory = true
             });
-            FileSystemItemViewModel.GetAllChecked += () =>
+            FileSystemItemViewModel.WorkSpace += TargetFolder;
+            FileSystemItemViewModel.GetAllChecked += GetAllCheckedNode;
+            FileSystemItemViewModel.WriteSelectedList += WriteSelectedList;
+        }
+        private List<FileSystemItemViewModel> GetAllCheckedNode()
+        {
+            var list = new List<FileSystemItemViewModel>();
+            void Traverse(FileSystemItemViewModel node)
             {
-                var list = new List<FileSystemItemViewModel>();
-                void Traverse(FileSystemItemViewModel node)
+                if (node.IsChecked == false)
+                    return;
+                if (node.IsChecked == true)
                 {
-                    if (node.IsChecked == false)
-                        return;
-                    if (node.IsChecked == true)
+                    if (node.IsDirectory)
                     {
-                        if (node.IsDirectory)
-                        {
-                            list.Add(node);
-                        }
-                        else
-                            list.Add(node);
+                        list.Add(node);
                     }
-                    else if (node.IsChecked == null)
+                    else
+                        list.Add(node);
+                }
+                else if (node.IsChecked == null)
+                {
+                    if (!node.IsDirectory)
+                        return;
+                    if (node.Children != null)
                     {
-                        if (!node.IsDirectory)
-                            return;
-                        if (node.Children != null)
+                        foreach (var child in node.Children)
                         {
-                            foreach (var child in node.Children)
-                            {
-                                if (child == null)
-                                    continue;
-                                Traverse(child); 
-                            }
+                            if (child == null)
+                                continue;
+                            Traverse(child);
                         }
                     }
                 }
-                foreach (var root in RootItems)
-                    Traverse(root);
-                return list;
-            };
+            }
+            foreach (var root in RootItems)
+                Traverse(root);
+            return list;
         }
         [RelayCommand]
         private void Load()
         {
             LoadImpl();
+        }
+        [RelayCommand]
+        private void Reset() {
+            void Traverse(FileSystemItemViewModel node)
+            {
+                if (node == null) return;
+                if (node.IsDirectory)
+                {
+                    foreach (var child in node.Children)
+                    {
+                        Traverse(child);
+                    }
+                    node.IsChecked = false;
+                }
+                else
+                {
+                    node.IsChecked = false;
+                }
+            }
+            foreach (var root in RootItems)
+                Traverse(root);
         }
     }
 }
