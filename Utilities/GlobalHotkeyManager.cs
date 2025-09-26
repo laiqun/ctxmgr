@@ -126,9 +126,10 @@ namespace ctxmgr.Utilities
             {
                 try
                 {
-                    if (Clipboard.ContainsText())
-                        return Clipboard.GetText();
-                    return string.Empty;
+                    //if (Clipboard.ContainsText())
+                    //    return Clipboard.GetText();
+                    //return string.Empty;
+                    return NativeClipboard.GetText();
                 }
                 catch (COMException)
                 {
@@ -137,7 +138,7 @@ namespace ctxmgr.Utilities
             }
             return string.Empty;
         }
-        private void SafeSetClipboard(object data, int retryCount = 5, int delay = 100)
+        public static void SafeSetClipboard(object data, int retryCount = 5, int delay = 100)
         {
             for (int i = 0; i < retryCount; i++)
             {
@@ -145,7 +146,8 @@ namespace ctxmgr.Utilities
                 {
                     //https://stackoverflow.com/questions/12769264/openclipboard-failed-when-copy-pasting-data-from-wpf-datagrid
                     //Clipboard.SetText will raise app crash
-                    Clipboard.SetDataObject(data, true); // true 表示复制到系统剪贴板
+                    //Clipboard.SetDataObject(data, true); // true 表示复制到系统剪贴板
+                    NativeClipboard.SetText(data.ToString());
                     return;
                 }
                 catch (COMException)

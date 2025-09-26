@@ -7,6 +7,7 @@ using ctxmgr.Page.Find;
 using ctxmgr.Page.FontSettings;
 using ctxmgr.Page.MessageBox;
 using ctxmgr.Page.Settings;
+using ctxmgr.Page.Toast;
 using ctxmgr.Utilities;
 using IWshRuntimeLibrary;
 using Microsoft.VisualBasic;
@@ -35,7 +36,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 using System.Windows.Threading;
 
 
@@ -783,9 +784,6 @@ namespace ctxmgr
         
         private void ToggleSelector_Click(object sender, RoutedEventArgs e)
         {
-            Label lbl = sender as Label;
-            if (lbl != null)
-                return;
             var curTab = MyTabControl.SelectedItem as TabItem;
             if (curTab == null)
                 return;
@@ -1611,9 +1609,70 @@ namespace ctxmgr
 
         private void GenerateCtxBtn_Click(object sender, RoutedEventArgs e)
         {
+            var curTab = MyTabControl.SelectedItem as TabItem;
+            if (curTab == null)
+                return;
 
+            var uuid = curTab.Tag.ToString();
+            if (string.IsNullOrEmpty(uuid))
+                return;
+            var page = GetWorkdSpaceAsync(db, uuid);
+
+            if (page == null) return;
+            if (page.SelectedListItems == null) return;
+            if(page.SelectedListItems.Count == 0) return;
+
+
+            var paths = page.SelectedListItems?.Select(x => Path.Combine(page.Workspace, x.TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar))).ToList();
+            var fileDict = paths
+                .SelectMany(GetAllFiles) // 展开所有文件
+                .Where(System.IO.File.Exists)
+                .ToDictionary(
+                    path => path,
+                    path => new StringBuilder(SafeReadAllText(path))
+                );
+
+            // 拼接大字符串
+            var result = new StringBuilder(
+                string.Join(
+                    Environment.NewLine,
+                    fileDict.Select(kv => $"{kv.Key}:\n<code>\n{kv.Value}\n</code>\n")
+                )
+            );
+            var data = result.ToString();
+            //Dispatcher.BeginInvoke(() =>
+            //{
+            
+            ctxmgr.Utilities.NativeClipboard.SetText(data);
+                new ToastWindow("成功复制到剪切板!").Show();
+            //});
+        }
+        static IEnumerable<string> GetAllFiles(string path)
+        {
+            if (System.IO.File.Exists(path))
+            {
+                yield return path;
+            }
+            else if (Directory.Exists(path))
+            {
+                foreach (var file in Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories))
+                {
+                    yield return file;
+                }
+            }
+        }
+        static string SafeReadAllText(string path)
+        {
+            try
+            {
+                return System.IO.File.ReadAllText(path);
+            }
+            catch
+            {
+                return "";
+            }
         }
 
-}
+    }
 
 }
