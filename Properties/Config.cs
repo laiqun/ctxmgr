@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using ctxmgr.Page.Settings;
+using ctxmgr.Utilities;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Text.Json;
@@ -180,7 +181,7 @@ namespace ctxmgr.Properties
         // 0: None, 1: Alt, 2: Ctrl, 4: Shift, 8: Win
         public int HotKeyModifiers { get; set; } = 1;
         
-        public bool RunOnStartUp { get; set; } = false;
+        public bool RunOnStartUp { get; set; } = true;
         public int LastCaretIndex { get; set; } = -1;
         public string LastPage { get; set; } = string.Empty;
         public StyleSetting Style { get; set; } = new StyleSetting();
@@ -204,6 +205,7 @@ namespace ctxmgr.Properties
                 string json = File.ReadAllText(SettingsPath);
                 return JsonSerializer.Deserialize<Config>(json) ?? new Config();
             }
+            AutoStartHelper.SetAutoStart(true);
             return new Config();
         }
 
