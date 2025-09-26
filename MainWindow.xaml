@@ -640,7 +640,7 @@
                     <MenuItem Header="{x:Static props:Resources.Settings}" x:Name="SettingsMenuItem" Click="SettingsMenuItem_Click"></MenuItem>
                 </MenuItem>
 
-                <MenuItem Header="{x:Static props:Resources.Plugin}">
+                <MenuItem Header="{x:Static props:Resources.Plugin}" Visibility="Collapsed">
                     <MenuItem Header="BMI" ></MenuItem>
                 </MenuItem>
                 <MenuItem Header="{x:Static props:Resources.Help}">
