@@ -794,19 +794,7 @@ namespace ctxmgr
             var page = GetWorkdSpaceAsync(db, uuid);
 
 
-            var selectorWindow = new Page.FileFolderSelector.FileFolderSelector((workspace) =>
-            {
-                /*var curTab = MyTabControl.SelectedItem as TabItem;
-                if(curTab == null)
-                    return;
-                var uuid = curTab.Tag.ToString();
-                if(string.IsNullOrEmpty(uuid))
-                    return;*/
-                UpdateWorkdSpaceAsync(db,uuid, workspace);
-               // curTab.ToolTip = workspace;
-            }, page?.Workspace, uuid, (selectList) => {
-                UpdateSelectedListAsync(db, uuid, selectList);
-            },page?.SelectedListItems);
+            var selectorWindow = new Page.FileFolderSelector.FileFolderSelector(SetWorkSpace, page?.Workspace, uuid, SetSelectedList, page?.SelectedListItems);
             selectorWindow.Owner = this;
             selectorWindow.ShowDialog();
             return;
@@ -817,7 +805,26 @@ namespace ctxmgr
             ctxmgr.Properties.Config.ConfigInstance.RunOnStartUp = this.ToggleRunOnStartUp.IsChecked == true;
             ctxmgr.Properties.Config.ConfigInstance.Save();*/
         }
-
+        private void SetSelectedList(string selectList)
+        {
+            var curTab = MyTabControl.SelectedItem as TabItem;
+            if (curTab == null)
+                return;
+            var uuid = curTab.Tag.ToString();
+            if (string.IsNullOrEmpty(uuid))
+                return;
+            UpdateSelectedListAsync(db, uuid, selectList);
+        }
+        private void SetWorkSpace(string workspace)
+        {
+            var curTab = MyTabControl.SelectedItem as TabItem;
+            if (curTab == null)
+                return;
+            var uuid = curTab.Tag.ToString();
+            if (string.IsNullOrEmpty(uuid))
+                return;
+            UpdateWorkdSpaceAsync(db, uuid, workspace);
+        }
         private void TextWrapMenuItem_Click(object sender, RoutedEventArgs e)
         {
             // Toggle word wrap for current tab's TextBox

@@ -26,7 +26,8 @@ namespace ctxmgr.Page.FileFolderSelector
         {
             InitializeComponent();
         }
-        
+        private Action<String> SetWorkSpaceAction;
+        private Action<String> WriteSelectedListAction;
         public FileFolderSelector(Action<String> setWorkSpaceAction,string workSpace, string uuid,Action<string> writeSelectedListAction, List<string> selectedList)
         {
             InitializeComponent();
@@ -34,7 +35,9 @@ namespace ctxmgr.Page.FileFolderSelector
             var vm = new MainViewModel(paths);
             
             vm.SetWorkSpace += setWorkSpaceAction;
+            this.SetWorkSpaceAction = setWorkSpaceAction;
             vm.WriteSelectedList += writeSelectedListAction;
+            this.WriteSelectedListAction = writeSelectedListAction;
             vm.TargetFolder = workSpace;
             vm.LoadCommand.Execute(null);
             this.DataContext = vm;
@@ -46,9 +49,16 @@ namespace ctxmgr.Page.FileFolderSelector
             {
                 if (e.Key == Key.Escape) { e.Handled = true; Close(); }
             };
+            this.Closing += FileFolderSelector_Closing;
 
         }
 
+        private void FileFolderSelector_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
+        {
+            var vm = this.DataContext as MainViewModel;
+            vm.SetWorkSpace -= SetWorkSpaceAction;
+            vm.WriteSelectedList -= WriteSelectedListAction;
+        }
 
         private void TreeView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
