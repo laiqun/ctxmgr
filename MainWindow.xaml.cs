@@ -808,7 +808,7 @@ namespace ctxmgr
                // curTab.ToolTip = workspace;
             }, page?.Workspace, uuid, (selectList) => {
                 UpdateSelectedListAsync(db, uuid, selectList);
-            });
+            },page?.SelectedListItems);
             selectorWindow.Owner = this;
             selectorWindow.ShowDialog();
             return;

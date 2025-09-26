@@ -48,13 +48,15 @@ namespace ctxmgr.Page.FileFolderSelector
         {
             OnPropertyChanged(nameof(Icon));
             //Line:32
-            if (value && IsDirectory && Children.Count == 1 && Children[0] == null)
+            if (value && IsDirectory && NotLoading)
                 LoadChildren();
         }
         public static event Func<List<FileSystemItemViewModel>> GetAllChecked;
         public static event Action<string> WriteSelectedList;
+        public static bool IsLoading = true;
         partial void OnIsCheckedChanged(bool? value)
         {
+            
             // 防止用户手动点击时出现 null
             if (!value.HasValue)
             {
@@ -66,6 +68,8 @@ namespace ctxmgr.Page.FileFolderSelector
 
             if (IsDirectory && Children != null)
             {
+                if (NotLoading)
+                    LoadChildren();
                 // 用户点击文件夹时，全选或全不选
                 foreach (var child in Children)
                     child.IsChecked = value;
@@ -73,6 +77,7 @@ namespace ctxmgr.Page.FileFolderSelector
 
             // 更新父节点状态（父节点显示三态仅由子节点决定）
             Parent?.UpdateCheckState();
+            if (IsLoading) return;
             //Gen list
             var items = GetAllChecked();
             
@@ -131,6 +136,64 @@ namespace ctxmgr.Page.FileFolderSelector
             OnPropertyChanged(nameof(IsChecked));
             Parent?.UpdateCheckState();
         }
+        #region 唯一入口
+        /// <summary>
+        /// relativePaths：相对于 WorkSpace 的路径集合，可文件可目录。
+        /// </summary>
+        public void EnsureChecked(List<string> paths)
+        {
+            if (paths == null || paths.Count == 0)
+                return;
+            FileSystemItemViewModel.IsLoading = true;
+            EnsureCheckedImpl(paths);
+            FileSystemItemViewModel.IsLoading = false;
+        }
+        public void EnsureCheckedImpl(List<string> paths)
+        {
+            // 1+2）直接展开——现场判断前缀
+            ExpandIfPrefixOfAny(paths);
+
+            // 3）打勾 + 修正祖先三态
+            CheckLeaves(paths);
+        }
+        #endregion
+
+        #region 展开：只要当前路径是任一预选路径的前缀就继续
+        private void ExpandIfPrefixOfAny(List<string> paths)
+        {
+            if (!IsDirectory) return;
+
+            // 现场前缀匹配
+            bool needLoad = paths.Any(path => path.StartsWith(this.FullPath));//, StringComparison.Ordinal
+            if (!needLoad) return;
+
+            // 展开
+            if (NotLoading)
+                LoadChildren();
+
+            // 继续深入
+            foreach (var child in Children)
+                child.ExpandIfPrefixOfAny(paths);
+        }
+        private bool NotLoading => Children.Count == 1 && Children[0] == null;
+        #endregion
+
+        #region 打勾叶子 + 自底向上修正
+        private void CheckLeaves(List<string> paths)
+        {
+            //;
+            if (paths.Contains(this.FullPath))
+            {
+                this.IsChecked = true; 
+                paths.Remove(this.FullPath);
+            }
+            foreach (var child in this.Children)
+            {
+                if(child ==  null) continue;
+                child.CheckLeaves(paths);
+            }
+        }
+        #endregion
 
     }
 }

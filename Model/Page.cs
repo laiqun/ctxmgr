@@ -30,7 +30,6 @@ namespace ctxmgr.Model
         public List<string> SelectedListItems
         {
             get => String.IsNullOrEmpty(SelectedList) ? null : JsonSerializer.Deserialize<List<String>>(SelectedList);
-            set => SelectedList = value.Count() <= 0? "":JsonSerializer.Serialize(value);
         }
 
         // 辅助属性用于转换  

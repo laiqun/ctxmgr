@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:ctxmgr.Page.FileFolderSelector"
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
-        Title="{x:Static props:Resources.ChooseFolderFilesWindowTitle}" Height="460" Width="740">
+        Title="{x:Static props:Resources.ChooseFolderFilesWindowTitle}" Height="460"  Width="740">
     <Window.Resources>
         <SolidColorBrush x:Key="TreeViewItem.TreeArrow.Static.Stroke" Color="#FF818181"/>
         <SolidColorBrush x:Key="TreeViewItem.TreeArrow.Static.Fill" Color="#FFFFFFFF"/>
@@ -199,11 +199,11 @@
             <TreeView.ItemContainerStyle>
                 <Style TargetType="TreeViewItem" BasedOn="{StaticResource TreeViewItemStyle1}">
                     <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
-                    <Setter Property="Margin" Value="0,0,0,4"/>
+                    <Setter Property="Margin" Value="0,4,0,4"/>
                 </Style>
             </TreeView.ItemContainerStyle>
         </TreeView>
-        <Grid Grid.Row="3">
+        <Grid Grid.Row="3" Margin="0,4,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
@@ -214,8 +214,8 @@
                 <TextBlock Text="{x:Static props:Resources.DoubleClickFile}"></TextBlock>
             </StackPanel>
             <Grid Grid.Column="1"></Grid>
-            <Grid Grid.Column="2">
-                <Button Content="Reset" Padding="4" Command="{Binding ResetCommand}"></Button>
+            <Grid Grid.Column="2" >
+                <Button Content="Reset" VerticalAlignment="Center" Padding="6" Command="{Binding ResetCommand}"></Button>
             </Grid>
         </Grid>
     </Grid>

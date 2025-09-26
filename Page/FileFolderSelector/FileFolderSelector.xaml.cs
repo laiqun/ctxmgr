@@ -13,7 +13,7 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+
 
 namespace ctxmgr.Page.FileFolderSelector
 {
@@ -27,10 +27,11 @@ namespace ctxmgr.Page.FileFolderSelector
             InitializeComponent();
         }
         
-        public FileFolderSelector(Action<String> setWorkSpaceAction,string workSpace, string uuid,Action<string> writeSelectedListAction)
+        public FileFolderSelector(Action<String> setWorkSpaceAction,string workSpace, string uuid,Action<string> writeSelectedListAction, List<string> selectedList)
         {
             InitializeComponent();
-            var vm = new MainViewModel();
+            var paths = selectedList?.Select(x => Path.Combine(workSpace, x.TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar))).ToList();
+            var vm = new MainViewModel(paths);
             
             vm.SetWorkSpace += setWorkSpaceAction;
             vm.WriteSelectedList += writeSelectedListAction;
@@ -108,6 +109,13 @@ namespace ctxmgr.Page.FileFolderSelector
     }
     public partial class MainViewModel : ObservableObject
     {
+        private MainViewModel()
+        { }
+        private List<string> Paths;
+        public MainViewModel(List<string> paths)
+        {
+            this.Paths = paths; 
+        }
         [ObservableProperty]
         private string targetFolder;
 
@@ -129,12 +137,13 @@ namespace ctxmgr.Page.FileFolderSelector
         public event Action<string> WriteSelectedList;
         private void LoadImpl()
         {
-            if (!Directory.Exists(TargetFolder))
+            if (TargetFolder == null || !Directory.Exists(TargetFolder))
             {
-                System.Windows.MessageBox.Show("目标文件夹不存在！");
                 return;
             }
             SetWorkSpace(TargetFolder);
+            FileSystemItemViewModel.WorkSpace = TargetFolder;
+
             RootItems.Clear();
             RootItems.Add(new FileSystemItemViewModel
             {
@@ -142,7 +151,13 @@ namespace ctxmgr.Page.FileFolderSelector
                 FullPath = TargetFolder,
                 IsDirectory = true
             });
-            FileSystemItemViewModel.WorkSpace += TargetFolder;
+            
+            RootItems.FirstOrDefault()?.EnsureChecked(this.Paths);
+
+            FileSystemItemViewModel.GetAllChecked -= GetAllCheckedNode;
+            FileSystemItemViewModel.WriteSelectedList -= WriteSelectedList;
+
+            
             FileSystemItemViewModel.GetAllChecked += GetAllCheckedNode;
             FileSystemItemViewModel.WriteSelectedList += WriteSelectedList;
         }
@@ -207,5 +222,6 @@ namespace ctxmgr.Page.FileFolderSelector
             foreach (var root in RootItems)
                 Traverse(root);
         }
+
     }
 }
