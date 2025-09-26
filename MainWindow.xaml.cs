@@ -1639,11 +1639,16 @@ namespace ctxmgr
                     fileDict.Select(kv => $"{kv.Key}:\n<code>\n{kv.Value}\n</code>\n")
                 )
             );
-            var data = result.ToString();
+            var tb = GetCurrentTextBox();
+            
+            var prompt = new StringBuilder( tb.Text+"\n\n");
+            prompt.Append(result);
+            //  ***“任务描述靠前，参考资料靠后”** → 常用于问答、代码生成。
+            //  ***“参考资料靠前，任务描述靠后”** → 常用于总结、提炼。
             //Dispatcher.BeginInvoke(() =>
             //{
             
-            ctxmgr.Utilities.NativeClipboard.SetText(data);
+            ctxmgr.Utilities.NativeClipboard.SetText(prompt.ToString());
                 new ToastWindow("成功复制到剪切板!").Show();
             //});
         }
