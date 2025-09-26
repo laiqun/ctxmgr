@@ -143,7 +143,11 @@ namespace ctxmgr.Page.FileFolderSelector
         public void EnsureChecked(List<string> paths)
         {
             if (paths == null || paths.Count == 0)
+            {
+                FileSystemItemViewModel.IsLoading = false; 
                 return;
+            }
+                
             FileSystemItemViewModel.IsLoading = true;
             EnsureCheckedImpl(paths);
             FileSystemItemViewModel.IsLoading = false;
