@@ -1650,7 +1650,7 @@ namespace ctxmgr
             //{
             
             ctxmgr.Utilities.NativeClipboard.SetText(prompt.ToString());
-                new ToastWindow("成功复制到剪切板!").Show();
+                new ToastWindow(ctxmgr.Properties.Resources.ContextCopiedSuccessfully).Show();
             //});
         }
         static IEnumerable<string> GetAllFiles(string path)

@@ -215,7 +215,7 @@
             </StackPanel>
             <Grid Grid.Column="1"></Grid>
             <Grid Grid.Column="2" >
-                <Button Content="Reset" VerticalAlignment="Center" Padding="6" Command="{Binding ResetCommand}"></Button>
+                <Button Content="{x:Static props:Resources.Reset}" VerticalAlignment="Center" Padding="6" Command="{Binding ResetCommand}"></Button>
             </Grid>
         </Grid>
     </Grid>

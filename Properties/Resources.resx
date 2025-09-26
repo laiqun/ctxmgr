@@ -493,4 +493,13 @@ Alt+Shift+End : Move page to far right.</comment>
   <data name="DoubleClickFile" xml:space="preserve">
     <value>💡 ​Double-click a file to check/uncheck it.​</value>
   </data>
+  <data name="ContextCopiedSuccessfully" xml:space="preserve">
+    <value>Successfully copied the context to the clipboard!</value>
+  </data>
+  <data name="GenerateCtx" xml:space="preserve">
+    <value>Generate Context</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
 </root>

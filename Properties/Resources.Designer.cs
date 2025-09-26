@@ -196,6 +196,15 @@ namespace ctxmgr.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Successfully copied the context to the clipboard!.
+        /// </summary>
+        public static string ContextCopiedSuccessfully {
+            get {
+                return ResourceManager.GetString("ContextCopiedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _Copy.
         /// </summary>
         public static string Copy {
@@ -520,6 +529,15 @@ namespace ctxmgr.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Generate Context.
+        /// </summary>
+        public static string GenerateCtx {
+            get {
+                return ResourceManager.GetString("GenerateCtx", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _Help.
         /// </summary>
         public static string Help {
@@ -804,6 +822,15 @@ namespace ctxmgr.Properties {
         public static string Replace {
             get {
                 return ResourceManager.GetString("Replace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset.
+        /// </summary>
+        public static string Reset {
+            get {
+                return ResourceManager.GetString("Reset", resourceCulture);
             }
         }
         
