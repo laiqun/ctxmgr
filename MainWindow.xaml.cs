@@ -124,8 +124,13 @@ namespace ctxmgr
             Loaded += (s, e) =>
             {
                 _hotkeyManager.Register(this);
-                AutoUpdater.Start("https://cgxmgr.com/update/auto_update.xml");
             };
+            DispatcherTimer timer = new DispatcherTimer { Interval = TimeSpan.FromDays(1) };
+            timer.Tick += delegate
+            {
+                AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTestWPF.xml");
+            };
+            timer.Start();
             System.Windows.Application.Current.Exit += (s, e) => _hotkeyManager.Dispose();
             var dbInitTask = service.OpenOrCreateDatabase(DataFile);
             dbInitTask.Wait();
