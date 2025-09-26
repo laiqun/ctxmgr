@@ -501,4 +501,22 @@ Alt+Shift+End         :  移动页面到最右侧。</value>
   <data name="Reset" xml:space="preserve">
     <value>重置</value>
   </data>
+  <data name="PredefineDebug" xml:space="preserve">
+    <value>调试:你能帮我调试这段代码吗？</value>
+  </data>
+  <data name="PredefineSecurityCheck" xml:space="preserve">
+    <value>安全检查:你能分析这段代码是否存在安全隐患吗？</value>
+  </data>
+  <data name="PredefineAgentPrompt" xml:space="preserve">
+    <value>智能体指令: 为我的AI编程助手撰写指令。将任务拆分为多个子任务并提供足够细节引导助手。该助手可能不够智能，但你可以通过通俗英语和查找/替换式文本来引导它，包含适量细节并说明'为何这样做'以提供指引。请将整个指令包裹在一个大型代码标签中以便复制粘贴。</value>
+  </data>
+  <data name="PredefineBestPractices" xml:space="preserve">
+    <value>最佳实践,: 请从以下角度分析代码：错误处理、边界情况、性能优化、最佳实践。请勿无故删除任何注释或代码。生成代码时需附带解释逻辑的清晰注释。</value>
+  </data>
+  <data name="PredefineCodeReview" xml:space="preserve">
+    <value>代码审查要求: 代码质量与最佳实践遵循度、潜在错误或边界情况、性能优化、可读性与可维护性、安全隐患。对每项改进建议说明理由。</value>
+  </data>
+  <data name="PredefineCodingPrompt" xml:space="preserve">
+    <value>Cline智能编码助手指令: 为Cline智能编码助手撰写指令以进行必要修改。将整个指令包裹在单个代码标签中便于复制粘贴。Cline偏好包含少量解释说明的查找/替换式通俗语言指令块，通过解释操作原因来引导助手。</value>
+  </data>
 </root>

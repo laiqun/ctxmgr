@@ -808,6 +808,60 @@ namespace ctxmgr.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Agent Prompt: Write a prompt for my AI coding agent. Split the tasks into sub-tasks with enough detail to guide the agent. The agent might not be very smart but you can guide it along using plain English and find / replace style text, include just enough details to guide the agent and include some of the &apos;whys&apos; about why we are doing what we are doing, to help guide it along. Enclose the entire agent prompt in one big code tag for easy copy and paste. .
+        /// </summary>
+        public static string PredefineAgentPrompt {
+            get {
+                return ResourceManager.GetString("PredefineAgentPrompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Best Practices: Please analyze this code for: Error handling, Edge cases, Performance optimization, Best practices, Please do not unnecessarily remove any comments or code. Generate the code with clear comments explaining the logic..
+        /// </summary>
+        public static string PredefineBestPractices {
+            get {
+                return ResourceManager.GetString("PredefineBestPractices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please review for: Code quality and adherence to best practices, Potential bugs or edge cases, Performance optimizations, Readability and maintainability, Security concerns. Suggest improvements and explain your reasoning for each suggestion.
+        /// </summary>
+        public static string PredefineCodeReview {
+            get {
+                return ResourceManager.GetString("PredefineCodeReview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cline, Roo Code Prompt: Write a prompt for Cline, an AI coding agent, to make the necessary changes. Enclose the entire Cline prompt in one single code tag for easy copy and paste. Cline likes search and replace blocks with just plain language with a little bit of explanations about why we are doing things to help guide the agent..
+        /// </summary>
+        public static string PredefineCodingPrompt {
+            get {
+                return ResourceManager.GetString("PredefineCodingPrompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Debug:Can you help me debug this code?.
+        /// </summary>
+        public static string PredefineDebug {
+            get {
+                return ResourceManager.GetString("PredefineDebug", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SecurityCheck: Can you analyze this code for any security issues?.
+        /// </summary>
+        public static string PredefineSecurityCheck {
+            get {
+                return ResourceManager.GetString("PredefineSecurityCheck", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Re_do.
         /// </summary>
         public static string Redo {

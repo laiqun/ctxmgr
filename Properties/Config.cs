@@ -190,6 +190,12 @@ namespace ctxmgr.Properties
         public string InsertLineDateText { get; set; } = Properties.ConstVariables.INSERT_LINE_DATE_TEXT;
         public DoubleClickTitleActionEnum DoubleClickTitleAction { set; get; } = DoubleClickTitleActionEnum.None;
         public ObservableCollection<CustomerTextSnippet> CustomerTextSnippets { get; set; } = new ObservableCollection<CustomerTextSnippet>() {
+             new CustomerTextSnippet (Properties.Resources.PredefineDebug),
+             new CustomerTextSnippet (Properties.Resources.PredefineSecurityCheck),
+             new CustomerTextSnippet (Properties.Resources.PredefineAgentPrompt),
+             new CustomerTextSnippet (Properties.Resources.PredefineBestPractices),
+             new CustomerTextSnippet (Properties.Resources.PredefineCodeReview),
+             new CustomerTextSnippet (Properties.Resources.PredefineCodingPrompt)
         };
         public static Config Load()
         {
