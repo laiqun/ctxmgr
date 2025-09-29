@@ -43,6 +43,7 @@ using System.Windows.Threading;
 
 
 
+
 namespace ctxmgr
 {
     
@@ -1631,10 +1632,27 @@ namespace ctxmgr
             var page = GetWorkdSpaceAsync(db, uuid);
 
             if (page == null) return;
-            if (page.SelectedListItems == null) return;
-            if(page.SelectedListItems.Count == 0) return;
 
-
+            var tb = GetCurrentTextBox();
+            
+            var prompt = new StringBuilder( tb.Text+"\n\n");
+            prompt.Append(JointSelectFolderFiles(page));
+            //  ***“任务描述靠前，参考资料靠后”** → 常用于问答、代码生成。
+            //  ***“参考资料靠前，任务描述靠后”** → 常用于总结、提炼。
+            //  可以前后都加
+            //Dispatcher.BeginInvoke(() =>
+            //{
+            
+            ctxmgr.Utilities.NativeClipboard.SetText(prompt.ToString());
+                new ToastWindow(ctxmgr.Properties.Resources.ContextCopiedSuccessfully).Show();
+            //});
+        }
+        static StringBuilder JointSelectFolderFiles(Model.Page page)
+        {
+            if (page.SelectedListItems == null || page.SelectedListItems.Count == 0)
+            {
+                return new StringBuilder();
+            }
             var paths = page.SelectedListItems?.Select(x => Path.Combine(page.Workspace, x.TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar))).ToList();
             var fileDict = paths
                 .SelectMany(GetAllFiles) // 展开所有文件
@@ -1651,19 +1669,7 @@ namespace ctxmgr
                     fileDict.Select(kv => $"{kv.Key}:\n<code>\n{kv.Value}\n</code>\n")
                 )
             );
-            var tb = GetCurrentTextBox();
-            
-            var prompt = new StringBuilder( tb.Text+"\n\n");
-            prompt.Append(result);
-            //  ***“任务描述靠前，参考资料靠后”** → 常用于问答、代码生成。
-            //  ***“参考资料靠前，任务描述靠后”** → 常用于总结、提炼。
-            //  可以前后都加
-            //Dispatcher.BeginInvoke(() =>
-            //{
-            
-            ctxmgr.Utilities.NativeClipboard.SetText(prompt.ToString());
-                new ToastWindow(ctxmgr.Properties.Resources.ContextCopiedSuccessfully).Show();
-            //});
+            return result;
         }
         static IEnumerable<string> GetAllFiles(string path)
         {
