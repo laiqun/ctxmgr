@@ -49,7 +49,8 @@ namespace ctxmgr.Page.Toast
                 {
                     Text = message,
                     Foreground = Brushes.White,
-                    FontSize = 14
+                    FontSize = 14,
+                    Padding = new Thickness(0,0,10,0)
                 }
             };
 
@@ -58,7 +59,7 @@ namespace ctxmgr.Page.Toast
 
             // 定位到右下角
             var wa = SystemParameters.WorkArea;
-            Left = wa.Right - Width - 10;
+            Left = wa.Right - Width - 20;
             Top = wa.Bottom - Height - 10;
 
             // 自动关闭计时器

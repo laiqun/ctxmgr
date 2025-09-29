@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ctxmgr.Page.Toast"
         mc:Ignorable="d"
-        Title="ToastWindow" Height="450" Width="800">
+        Title="ToastWindow" Height="450" Width="800" SizeToContent="WidthAndHeight">
     <Grid>
         
     </Grid>
