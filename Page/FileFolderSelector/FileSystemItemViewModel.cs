@@ -152,6 +152,7 @@ namespace ctxmgr.Page.FileFolderSelector
             EnsureCheckedImpl(paths);
             FileSystemItemViewModel.IsLoading = false;
         }
+        public Brush SelectedColor => ctxmgr.Properties.Config.ConfigInstance.Style.SelectedColor;
         public void EnsureCheckedImpl(List<string> paths)
         {
             // 1+2）直接展开——现场判断前缀

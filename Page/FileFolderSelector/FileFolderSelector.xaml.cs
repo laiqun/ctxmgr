@@ -31,6 +31,13 @@ namespace ctxmgr.Page.FileFolderSelector
         public FileFolderSelector(Action<String> setWorkSpaceAction,string workSpace, string uuid,Action<string> writeSelectedListAction, List<string> selectedList)
         {
             InitializeComponent();
+            var bgColorBinding = new System.Windows.Data.Binding
+            { 
+                Source = ctxmgr.Properties.Config.ConfigInstance.Style,
+                Path = new PropertyPath("BgSelectedColor")
+            };
+            MyTreeView.SetBinding(BackgroundProperty, bgColorBinding);
+            
             var paths = selectedList?.Select(x => Path.Combine(workSpace, x.TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar))).ToList();
             var vm = new MainViewModel(paths);
             
