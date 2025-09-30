@@ -1,6 +1,7 @@
 ﻿using ctxmgr.Page.Toast;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -67,7 +68,7 @@ namespace ctxmgr.Utilities
                     Application.Current.Shutdown();
             }
         }
-        private string oldClipboardText = string.Empty;
+        //private string oldClipboardText = string.Empty;
         private bool isExpectingClipboardUpdate = false;
 
         private nint HwndHook(nint hwnd, int msg, nint wParam, nint lParam, ref bool handled)
@@ -82,18 +83,18 @@ namespace ctxmgr.Utilities
                     try
                     {
                         string newText = SafeGetClipboardText();
-                        if (string.IsNullOrEmpty(newText) || newText == previousClipboardText)
+                        if (string.IsNullOrEmpty(newText))//|| newText == previousClipboardText
                             return;
 
-                        previousClipboardText = newText;
+                        //previousClipboardText = newText;
 
                         HotkeyAppendPressed?.Invoke(this, new ClipEventArgs(newText));
                         new ToastWindow(ctxmgr.Properties.Resources.SuccessfulAdd).Show();
                         // 恢复旧剪贴板
-                        if (!string.IsNullOrEmpty(oldClipboardText))
-                        {
-                            SafeSetClipboard(oldClipboardText);
-                        }
+                        //if (!string.IsNullOrEmpty(oldClipboardText))
+                        //{
+                        //    SafeSetClipboard(oldClipboardText);
+                        //}
                     }
                     catch (COMException)
                     {
@@ -129,10 +130,15 @@ namespace ctxmgr.Utilities
                     //if (Clipboard.ContainsText())
                     //    return Clipboard.GetText();
                     //return string.Empty;
-                    return NativeClipboard.GetText();
+                    var rst = NativeClipboard.GetText();
+                    if(rst == "")
+                        Thread.Sleep(delay);
+                    else 
+                        return rst;
                 }
-                catch (COMException)
+                catch (Exception ex)
                 {
+                    Debug.WriteLine(ex);
                     Thread.Sleep(delay);
                 }
             }
@@ -157,11 +163,11 @@ namespace ctxmgr.Utilities
             }
         }
 
-        private string previousClipboardText = string.Empty;
+        //private string previousClipboardText = string.Empty;
         private void AppendFunc()
         {
             // 保存旧剪贴板
-            oldClipboardText = SafeGetClipboardText();
+            //oldClipboardText = SafeGetClipboardText();
 
             // 标记：我们正在期待下一次剪贴板更新
             isExpectingClipboardUpdate = true;

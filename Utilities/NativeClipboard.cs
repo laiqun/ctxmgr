@@ -20,6 +20,11 @@ namespace ctxmgr.Utilities
 
         [DllImport("User32")]
         public static extern bool IsClipboardFormatAvailable(int format);
+        [DllImport("kernel32.dll", SetLastError = true)]
+        static extern IntPtr GlobalLock(IntPtr hMem);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        static extern bool GlobalUnlock(IntPtr hMem);
 
         [DllImport("User32")]
         public static extern IntPtr GetClipboardData(int uFormat);
@@ -43,8 +48,12 @@ namespace ctxmgr.Utilities
             OpenClipboard(IntPtr.Zero);
             if (IsClipboardFormatAvailable(13))
             {
-                var ptr = GetClipboardData(13);
-                if (ptr != IntPtr.Zero) value = Marshal.PtrToStringUni(ptr);
+                var handle = GetClipboardData(13);
+                if (handle != IntPtr.Zero) {
+                    var ptr = GlobalLock(handle);
+                    value = Marshal.PtrToStringUni(ptr);
+                    GlobalUnlock(handle);
+                }
             }
 
             CloseClipboard();
