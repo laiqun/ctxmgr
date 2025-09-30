@@ -1045,7 +1045,7 @@ namespace ctxmgr.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Jot something down or hit / for lazy command.
+        ///   Looks up a localized string similar to Jot something down.
         /// </summary>
         public static string TextBoxHint {
             get {

@@ -229,7 +229,7 @@
     <value>软件说明(_R)</value>
   </data>
   <data name="TextBoxHint" xml:space="preserve">
-    <value>快速记下或者按/使用快捷命令</value>
+    <value>快速记下</value>
   </data>
   <data name="ToggleTopmost" xml:space="preserve">
     <value>置顶(_T)</value>
