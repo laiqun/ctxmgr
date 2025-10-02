@@ -10,9 +10,9 @@ and hide it or return it to the system tray by pressing the same hotkey or the E
 
 In your daily work, you can use this software to quickly jot down instant ideas, work reminders, or phone numbers.
 
-Unlike Windows Notepad, FlashPad automatically saves all your input and supports multi-tab display.
+Unlike Windows Notepad, CtxMgr automatically saves all your input and supports multi-tab display.
 
-Additionally, FlashPad supports mathematical calculations. 
+Additionally, CtxMgr supports mathematical calculations. 
 For example, enter "1+2" and press Ctrl+Enter to instantly display the calculation result, making it convenient for simple daily computations.
 
 Select text and press Ctrl+Q to send the selected text to CtxMgr.
