@@ -30,6 +30,7 @@ namespace ctxmgr
             if (!createdNew)
             {
                 // 已存在运行实例
+                
                 ActivateExistingWindow();
                 IsDuplicateInstance = true;
                 Shutdown();

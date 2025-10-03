@@ -46,7 +46,7 @@ namespace ctxmgr.Page.About
         }
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            Hide();
+            Close();
         }
         private void Hyperlink_OnRequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
         {
@@ -57,11 +57,11 @@ namespace ctxmgr.Page.About
             });
             e.Handled = true;
         }
-
+        /*
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true;
             this.Hide();
-        }
+        }*/
     }
 }

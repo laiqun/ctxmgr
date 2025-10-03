@@ -49,7 +49,7 @@ namespace ctxmgr.Utilities
             var modifiers = ctxmgr.Properties.Config.ConfigInstance.HotKeyModifiers;
             if (!RegisterHotKey(_windowHandle, HOTKEY_ID, (uint)modifiers, (uint)KeyInterop.VirtualKeyFromKey(hotKeyBase)))
             {
-                window.Hide();
+                window.WindowState = WindowState.Minimized;
                 string baseKeyStr = ((Key)hotKeyBase).ToString();
                 string mofifierStr = "";
                 if ((modifiers & (int)ModifierKeys.Windows) != 0) mofifierStr += "Win + ";
@@ -63,7 +63,7 @@ namespace ctxmgr.Utilities
             }
             if (!RegisterHotKey(_windowHandle, HOTKEY_ID_APPEND, (uint)ModifierKeys.Control, (uint)KeyInterop.VirtualKeyFromKey(Key.Q)))
             {
-                window.Hide();
+                window.WindowState = WindowState.Minimized;
                 if (MessageBox.Show(Properties.Resources.CtrlQRegistrationFailed, Properties.Resources.OK) == MessageBoxResult.OK)
                     Application.Current.Shutdown();
             }

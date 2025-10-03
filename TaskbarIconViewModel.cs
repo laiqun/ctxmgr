@@ -19,7 +19,7 @@ namespace ctxmgr
         private void Button_Click(object? type) {
             
             if (type.ToString() == "0")
-                Application.Current.MainWindow.Hide();
+                Application.Current.MainWindow.WindowState = WindowState.Minimized;
             if (type.ToString() == "1")
             {
                 if (Application.Current.MainWindow.WindowState == WindowState.Minimized)

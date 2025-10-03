@@ -174,7 +174,7 @@ namespace ctxmgr
                 WindowState != WindowState.Minimized &&
                 (IsActiveState||(!IsActiveState && this.Topmost)))
             {
-                this.Hide();
+                this.WindowState = WindowState.Minimized;
                 return;
             }
 
@@ -196,7 +196,7 @@ namespace ctxmgr
 
             if (e.Key == Key.Escape)
             {
-                this.Hide();
+                this.WindowState = WindowState.Minimized;
             }//find actions
             else if ((e.Key == Key.F || e.Key == Key.R) && Keyboard.Modifiers == ModifierKeys.Control)
             {
@@ -478,7 +478,7 @@ namespace ctxmgr
 
         private void HideWindow_Click(object sender, RoutedEventArgs e)
         {
-            this.Hide();
+            this.WindowState = WindowState.Minimized;
         }
         private bool isExiting = false;
         private void ExitApp_Click(object sender, RoutedEventArgs e)
@@ -514,7 +514,7 @@ namespace ctxmgr
             SaveState();
             //SaveTabToDatabase(MyTabControl.SelectedItem);  lost focus 会触发保存的
             e.Cancel = true;
-            this.Hide();
+            this.WindowState = WindowState.Minimized;
         }
         private void SaveState() {
             if (this.Left == double.NaN)

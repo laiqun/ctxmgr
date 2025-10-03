@@ -10,7 +10,7 @@
         Topmost="True"
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterOwner"
-        Closing="Window_Closing"
+       
         Title="{x:Static props:Resources.AboutWindowTitle}" Height="300" Width="400">
     <Border Padding="20">
         <StackPanel HorizontalAlignment="Center" Width="300">
