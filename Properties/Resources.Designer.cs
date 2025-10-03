@@ -19,7 +19,7 @@ namespace ctxmgr.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -129,6 +129,15 @@ namespace ctxmgr.Properties {
         public static string CantFind {
             get {
                 return ResourceManager.GetString("CantFind", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Commonly used for summarization and extraction..
+        /// </summary>
+        public static string capability_summarization {
+            get {
+                return ResourceManager.GetString("capability_summarization", resourceCulture);
             }
         }
         
@@ -531,6 +540,15 @@ namespace ctxmgr.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Generate Context.
         /// </summary>
+        public static string GenerateContext {
+            get {
+                return ResourceManager.GetString("GenerateContext", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Generate Context.
+        /// </summary>
         public static string GenerateCtx {
             get {
                 return ResourceManager.GetString("GenerateCtx", resourceCulture);
@@ -858,6 +876,33 @@ namespace ctxmgr.Properties {
         public static string PredefineSecurityCheck {
             get {
                 return ResourceManager.GetString("PredefineSecurityCheck", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Prompt At Footer.
+        /// </summary>
+        public static string PromptAtFooter {
+            get {
+                return ResourceManager.GetString("PromptAtFooter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Prompt At Header.
+        /// </summary>
+        public static string PromptAtHeader {
+            get {
+                return ResourceManager.GetString("PromptAtHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Commonly used for Q&amp;A and code generation..
+        /// </summary>
+        public static string qa_and_code {
+            get {
+                return ResourceManager.GetString("qa_and_code", resourceCulture);
             }
         }
         

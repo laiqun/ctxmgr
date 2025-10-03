@@ -1634,15 +1634,20 @@ namespace ctxmgr
             if (page == null) return;
 
             var tb = GetCurrentTextBox();
+            var prompt = new StringBuilder();
+            if (ctxmgr.Properties.Config.ConfigInstance.PromptAtHeader)
+                prompt.Append( tb.Text+"\n\n");
             
-            var prompt = new StringBuilder( tb.Text+"\n\n");
             prompt.Append(JointSelectFolderFiles(page));
+            
+            if(ctxmgr.Properties.Config.ConfigInstance.PromptAtFooter)
+                prompt.Append(tb.Text);
             //  ***“任务描述靠前，参考资料靠后”** → 常用于问答、代码生成。
             //  ***“参考资料靠前，任务描述靠后”** → 常用于总结、提炼。
             //  可以前后都加
             //Dispatcher.BeginInvoke(() =>
             //{
-            
+
             ctxmgr.Utilities.NativeClipboard.SetText(prompt.ToString());
                 new ToastWindow(ctxmgr.Properties.Resources.ContextCopiedSuccessfully).Show();
             //});

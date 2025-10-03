@@ -182,6 +182,8 @@ namespace ctxmgr.Properties
         public int HotKeyModifiers { get; set; } = 1;
         
         public bool RunOnStartUp { get; set; } = true;
+        public bool PromptAtHeader { get; set; } = true;
+        public bool PromptAtFooter { get; set; } = true;
         public int LastCaretIndex { get; set; } = -1;
         public string LastPage { get; set; } = string.Empty;
         public StyleSetting Style { get; set; } = new StyleSetting();

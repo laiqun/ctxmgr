@@ -37,6 +37,8 @@ namespace ctxmgr.Page.Settings
             CtrlCheckBox.IsChecked = (ctxmgr.Properties.Config.ConfigInstance.HotKeyModifiers & 2) != 0;
             ShiftCheckBox.IsChecked = (ctxmgr.Properties.Config.ConfigInstance.HotKeyModifiers & 4) != 0;
             WinCheckBox.IsChecked = (ctxmgr.Properties.Config.ConfigInstance.HotKeyModifiers & 8) != 0;
+            PromptAtHeaderCheckBox.IsChecked = ctxmgr.Properties.Config.ConfigInstance.PromptAtHeader;
+            PromptAtFooterCheckBox.IsChecked = ctxmgr.Properties.Config.ConfigInstance.PromptAtFooter;
             PreviewKeyDown += (s, e) =>
             {
                 if (e.Key == Key.Escape) { e.Handled = true; Close(); }
@@ -101,5 +103,24 @@ namespace ctxmgr.Page.Settings
             HotKeyChanged();
         }
 
+        private void PromptAtHeaderCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            ctxmgr.Properties.Config.ConfigInstance.PromptAtHeader = true;
+        }
+
+        private void PromptAtHeaderCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            ctxmgr.Properties.Config.ConfigInstance.PromptAtHeader = false;
+        }
+
+        private void PromptAtFooterCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            ctxmgr.Properties.Config.ConfigInstance.PromptAtFooter = true;
+        }
+
+        private void PromptAtFooterCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            ctxmgr.Properties.Config.ConfigInstance.PromptAtFooter = false;
+        }
     }
 }

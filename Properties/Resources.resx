@@ -520,4 +520,19 @@ Alt+Shift+End : Move page to far right.</comment>
   <data name="PredefineCodingPrompt" xml:space="preserve">
     <value>Cline, Roo Code Prompt: Write a prompt for Cline, an AI coding agent, to make the necessary changes. Enclose the entire Cline prompt in one single code tag for easy copy and paste. Cline likes search and replace blocks with just plain language with a little bit of explanations about why we are doing things to help guide the agent.</value>
   </data>
+  <data name="qa_and_code" xml:space="preserve">
+    <value>Commonly used for Q&amp;A and code generation.</value>
+  </data>
+  <data name="capability_summarization" xml:space="preserve">
+    <value>Commonly used for summarization and extraction.</value>
+  </data>
+  <data name="PromptAtHeader" xml:space="preserve">
+    <value>Add Prompt At Header</value>
+  </data>
+  <data name="PromptAtFooter" xml:space="preserve">
+    <value>Add Prompt At Footer</value>
+  </data>
+  <data name="GenerateContext" xml:space="preserve">
+    <value>Generate Context</value>
+  </data>
 </root>

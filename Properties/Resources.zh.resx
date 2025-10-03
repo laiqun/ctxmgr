@@ -519,4 +519,19 @@ Alt+Shift+End         :  移动页面到最右侧。</value>
   <data name="PredefineCodingPrompt" xml:space="preserve">
     <value>Cline智能编码助手指令: 为Cline智能编码助手撰写指令以进行必要修改。将整个指令包裹在单个代码标签中便于复制粘贴。Cline偏好包含少量解释说明的查找/替换式通俗语言指令块，通过解释操作原因来引导助手。</value>
   </data>
+  <data name="qa_and_code" xml:space="preserve">
+    <value>常用于问答、代码生成。</value>
+  </data>
+  <data name="capability_summarization" xml:space="preserve">
+    <value>常用于总结、提炼。</value>
+  </data>
+  <data name="PromptAtHeader" xml:space="preserve">
+    <value>将提示词添加到头部</value>
+  </data>
+  <data name="PromptAtFooter" xml:space="preserve">
+    <value>将提示词添加到尾部</value>
+  </data>
+  <data name="GenerateContext" xml:space="preserve">
+    <value>生成上下文</value>
+  </data>
 </root>

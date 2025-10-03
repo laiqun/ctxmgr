@@ -115,6 +115,23 @@
                     </GroupBox>
                 </StackPanel>
             </TabItem>
+            <TabItem Header="{x:Static props:Resources.GenerateContext}" x:Name="GenerateCtxTabItem">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <CheckBox IsThreeState="False" Height="26" VerticalAlignment="Center" VerticalContentAlignment="Center" Content="{x:Static props:Resources.PromptAtHeader}" x:Name="PromptAtHeaderCheckBox" Checked="PromptAtHeaderCheckBox_Checked" Unchecked="PromptAtHeaderCheckBox_Unchecked"></CheckBox>
+                        <CheckBox IsThreeState="False" Height="26" VerticalAlignment="Center" VerticalContentAlignment="Center" Content="{x:Static props:Resources.PromptAtFooter}" x:Name="PromptAtFooterCheckBox" Checked="PromptAtFooterCheckBox_Checked" Unchecked="PromptAtFooterCheckBox_Unchecked"></CheckBox>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <Label Content="{x:Static props:Resources.qa_and_code}" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Height="26" Margin="10,0,0,0"></Label>
+                        <Label Content="{x:Static props:Resources.capability_summarization}"  HorizontalContentAlignment="Right" HorizontalAlignment="Right" Height="26" Margin="10,0,0,0"></Label>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>
