@@ -129,7 +129,7 @@ namespace ctxmgr
             DispatcherTimer timer = new DispatcherTimer { Interval = TimeSpan.FromDays(1) };
             timer.Tick += delegate
             {
-                AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTestWPF.xml");
+                AutoUpdater.Start("https://ctxmgr.com/updates/AutoUpdater.xml");
             };
             timer.Start();
             System.Windows.Application.Current.Exit += (s, e) => _hotkeyManager.Dispose();
